@@ -492,7 +492,7 @@ library(lubridate)
 corona_virus <- read_csv(here::here("csv_data/corona_virus.csv")) %>% 
   mutate(date = mdy(date))
 
-corona_virus %>% DT::datatable(options = list(pageLength = 5, scrollX = T))
+corona_virus %>% tail(nrow(corona_virus)-500) %>% DT::datatable(options = list(pageLength = 5, scrollX = T))
 ```
 ]
 
@@ -734,10 +734,15 @@ A map:
 
 ---
 
+```{r include = FALSE}
+system(paste0("cp ", here::here("covid-19.mp4"), here::here("Lectures/lecture12/.")))
+```
+
+
 An animation:
 
 <center>
   <video controls width="707" height="400">
-    <source src="`r paste(here::here('covid-19.mp4'))`" type="video/mp4">
+    <source src="./covid-19.mp4" type="video/mp4">
   </video>
 </center>
