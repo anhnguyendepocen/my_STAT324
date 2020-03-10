@@ -7,12 +7,25 @@ date: 'Last updated: `r Sys.Date()`'
 
 [Lecture 2](./lecture02/lec02_slides.html)
 
-<!-- [Lecture 3](http://htmlpreview.github.io/?https://github.com/rmtrane/my_STAT324/blob/master/Lectures/lecture03/lec03_slides.html) -->
+[Lecture 3](./lecture03/lec03_slides.html)
 
-<!-- [Lecture 4](http://htmlpreview.github.io/?https://github.com/rmtrane/my_STAT324/blob/master/Lectures/lecture04/lec04_slides.html) -->
+[Lecture 4](./lecture04/lec04_slides.html)
 
-<!-- [Lecture 5](http://htmlpreview.github.io/?https://github.com/rmtrane/my_STAT324/blob/master/Lectures/lecture05/lec05_slides.html) -->
+[Lecture 5](./lecture05/lec05_slides.html)
 
-<!-- [Lecture 6](http://htmlpreview.github.io/?https://github.com/rmtrane/my_STAT324/blob/master/Lectures/lecture06/lec06_slides.html) -->
+[Lecture 6](./lecture06/lec06_slides.html)
 
-<!-- [Lecture 7](http://htmlpreview.github.io/?https://github.com/rmtrane/my_STAT324/blob/master/Lectures/lecture07/lec07_slides.html) -->
+[Lecture 7](./lecture07/lec07_slides.html)
+
+[Lecture 8](./lecture08/lec08_slides.html)
+
+[Lecture 9](./lecture09/lec09_slides.html)
+
+[Lecture 10](./lecture10/lec10_slides.html)
+
+[Lecture 11](./lecture11/lec11_slides.html)
+
+[Lecture 12](./lecture12/lec12_slides.html)
+
+[Lecture 13](./lecture13/lec13_slides.html)
+
