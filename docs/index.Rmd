@@ -12,7 +12,8 @@ create_pdf <- function(file){
   filename <- stringr::str_remove(basename(file), ".html")
   path <- stringr::str_remove(file, paste0(filename, ".html"))
   
-  if(!file.exists(paste0(path, filename, ".pdf"))){
+  if(any(!file.exists(paste0(path, filename, ".pdf")),
+         file.mtime(paste0(path, filename, ".pdf")) < file.mtime(file))){
     pagedown::chrome_print(input = file, 
                            output = paste0(path, filename, ".pdf"),
                            timeout = 600)
@@ -29,15 +30,15 @@ include_slides <- function(title, file, create = TRUE){
 
 files <- c("./lecture01/lecture01.html",
            paste0("./lecture", 
-                  stringr::str_pad(2:12, width = 2, side = "left", pad = "0"), "/lec", 
-                  stringr::str_pad(2:12, width = 2, side = "left", pad = "0"),"_slides.html"))
+                  stringr::str_pad(2:3, width = 2, side = "left", pad = "0"), "/lec", 
+                  stringr::str_pad(2:3, width = 2, side = "left", pad = "0"),"_slides.html"))
 
 names(files) <- paste0("Lecture", 1:length(files))
 
 for(i in seq_along(files)){
   cat(include_slides(title = names(files[i]),
                      file = files[i], 
-                     create = F))
+                     create = T))
   cat("<br/><br/>")
 }
 ```
