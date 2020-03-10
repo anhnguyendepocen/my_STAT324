@@ -1,0 +1,15 @@
+---
+title: "Untitled"
+author: "Ralph Trane"
+date: "2/28/2020"
+output: html_document
+---
+
+# Problem 1
+
+```{r}
+2+2
+```
+
+$L = \hat{\pi} - z * \sqrt{\frac{\hat{\pi}*(1-\hat{\pi})}{n}}$
+

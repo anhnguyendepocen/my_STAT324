@@ -1,0 +1,19 @@
+---
+title: 'STAT 324: Homework 1'
+date: "Week 1, Spring 2020"
+output: pdf_document
+---
+
+Using the hepatisis A data (`hepA.csv`) from Canvas, answer the following questions:
+
+**Question 1:** What variables are included in the data set? 
+
+**Question 2:** How many observations are in the data set? 
+
+**Question 3:** print the data from Wisconsin 1993
+
+**Question 4:** which state has the lowest and highest rate, respectively, when we average over the entire period?
+
+**Question 5:** plot the mean rate for the entire country against the year. Does this plot bring any interesting question(s) to mind?
+
+**Question 6:** the large-scale use of the hepatitis A vaccine started in 1995. Add a vertical line to your plot at the year 1995.

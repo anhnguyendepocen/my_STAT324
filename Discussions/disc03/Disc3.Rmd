@@ -1,0 +1,94 @@
+---
+title: "STAT324 Discussion 3: Probability"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#-------------------pg 264 devore Peck Statistics (2nd).
+```
+\begin{enumerate}
+```{r, echo=FALSE}
+#Devore and Peck pgs 263 (6.09) 272 (6.25)
+```
+\item Airlines sometimes overbook flights. Suppose that for a plane with 100 seats, an airline takes 110 reservations. Define the variable X as the number of people who actually show up for a sold-out flight. From past experience, the probability distribution of X is given in the following table:
+
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c}
+$X$ & 95 & 96 & 97 & 98 & 99 & 100 & 101 & 102 & 103 & 104 & 105 & 106 & 107 & 108 & 109 & 110 \\
+\hline
+$P(X=x)$ & .05 & .10 & .12 & .14 & .24 & .17 & .06 & .04 & .03 & .02 & .01 & .005 & .005 & .005 & .0037 & .0013 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item What is the probability that the airline can accommodate everyone who shows up for the flight? 
+\vspace{1cm}
+\item What is the probability that not all passengers can be accommodated?
+\vspace{1cm}
+\item If you are trying to get a seat on such a flight and you are number 1 on the standby list, what is the probability that you will be able to take the flight? What if you are number 3? 
+\end{enumerate}
+\vspace{2cm}
+
+
+
+
+```{r, echo=FALSE}
+#number 5 pg 125 Navidi
+```
+\item Of all the weld failures in a certain assembly, 85\% of them occur in the weld metal itself, and the remaining 10\% occur in the base metal and the cause is unknown in 5\% of failures. A sample of 10 weld failures is examined.
+\begin{enumerate}
+\item What is the probability that exactly five of them are weld metal failures?
+\vspace{1cm}
+\item What is the probability that fewer than 3 of them are base metal failures?
+\vspace{1cm}
+\item What is probability that none of them are unknown failures?
+\vspace{1cm}
+\item Find the expected value for number of base metal failures in this sample.
+\vspace{1cm}
+\item Find the standard deviation of the number of base metal failures assuming the population distribution given.
+\end{enumerate}
+
+\newpage
+
+\item You are adding Badger-themed bedazzle to your stripped overalls and are using both red and white beads. You are interested in how the size of the bag of beads you purchase to select your beads from changes the probablility of different samples of beads.
+
+Consider taking a sample of size 3, where each bead is selected \textbf{without replacement of previous beads}, from each of two populations:
+\begin{enumerate}
+\item Small population were the bag of beads contains 7 White (W) beads and 3 Red (R) beads.
+\item Large population were the bag contains 7000 W and 3000 R.
+\end{enumerate}
+
+Compare with a sample of size 3 generated from a spinner having probability of 0.7 W and 0.3 R.
+
+\vspace{.5cm}
+\begin{enumerate}
+\item Write out the set of possible samples and calculate the probability of each under the three scenerios.
+
+Example:
+\begin{tabular}{c|c|c|c}
+\hline
+Outcome & Small Population Probability & Large Population Probability & Spinner Probability \\
+\hline
+RRR & $\frac{3}{10}*\frac{2}{9}*\frac{1}{8}=\frac{6}{720} \approx 0.008$ & $\frac{3000}{10000}*\frac{2999}{9999}*\frac{2998}{9998} \approx .3*.3*.3$ & $.3*.3*.3=0.027$\\
+\hline
+
+\end{tabular}
+\vspace{1cm}
+
+\item Let A=[Exactly one White]. Calculate the probability of A for each case.
+
+
+\vspace{1cm}
+
+\item Let B=[At least one White]. Calculate the probability of B for each case.
+
+
+\vspace{1cm}
+
+\item Notice, that the spinner model is equivalent to sampling with replacement from either of the two finite populations. The spinner model is a classical representation of a device with no memory, so that the outcome of the current trial is independent of all previous trials. When drawing from a population that is large relative to the sample size, the calculated conditional probability for the second and third beads is very similar to the  probability of each outcome calculated from the spinner (an independent model). So, as long as our population is large relative to our sample, the events are independent "enough" that sampling without replacement does not change the probability of an event.
+
+\end{enumerate}
+
+\end{enumerate}

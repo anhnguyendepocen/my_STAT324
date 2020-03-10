@@ -1,0 +1,127 @@
+---
+title: "Homework 3"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Instructions: To receive credit, you must submit your assignment to Canvas before $\textbf{6pm, Friday, February 14th}$. The file submission must be a knitted .html file, made using RMarkdown. The code you used to answer the questions should be included in your file. You do not need to submit your .rmd file. 
+
+\begin{enumerate}
+
+%-----------------Probability Calculations----------------------------------%
+
+\item An IKEA ``Tarva" bed frame is assembled with screws and Allen wrenches. 
+The screws and wrenches for the Tarva kits are grabbed at random from large bins at the factory by two different people who never interact.
+Based on several years of data, it is known that $95\%$ of Tarvas come with the proper size Allen wrenches,
+and $85\%$ of them come with the correct number of screws.  \textbf{Hints for the two problems below: It may help to 
+write out the list of all possible outcomes of this random process. Also, 
+remember that the probabilities of outcomes add, and that independent 
+probabilities multiply.}
+
+\begin{enumerate}
+
+\item The bed frame can only be assembled if it contains the proper size Allen wrench and the correct number of screws. What is the probability that your bed frame \textbf{can} be assembled?
+
+\vspace{0.4cm}
+
+\item The bed frame can only be assembled if it contains the proper size Allen wrench and the correct number of screws. What is the probability that your bed frame \textbf{cannot} be assembled?
+
+\end{enumerate}
+
+%----------------------------Discrete RVs----------------------------------%
+
+\item You've bought a half-dozen (six) eggs from the store but you forgot to check them first!
+The probability that no eggs are broken is $0.4$. Otherwise, any number of broken eggs is 
+equally probable. Define the random variable $X$ = the number of broken eggs.
+\begin{enumerate}
+
+\item Write out the pmf of $X$.
+
+\item Compute the probability that an even number of eggs is broken.
+
+\item Compute the expectation and variance of $X$.
+
+\end{enumerate}
+
+\item A certain circuit board consists of two resistors, green and red. The 
+  circuit board manufacturer has two huge bins filled with the resistors, one 
+  for each color. Based on several years of data, it is known that $90\%$ of the 
+  red resistors are functional, and $75\%$ of the green resistors are functional. 
+  When creating a circuit board, the technician selects one red and one green
+  resistor at random.
+
+  \begin{enumerate}
+
+  \item The circuit board as a whole is only functional if both resistors are
+    functional. What is the probability that the circuit board is functional?
+
+
+  \item What is the probability that exactly one of the resistors chosen
+    is functional?
+
+  \end{enumerate}
+
+\item In a population of fruit flies, 30\% are black and 70\% are
+  gray. Two flies are randomly chosen, with the two choices
+  independent of one another. Find the probability the two chosen
+  flies have the same color. (Hint: Articulate all the possible
+  color combinations for the two flies.)
+
+\item For each of the following questions, say whether the random process
+is a binomial process or not, and explain your answer. As part of your 
+explanation, you will want to comment on the potential validity of each of 
+the four things that must be true for a process to be a binomial process.
+
+\begin{enumerate}
+
+\item One basketball player attempts 10 free throws and the number 
+of successful attempts is totalled.
+
+\item Ten different basketball players each attempt 1 free throw and the 
+total number of successful attempts is totalled. 
+
+\end{enumerate}
+
+\item Let $B \sim \text{Binomial}(n = 20, \pi = 0.2)$. Compute the following probabilities. I 
+would suggest computing these with a hand calculator using the formula 
+provided in class, but you can check 
+your answers using R if you wish. Recall: $P(B = k) = {n \choose k} \pi^k (1-\pi)^{n-k}$. Here ${n \choose k} = \frac{n!}{k!(n-k)!}$ (read $n$ choose $k$ -- it is the number of ways you can choose $k$ elements from $n$), where $n! = n\cdot (n-1) \cdot (n-2) \cdot \cdots 2\cdot 1$. By definition, $0! = 1$. 
+
+\begin{enumerate}
+
+\item $P(B = 4)$. 
+
+\vspace{0.4cm}
+
+\item $P(B \le 1)$.
+
+\vspace{0.4cm}
+
+\item $P(B > 1)$. 
+
+\item Compute E(B) and VAR(B).
+
+\end{enumerate}
+
+\item Airlines routinely overbook flights based on the expectation that some fraction of booked passengers will not show up for each flight. For a particular flight, there are only 50 seats, but the airline has sold 52 tickets. Assume that a booked passenger will not show for the flight with probability 5\%.
+
+\begin{enumerate}
+\item Let X be the number of passengers that arrive for the flight. Under what assumption (s) is X a Binomial random variable?
+
+
+\item Find the exact probability that 51 passengers arrive. 
+
+\item Find the expected number and variance of the number of passengers that arrive for the flight.
+
+
+
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+

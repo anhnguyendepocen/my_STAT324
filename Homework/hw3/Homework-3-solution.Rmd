@@ -1,0 +1,187 @@
+---
+title: "Homework 3 solution"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This homework is worth \textbf{45 points}.
+
+```{r message = FALSE, warning = FALSE}
+library(tidyverse)
+library(distributions3)
+```
+
+
+
+1. An IKEA ``Tarva" bed frame is assembled with screws and Allen wrenches. 
+The screws and wrenches for the Tarva kits are grabbed at random from large bins at the factory by two different people who never interact.
+Based on several years of data, it is known that $95\%$ of Tarvas come with the proper size Allen wrenches,
+and $85\%$ of them come with the correct number of screws.  \textbf{Hints for the two problems below: It may help to 
+write out the list of all possible outcomes of this random process. Also, 
+remember that the probabilities of outcomes add, and that independent 
+probabilities multiply.}
+
+    a. The bed frame can only be assembled if it contains the proper size Allen wrench and the correct number of screws. What is the probability that your bed frame can be assembled?  
+    \textbf{(3pts) Solution:}
+    The bed frame as a whole can only be assembled if the right wrenches and screws are
+    provided. Since the screws and wrenches are independent, we multiply 
+    the probabilities that each one is correct. Thus the probability 
+    that the Tarva kit is complete is $0.95*0.85 = 0.8075$.
+
+    b. The bed frame can only be assembled if it contains the proper size Allen wrench and the correct number of screws. What is the probability that your bed frame cannot be assembled?  
+    \textbf{(3pts) Solution:}
+   $1-0.8075 = 0.1925$.
+
+2. You've bought a half-dozen (six) eggs from the store but you forgot to check them first!
+The probability that no eggs are broken is $0.4$. Otherwise, any number of broken eggs is 
+equally probable. Define the random variable $X$ = the number of broken eggs.
+
+    a. Write out the pmf of $X$.  
+    \textbf{(3pts) Solution:}
+    The probability of zero broken eggs is given as 0.4. Since the probabilities of 
+    all possible outcomes must add to 1, the probabilities of the other 
+    outcomes must add to $1 - 0.4 = 0.6$. Since the other outcomes are equally 
+    likely, they must each have probability $0.6/6 = 0.1$. The pmf is thus:
+
+    \begin{center}
+    \begin{tabular}{c|c}
+    $x$ & $p(x)$\\
+    \hline
+    0 & 0.4 \\
+    1 & 0.1\\
+    2 & 0.1\\
+    3 & 0.1\\
+    4 & 0.1\\
+    5 & 0.1\\
+    6 & 0.1\\
+    \end{tabular}
+    \end{center}
+
+    b. Compute the probability that an even number of eggs is broken.  
+    \textbf{(3pts) Solution:}
+    The probability of the event that an even number of eggs are broken is the sum of the 
+    probabilites of the four outcomes where the number broken is even: 0, 2, 4, or 6. 
+    Thus the probability is $p(0) + p(2) + p(4) + p(6) = 0.4 + 0.1 + 0.1 + 0.1 = 0.7$.
+
+    c. Compute the expectation and variance of $X$.  
+    \textbf{(3pts) Solution:}
+    The expectation is $0*0.4 + 1*0.1 + 2*0.1 + 3*0.1 + 4*0.1 + 5*0.1 + 
+    6*0.1 = 2.1$. The variance is $0.4*(0-2.1)^2 + 0.1*(1 - 2.1)^2 + 0.1*(2 - 2.1)^2 + 
+    0.1*(3 - 2.1)^2 + 0.1*(4 - 2.1)^2 + 0.1*(5 - 2.1)^2 + 
+    0.1*(6 - 2.1)^2 = 4.69$.
+    
+    In R (with two approaches to calculating the mean):
+
+    ```{r}
+    tibble(x = 0:6,
+           p = c(0.4, rep(0.1, 6))) %>% 
+      summarize(mean1 = weighted.mean(x = x, w = p),
+                mean2 = sum(x*p),
+                var = sum(p*(x-mean1)^2))
+    ```
+
+3. A certain circuit board consists of two resistors, green and red. The 
+  circuit board manufacturer has two huge bins filled with the resistors, one 
+  for each color. Based on several years of data, it is known that $90\%$ of the 
+  red resistors are functional, and $75\%$ of the green resistors are functional. 
+  When creating a circuit board, the technician selects one red and one green
+  resistor at random.
+
+    a.The circuit board as a whole is only functional if both resistors are functional. What is the probability that the circuit board is functional?  
+    \textbf{(3pts) Solution:}
+    The circuit board as a whole is only functional if both resistors are functional. Since the draws out of each bin are independent, we multiply the probabilities that each resistor is functional and find the probability that the board is functional is $P(\text{board works}) = P(\text{green works and red works}) = P(\text{green works}) \times P(\text{red works}) = 0.9(0.75) = 0.675$.
+
+    b. What is the probability that exactly one of the resistors chosen is functional?  
+    \textbf{(3pts) Solution:}
+      One outcome is that the red is functional, but not the
+      green. The probability that green is not functional is $1 - 0.75
+      = 0.25$. These are independent events, so we multiply the
+      probabilities, $0.9*0.25 = 0.225$. The other outcome is that red
+      is not functional, but green is. The probability that red is not
+      functional is $1 - 0.9 = 0.1$.  Again these are independent
+      events, so we multiply, $0.1*0.75 = 0.075$.  The event that
+      exactly one resistor is functional includes these two outcomes,
+      so we add the probabilites, and find that the probability that
+      exactly one resistor is functional is $0.225 + 0.075 = 0.3$.
+
+4. In a population of fruit flies, 30\% are black and 70\% are
+  gray. Two flies are randomly chosen, with the two choices
+  independent of one another. Find the probability the two chosen
+  flies have the same color. (Hint: Articulate all the possible
+  color combinations for the two flies.)  
+  
+\textbf{(3pts) Solution:}These are the possible color combinations and their associated probabilities (found using independence to say $P(A \text{ and } B) = P(A) P(B)$):
+
+\begin{tabular}{l|l|l}
+  first fly & second fly & probability\\
+  \hline
+  black & black & $P($black and black)$ = P($black$) \times P($black$) = (.3)(.3) = .09$\\
+  black & red & $P($black and red)$ = P($black$) \times P($red$) = (.3)(.7) = .21$\\
+  red & black & $P($red and black)$ = P($red$) \times P($black$) = (.7)(.3) = .21$\\
+  red & red & $P($red and red)$ = P($red$) \times P($red$) = (.7)(.7) = .49$\\
+\end{tabular}
+
+The probabilty they have the same color is then $P($black and
+black)$ + P($red and red)$ = .09 + .49 = .58$.
+
+5. For each of the following questions, say whether the random process
+is a binomial process or not, and explain your answer. As part of your 
+explanation, you will want to comment on the potential validity of each of 
+the four things that must be true for a process to be a binomial process.
+
+    a. One basketball player attempts 10 free throws and the number 
+of successful attempts is totalled.  
+      \textbf{Solution}: The process does consist of trials (each attempt), and the result has two outcomes, success and failure. However, it is unlikely that the trials are independent. The performance on the previous attempt might affect the probability of making the next attempt. The player might, forexample, concentrate harder after a miss. Or they might get discouragedafter a miss and concentrate less, etc. This is not a good approximation to a binomial process. Note: could argue both ways here!
+    b. Ten different basketball players each attempt 1 free throw and the total number of successful attempts is totalled.  
+    \textbf{Solution}: The  process does consist of trials (each attempt), the result  has two outcomes, success and failure, and as long as the players do not influence one another, they are probably approximately independent.  However, it is unlikely that every player has the same chance of making a free throw, therefore the probability of success on each trial is not constant. This is not a good approximation to a binomial process. 
+
+6. Let $B \sim Bin(20, 0.2)$. Compute the following probabilities. I would suggest computing these with a hand calculator using the formula provided in class, but you can check your answers using R if you wish. Recall: $P(B = k) = {n \choose k} \pi^k (1-\pi)^{n-k}$. Here ${n \choose k} = \frac{n!}{k!(n-k)!}$ (read $n$ choose $k$ -- it is the number of ways you can choose $k$ elements from $n$), where $n! = n\cdot (n-1) \cdot (n-2) \cdot \cdots 2\cdot 1$. By definition, $0! = 1$. 
+
+    a. $P(B = 4)$. \textbf{(3pts) Solution:} $P(B = 4) = {20 \choose 4}0.2^{4}(1-0.2)^{16} = 0.2182$. In R 
+
+    ```{r}
+    B <- Binomial(20, 0.2)
+    
+    pmf(B, 4)
+    ```
+
+    b. $P(B \le 1)$. \textbf{(3pts) Solution:} $P(B \le 1) = {20 \choose 0}0.2^{0}(1-0.2)^{20} + {20 \choose 1}0.2^{1}(1-0.2)^{19} = 0.0692$. In R:
+
+    ```{r}
+    cdf(B, 1)
+    ```
+
+    c. $P(B > 1)$. \textbf{(3pts) Solution:} $P(B > 1) = 1 - P(B \le 1) = 1 - 0.0692 = 0.9308$. In R:
+
+    ```{r}
+    1 - cdf(B, 1)
+    ```
+
+
+    d. \textbf{(3pts) Solution:} E(B)=20*0.2=4, VAR(B)=20*0.2*0.8=3.2
+
+7. Airlines routinely overbook flights based on the expectation that some fraction of booked passengers will not show up for each flight. For a particular flight, there are only 50 seats, but the airline has sold 52 tickets. Assume that a booked passenger will not show for the flight with probability 5%.
+
+    a. Let X be the number of passengers that arrive for the flight. Under what assumption (s) is X a Binomial random variable?  
+    \textbf{(3pts) Solution:}
+    It is finite and independent.
+    It has only two outcomes.
+    The probability of success is same for each trial.
+
+    b. Find the exact probability that 51 passengers arrive.  
+    \textbf{(3pts) Solution:} $P(X=51)= \frac{52!}{51!1!} 0.95^51*0.05^1=0.19003$. In R:
+    ```{r}
+    X <- Binomial(52, 0.95)
+    
+    pmf(X, 51)
+    ```
+
+    c. Find the expected number and variance of the number of passengers that arrive for the flight.  
+    \textbf{(3pts) Solution:} $E(X)=52*0.95=49.4$ and $Var(X)=52*0.95*0.05=2.47$
+
+
+
+

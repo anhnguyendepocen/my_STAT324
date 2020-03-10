@@ -1,0 +1,27 @@
+---
+title: "Discussion 5"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. A sample of size n = 9 from a large population that is thought to be normal has a sample mean of 13.01 and sample standard deviation of 4.85.
+
+    (a) Create a 80\% CI for the population mean $\mu$, assuming that $\sigma^2$ is unknown.
+    
+    (b) If it is now assumed that the variance is known to be $\sigma^2$ = 16, create a 80\% CI for the population mean $\mu$. Is it larger or smaller than the one created in (a)?
+    
+    (c) What is the minimum sample size n in part (a) (assuming the sample mean and variance don’t change) so that a 90\% C.I. half-width calculated using the standard normal distribution would be the same as the half-width you calculated in part (b)?
+
+
+2. An engineer is designing an experiment to estimate the stiffness of beams from a certain factory. A random selection of beams is to be tested by putting a load on each beam and measuring its deflection. She knows that she must have a 90% confidence interval for the population-mean deflection $\mu$ where the half-width of the interval (margin of error) is less than 1cm.
+
+    (a) If the population variance were known to be 4.2, what is the minimum sample size in order to attain the required half-width?
+    
+    (b) Suppose that the variance is still 4.2, but it was estimated from the sample (which is of the size calculated in part (a)). What is the 90% C.I.’s half-width? Is it acceptable according to the engineer’s standard?
+    
+    (c) Supposing she has collected a sample sized according to the part (a), where the sample’s mean deflection was 7.21 cm and its variance is $s^2$ = 3.69, what is the 90% confidence interval?
+    
+    (d) Suppose that the engineer plans to repeat the study described in part (c) 20 times, generating an independent 90% confidence interval each time. How many of those confidence intervals are expected to contain the true value of $\mu$? What is the variance in the number that contain the true value of $\mu$? What is the probability that all of the intervals contain the true $\mu$?

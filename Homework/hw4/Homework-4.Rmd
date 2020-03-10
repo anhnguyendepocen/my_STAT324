@@ -1,0 +1,87 @@
+---
+title: 'Homework 4'
+output: pdf_document
+---
+
+```{r setup, echo = FALSE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = T, include = T, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(distributions3)
+```
+
+Instructions: To receive credit, you must submit your assignment to Canvas before $\textbf{6pm, Friday, February 21st}$. The file submission must be a knitted .html file, made using RMarkdown. The code you used to answer the questions should be included in your file. You do not need to submit your .rmd file. This assignment is worth 50 points.
+
+1. Let $F$ be an RV that represents the operating temperature in Fahrenheit of one instance of a manufacturing process, and assume $F \sim N(100, Var(F)=5^2)$. Let $C$ be an RV that represents the same process, but measured in Celsius. Fahrenheit can be converted to Celsius using $C = \frac{5}{9} (F - 32)$. Using `R` when needed, solve the following:
+
+	  a. Find the probability that one randomly selected instance of the process will have operating temperature greater than $98.6$ Fahrenheit.  
+	     
+
+  	b. Find the distribution of $C$. (Hint: $C \sim ?(?,?)$)  
+  	   
+	  c. Find the probability that one randomly selected instance of the process will have operating temperature below $32$ Celsius.  
+       
+	  d. Above what temperature (in Celsius) is the top $10 \%$ of operating temperatures?  
+       
+	  e. Find the probability in a sample of 6 instances, more than 4 instances have operating temperature above $32$ Celsius.(Assuming observations in the sample are independent)  
+       
+  	f. Find the distribution of $\bar{C}$ for n=6, then find the probability that the average operating temperature in a sample of 6 instances is between $36$ and $40$ Celsius.   
+  	  
+2. Using `R`, generate 9 samples of size 10, and 9 samples of size 20, and 9 samples of size 100 from a standard normal distribution. For each sample, create a QQ-plot. Do you see any relationship between sample size, and QQ-plots? What does this show you in terms of our ability to determine normality based on a QQ-plot?
+
+    **Hint**: the code below will generate 9 samples of size 5 from a standard normal distribution, and create the QQ-plots. You can copy/paste this code, and adjust where appropriate to get the plots you need.
+
+```{r eval = FALSE, echo = TRUE}
+library(tidyverse)
+library(distributions3)
+
+random_samples <- data.frame(i = 1:9) %>% 
+  mutate(datasets = map(i, ~random(d = Normal(), n = 5))) %>% 
+  unnest_longer(col = datasets)
+
+ggplot(random_samples,
+       aes(sample = datasets)) + 
+  geom_qq() + 
+  facet_wrap(~i, nrow = 3) +
+  geom_abline() +
+  ggtitle(label = "Size 5") ## this just adds a label to the plot
+```
+
+3. The data below record the number of hours a team of workers takes to assemble a custom-built motorcycle. The data are recorded for 10 different teams each assembling a motorcycle.
+
+    ```{r}
+    assembling_time <- data.frame(hours = c(89, 78, 48, 85, 67, 45, 60, 62, 62, 56))
+    ```
+    
+    a. Create a QQ-plot in R and comment on the assumption that the population of times to assemble a motorcycle is well-approximated by a normal distribution.  
+
+    
+    b. Let's say we assume the data are well-approximated by a normal distribution. What kind of distribution does $\bar{X} = \frac{1}{10}\sum_{i=1}^{10} X_i$ follow?  
+
+    c. Estimate the true mean and the true variance.  
+
+    d. Pretend that the true mean is $85$ hours, and the true standard deviation is $15$ hours. If these were the true values, what would the exact distribution of $\bar{X}$ be?  
+
+    e. Pretend that the true mean is $85$ hours, and the true standard deviation is $15$ hours. What is the probability that, if we were to repeat the experiment (i.e. record the time it takes to assemble a custom-built motorcycle 10 times), the average $\bar{X}$ would be smaller than the average we got the first time?  
+
+    f. Pretend the true mean and standard deviation are our estimates. How fast must a team assemble a motorcycle to be in the top 20\%? 
+
+4. The file `blood_pressure.csv` contains two columns: `Blood Pressure` with 40 measurements of systolic blood pressure from two groups of individuals, and `Treated` that indicates if the individuals were treated with a new blood pressure medicine (1) or placebo (0). We want to assess if the blood pressure medicine is effective in lowering the blood pressure of the patients.
+
+    a. Create a histogram of the blood pressure measurements. Comment on the shape of the data. Do you think it is normally distributed?
+    
+    b. Create a QQ-plot. What would you conclude?
+
+    c. We are really interested in comparing the two groups (treated and untreated). Create a histogram for each group. Comment on the shape of the data. Do you think each group is normally distributed? 
+
+    d. Compute the estimated mean and variance for each group, and overall. 
+
+    e. Create a QQ-plot for each group. What would you conclude?
+    
+    f. Let's pretend that both samples are from normal distributions, and that the true mean for both is $106$. The variances are the group variances found in d. Let $X_1, ..., X_{20}$ be random variables giving the blood pressure of the treated patients, and $Y_1, ..., Y_{20}$ the blood pressure of the untreated patients. Find the distributions of $\bar{X}$ and $\bar{Y}$, respectively. 
+
+    g. What is the probability that $\bar{X}$, if the experiment was repeated, came out to be smaller than the average we observed in this experiment?
+    
+    h. What is the probability that $\bar{Y}$, if the experiment was repeated, came out to be greater than the average we observed in this experiment?
+    
+    i. The probabilities found in g and h are, in some sense, a measure of how unusual the observed data are, *if the true means in the two groups were indeed 106*. If the probability is small, the observed data are unlikely to be from a population with mean 106, and we would therefore second guess our assumption about the true mean. On the other hand, if the probability is large, the observed data are likely, and there would be no reason to second guess that assumption.  
+       If we use 0.1 as a cut-off for what is unlikely (i.e. if the probability is below 10% the event is unlikely), would you say that the observed data are unlikely if the true means were 106? What conclusion would you draw about the likelihood of the populations from which the samples were taken having same true mean? What conclusion would this lead you to in terms of the efficacy of the treatment? I.e. do you think the treatment actually lowers the blood pressure?   

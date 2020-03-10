@@ -1,0 +1,2347 @@
+disease,state,year,weeks_reporting,count,population
+Hepatitis A,Alabama,1966,50,321,3345787
+Hepatitis A,Alabama,1967,49,291,3364130
+Hepatitis A,Alabama,1968,52,314,3386068
+Hepatitis A,Alabama,1969,49,380,3412450
+Hepatitis A,Alabama,1970,51,413,3444165
+Hepatitis A,Alabama,1971,51,378,3481798
+Hepatitis A,Alabama,1972,45,342,3524543
+Hepatitis A,Alabama,1973,45,467,3571209
+Hepatitis A,Alabama,1974,45,244,3620548
+Hepatitis A,Alabama,1975,46,286,3671246
+Hepatitis A,Alabama,1976,50,220,3721914
+Hepatitis A,Alabama,1977,43,206,3771085
+Hepatitis A,Alabama,1978,41,203,3817217
+Hepatitis A,Alabama,1979,47,257,3858703
+Hepatitis A,Alabama,1980,37,200,3893888
+Hepatitis A,Alabama,1981,40,138,3921581
+Hepatitis A,Alabama,1982,43,128,3942588
+Hepatitis A,Alabama,1983,43,178,3958271
+Hepatitis A,Alabama,1984,35,115,3970041
+Hepatitis A,Alabama,1985,22,37,3979341
+Hepatitis A,Alabama,1986,26,51,3987637
+Hepatitis A,Alabama,1987,36,81,3996407
+Hepatitis A,Alabama,1988,20,13,4007144
+Hepatitis A,Alabama,1989,32,56,4021358
+Hepatitis A,Alabama,1990,41,86,4040587
+Hepatitis A,Alabama,1991,38,39,4066003
+Hepatitis A,Alabama,1992,34,35,4097169
+Hepatitis A,Alabama,1993,27,40,4133242
+Hepatitis A,Alabama,1994,29,72,4173361
+Hepatitis A,Alabama,1995,38,75,4216645
+Hepatitis A,Alabama,1996,44,196,4262177
+Hepatitis A,Alabama,1997,26,40,4309007
+Hepatitis A,Alabama,1998,34,64,4356137
+Hepatitis A,Alabama,1999,35,52,4402529
+Hepatitis A,Alabama,2000,42,53,4447100
+Hepatitis A,Alabama,2001,41,66,4488959
+Hepatitis A,Alabama,2002,47,35,4528129
+Hepatitis A,Alabama,2003,47,14,4564878
+Hepatitis A,Alabama,2004,41,6,4599490
+Hepatitis A,Alabama,2005,47,34,4632262
+Hepatitis A,Alabama,2006,42,17,4663504
+Hepatitis A,Alabama,2007,48,20,4693536
+Hepatitis A,Alabama,2008,49,10,4722691
+Hepatitis A,Alabama,2009,49,10,4751307
+Hepatitis A,Alabama,2010,51,8,4779736
+Hepatitis A,Alabama,2011,27,7,4808274
+Hepatitis A,Alaska,1966,34,90,268476
+Hepatitis A,Alaska,1967,22,39,276180
+Hepatitis A,Alaska,1968,31,84,284068
+Hepatitis A,Alaska,1969,32,63,292136
+Hepatitis A,Alaska,1970,32,113,300382
+Hepatitis A,Alaska,1971,28,96,308810
+Hepatitis A,Alaska,1972,37,199,317458
+Hepatitis A,Alaska,1973,32,225,326376
+Hepatitis A,Alaska,1974,30,248,335621
+Hepatitis A,Alaska,1975,37,409,345253
+Hepatitis A,Alaska,1976,13,1094,355341
+Hepatitis A,Alaska,1977,39,551,365958
+Hepatitis A,Alaska,1978,39,125,377187
+Hepatitis A,Alaska,1979,28,61,389118
+Hepatitis A,Alaska,1980,14,18,401851
+Hepatitis A,Alaska,1981,22,45,415458
+Hepatitis A,Alaska,1982,15,17,429850
+Hepatitis A,Alaska,1983,22,43,444879
+Hepatitis A,Alaska,1984,11,14,460375
+Hepatitis A,Alaska,1985,12,18,476138
+Hepatitis A,Alaska,1986,21,66,491942
+Hepatitis A,Alaska,1987,47,240,507531
+Hepatitis A,Alaska,1988,22,268,522622
+Hepatitis A,Alaska,1989,33,494,536903
+Hepatitis A,Alaska,1990,39,167,550043
+Hepatitis A,Alaska,1991,37,80,561769
+Hepatitis A,Alaska,1992,32,65,572122
+Hepatitis A,Alaska,1993,24,374,581250
+Hepatitis A,Alaska,1994,29,163,589317
+Hepatitis A,Alaska,1995,39,38,596513
+Hepatitis A,Alaska,1996,41,46,603039
+Hepatitis A,Alaska,1997,24,20,609112
+Hepatitis A,Alaska,1998,30,6,614959
+Hepatitis A,Alaska,1999,36,7,620817
+Hepatitis A,Alaska,2000,39,8,626932
+Hepatitis A,Alaska,2001,40,10,633510
+Hepatitis A,Alaska,2002,42,11,640570
+Hepatitis A,Alaska,2003,44,8,648078
+Hepatitis A,Alaska,2004,43,4,656003
+Hepatitis A,Alaska,2005,44,3,664309
+Hepatitis A,Alaska,2006,0,0,672961
+Hepatitis A,Alaska,2007,42,3,681920
+Hepatitis A,Alaska,2008,41,3,691147
+Hepatitis A,Alaska,2009,46,6,700599
+Hepatitis A,Alaska,2010,24,4,710231
+Hepatitis A,Alaska,2011,38,1,720004
+Hepatitis A,Arizona,1966,50,415,1572291
+Hepatitis A,Arizona,1967,48,390,1615310
+Hepatitis A,Arizona,1968,50,425,1661517
+Hepatitis A,Arizona,1969,49,528,1712707
+Hepatitis A,Arizona,1970,50,615,1770900
+Hepatitis A,Arizona,1971,51,896,1837891
+Hepatitis A,Arizona,1972,46,660,1913632
+Hepatitis A,Arizona,1973,22,160,1997501
+Hepatitis A,Arizona,1974,49,512,2088732
+Hepatitis A,Arizona,1975,50,437,2186365
+Hepatitis A,Arizona,1976,51,560,2289201
+Hepatitis A,Arizona,1977,51,929,2395761
+Hepatitis A,Arizona,1978,48,1137,2504256
+Hepatitis A,Arizona,1979,50,1788,2612561
+Hepatitis A,Arizona,1980,33,635,2718215
+Hepatitis A,Arizona,1981,43,434,2819039
+Hepatitis A,Arizona,1982,41,514,2915148
+Hepatitis A,Arizona,1983,44,845,3007444
+Hepatitis A,Arizona,1984,46,721,3097045
+Hepatitis A,Arizona,1985,42,1013,3185267
+Hepatitis A,Arizona,1986,37,1015,3273618
+Hepatitis A,Arizona,1987,47,1925,3363792
+Hepatitis A,Arizona,1988,23,972,3457679
+Hepatitis A,Arizona,1989,33,2009,3557380
+Hepatitis A,Arizona,1990,42,1645,3665228
+Hepatitis A,Arizona,1991,37,837,3783229
+Hepatitis A,Arizona,1992,35,761,3911122
+Hepatitis A,Arizona,1993,26,662,4047937
+Hepatitis A,Arizona,1994,29,934,4192532
+Hepatitis A,Arizona,1995,40,990,4343559
+Hepatitis A,Arizona,1996,43,1397,4499438
+Hepatitis A,Arizona,1997,27,1078,4658333
+Hepatitis A,Arizona,1998,35,1224,4818136
+Hepatitis A,Arizona,1999,36,601,4976457
+Hepatitis A,Arizona,2000,41,399,5130632
+Hepatitis A,Arizona,2001,40,341,5278300
+Hepatitis A,Arizona,2002,46,313,5419266
+Hepatitis A,Arizona,2003,44,237,5554021
+Hepatitis A,Arizona,2004,44,210,5683195
+Hepatitis A,Arizona,2005,47,240,5807553
+Hepatitis A,Arizona,2006,44,69,5927979
+Hepatitis A,Arizona,2007,51,163,6045475
+Hepatitis A,Arizona,2008,47,101,6161152
+Hepatitis A,Arizona,2009,48,72,6276227
+Hepatitis A,Arizona,2010,48,72,6392017
+Hepatitis A,Arizona,2011,48,19,6509700
+Hepatitis A,Arkansas,1966,52,299,1826028
+Hepatitis A,Arkansas,1967,47,295,1844745
+Hepatitis A,Arkansas,1968,38,166,1867112
+Hepatitis A,Arkansas,1969,34,189,1893248
+Hepatitis A,Arkansas,1970,42,212,1923295
+Hepatitis A,Arkansas,1971,46,236,1957252
+Hepatitis A,Arkansas,1972,46,278,1994452
+Hepatitis A,Arkansas,1973,44,141,2034009
+Hepatitis A,Arkansas,1974,49,444,2074967
+Hepatitis A,Arkansas,1975,49,409,2116289
+Hepatitis A,Arkansas,1976,50,449,2156856
+Hepatitis A,Arkansas,1977,47,406,2195463
+Hepatitis A,Arkansas,1978,46,204,2230829
+Hepatitis A,Arkansas,1979,50,260,2261613
+Hepatitis A,Arkansas,1980,36,240,2286435
+Hepatitis A,Arkansas,1981,48,215,2304331
+Hepatitis A,Arkansas,1982,30,74,2316088
+Hepatitis A,Arkansas,1983,32,57,2322996
+Hepatitis A,Arkansas,1984,30,98,2326399
+Hepatitis A,Arkansas,1985,19,46,2327671
+Hepatitis A,Arkansas,1986,29,87,2328197
+Hepatitis A,Arkansas,1987,31,191,2329366
+Hepatitis A,Arkansas,1988,22,135,2332569
+Hepatitis A,Arkansas,1989,32,167,2339212
+Hepatitis A,Arkansas,1990,41,420,2350725
+Hepatitis A,Arkansas,1991,38,163,2368201
+Hepatitis A,Arkansas,1992,35,83,2391223
+Hepatitis A,Arkansas,1993,27,29,2418991
+Hepatitis A,Arkansas,1994,27,85,2450696
+Hepatitis A,Arkansas,1995,35,425,2485501
+Hepatitis A,Arkansas,1996,43,446,2522529
+Hepatitis A,Arkansas,1997,26,88,2560848
+Hepatitis A,Arkansas,1998,34,63,2599475
+Hepatitis A,Arkansas,1999,36,62,2637361
+Hepatitis A,Arkansas,2000,41,95,2673400
+Hepatitis A,Arkansas,2001,41,58,2706668
+Hepatitis A,Arkansas,2002,47,50,2737163
+Hepatitis A,Arkansas,2003,36,17,2765142
+Hepatitis A,Arkansas,2004,46,52,2790880
+Hepatitis A,Arkansas,2005,44,17,2814674
+Hepatitis A,Arkansas,2006,41,23,2836837
+Hepatitis A,Arkansas,2007,44,11,2857696
+Hepatitis A,Arkansas,2008,36,4,2877593
+Hepatitis A,Arkansas,2009,44,5,2896879
+Hepatitis A,Arkansas,2010,8,0,2915918
+Hepatitis A,Arkansas,2011,3,0,2935019
+Hepatitis A,California,1966,52,5933,18429575
+Hepatitis A,California,1967,52,7480,18831882
+Hepatitis A,California,1968,52,10821,19219725
+Hepatitis A,California,1969,50,9051,19593348
+Hepatitis A,California,1970,50,9422,19953134
+Hepatitis A,California,1971,51,9623,20300216
+Hepatitis A,California,1972,47,7190,20638390
+Hepatitis A,California,1973,49,6875,20972407
+Hepatitis A,California,1974,48,5547,21307362
+Hepatitis A,California,1975,51,5134,21648695
+Hepatitis A,California,1976,51,5590,22002198
+Hepatitis A,California,1977,44,4741,22374038
+Hepatitis A,California,1978,45,4301,22770801
+Hepatitis A,California,1979,44,4101,23199549
+Hepatitis A,California,1980,33,3673,23667902
+Hepatitis A,California,1981,44,5147,24181703
+Hepatitis A,California,1982,44,3726,24737390
+Hepatitis A,California,1983,42,3922,25328529
+Hepatitis A,California,1984,43,6021,25948031
+Hepatitis A,California,1985,39,5371,26588046
+Hepatitis A,California,1986,39,5802,27239883
+Hepatitis A,California,1987,45,5956,27893955
+Hepatitis A,California,1988,23,2717,28539754
+Hepatitis A,California,1989,34,4692,29165865
+Hepatitis A,California,1990,42,4870,29760021
+Hepatitis A,California,1991,36,3791,30311890
+Hepatitis A,California,1992,36,3594,30821629
+Hepatitis A,California,1993,26,2674,31292538
+Hepatitis A,California,1994,27,3367,31728420
+Hepatitis A,California,1995,41,5130,32133526
+Hepatitis A,California,1996,45,5547,32512506
+Hepatitis A,California,1997,28,4438,32870358
+Hepatitis A,California,1998,35,2803,33212395
+Hepatitis A,California,1999,38,2349,33544208
+Hepatitis A,California,2000,39,2261,33871648
+Hepatitis A,California,2001,40,1599,34199784
+Hepatitis A,California,2002,49,1364,34529758
+Hepatitis A,California,2003,46,1045,34861711
+Hepatitis A,California,2004,48,788,35195792
+Hepatitis A,California,2005,49,905,35532154
+Hepatitis A,California,2006,52,688,35870957
+Hepatitis A,California,2007,51,312,36212364
+Hepatitis A,California,2008,52,337,36556548
+Hepatitis A,California,2009,52,239,36903684
+Hepatitis A,California,2010,49,201,37253956
+Hepatitis A,California,2011,49,176,37607525
+Hepatitis A,Colorado,1966,48,292,2008407
+Hepatitis A,Colorado,1967,43,294,2053164
+Hepatitis A,Colorado,1968,43,715,2100603
+Hepatitis A,Colorado,1969,43,587,2151635
+Hepatitis A,Colorado,1970,41,915,2207259
+Hepatitis A,Colorado,1971,47,751,2268242
+Hepatitis A,Colorado,1972,44,639,2334054
+Hepatitis A,Colorado,1973,48,495,2403738
+Hepatitis A,Colorado,1974,38,256,2476210
+Hepatitis A,Colorado,1975,46,239,2550245
+Hepatitis A,Colorado,1976,51,426,2624457
+Hepatitis A,Colorado,1977,51,509,2697303
+Hepatitis A,Colorado,1978,49,446,2767084
+Hepatitis A,Colorado,1979,51,482,2831958
+Hepatitis A,Colorado,1980,38,591,2889964
+Hepatitis A,Colorado,1981,48,536,2939663
+Hepatitis A,Colorado,1982,49,331,2982055
+Hepatitis A,Colorado,1983,50,394,3018900
+Hepatitis A,Colorado,1984,48,544,3052100
+Hepatitis A,Colorado,1985,43,299,3083671
+Hepatitis A,Colorado,1986,36,151,3115721
+Hepatitis A,Colorado,1987,50,424,3150449
+Hepatitis A,Colorado,1988,23,117,3190156
+Hepatitis A,Colorado,1989,34,368,3237270
+Hepatitis A,Colorado,1990,39,278,3294394
+Hepatitis A,Colorado,1991,37,494,3363642
+Hepatitis A,Colorado,1992,36,587,3444391
+Hepatitis A,Colorado,1993,26,436,3535251
+Hepatitis A,Colorado,1994,29,403,3634710
+Hepatitis A,Colorado,1995,41,393,3741086
+Hepatitis A,Colorado,1996,42,362,3852482
+Hepatitis A,Colorado,1997,27,234,3966754
+Hepatitis A,Colorado,1998,35,261,4081485
+Hepatitis A,Colorado,1999,38,147,4193978
+Hepatitis A,Colorado,2000,41,170,4301261
+Hepatitis A,Colorado,2001,41,76,4400742
+Hepatitis A,Colorado,2002,47,77,4492257
+Hepatitis A,Colorado,2003,45,60,4576377
+Hepatitis A,Colorado,2004,43,56,4653801
+Hepatitis A,Colorado,2005,49,49,4725338
+Hepatitis A,Colorado,2006,49,24,4791892
+Hepatitis A,Colorado,2007,48,25,4854455
+Hepatitis A,Colorado,2008,44,23,4914094
+Hepatitis A,Colorado,2009,50,49,4971943
+Hepatitis A,Colorado,2010,50,34,5029196
+Hepatitis A,Colorado,2011,51,18,5086894
+Hepatitis A,Connecticut,1966,52,334,2874698
+Hepatitis A,Connecticut,1967,52,583,2922078
+Hepatitis A,Connecticut,1968,52,502,2964628
+Hepatitis A,Connecticut,1969,50,617,3001466
+Hepatitis A,Connecticut,1970,51,860,3031709
+Hepatitis A,Connecticut,1971,51,877,3054792
+Hepatitis A,Connecticut,1972,47,687,3071418
+Hepatitis A,Connecticut,1973,51,661,3082659
+Hepatitis A,Connecticut,1974,49,526,3089639
+Hepatitis A,Connecticut,1975,51,417,3093513
+Hepatitis A,Connecticut,1976,50,427,3095453
+Hepatitis A,Connecticut,1977,49,274,3096643
+Hepatitis A,Connecticut,1978,45,165,3098267
+Hepatitis A,Connecticut,1979,45,167,3101513
+Hepatitis A,Connecticut,1980,31,110,3107576
+Hepatitis A,Connecticut,1981,42,129,3117363
+Hepatitis A,Connecticut,1982,36,82,3130581
+Hepatitis A,Connecticut,1983,40,88,3146641
+Hepatitis A,Connecticut,1984,36,74,3164947
+Hepatitis A,Connecticut,1985,29,118,3184895
+Hepatitis A,Connecticut,1986,35,124,3205868
+Hepatitis A,Connecticut,1987,39,172,3227234
+Hepatitis A,Connecticut,1988,21,141,3248344
+Hepatitis A,Connecticut,1989,32,207,3268532
+Hepatitis A,Connecticut,1990,40,107,3287116
+Hepatitis A,Connecticut,1991,34,74,3303573
+Hepatitis A,Connecticut,1992,32,49,3318064
+Hepatitis A,Connecticut,1993,27,59,3330930
+Hepatitis A,Connecticut,1994,25,60,3342519
+Hepatitis A,Connecticut,1995,39,69,3353188
+Hepatitis A,Connecticut,1996,44,123,3363299
+Hepatitis A,Connecticut,1997,26,71,3373219
+Hepatitis A,Connecticut,1998,34,63,3383318
+Hepatitis A,Connecticut,1999,37,57,3393974
+Hepatitis A,Connecticut,2000,39,135,3405565
+Hepatitis A,Connecticut,2001,40,206,3418395
+Hepatitis A,Connecticut,2002,47,87,3432433
+Hepatitis A,Connecticut,2003,42,81,3447563
+Hepatitis A,Connecticut,2004,45,68,3463671
+Hepatitis A,Connecticut,2005,51,49,3480637
+Hepatitis A,Connecticut,2006,51,42,3498344
+Hepatitis A,Connecticut,2007,46,25,3516668
+Hepatitis A,Connecticut,2008,51,24,3535486
+Hepatitis A,Connecticut,2009,48,18,3554673
+Hepatitis A,Connecticut,2010,50,24,3574097
+Hepatitis A,Connecticut,2011,47,16,3593650
+Hepatitis A,Delaware,1966,36,79,516402
+Hepatitis A,Delaware,1967,44,173,525460
+Hepatitis A,Delaware,1968,43,146,533755
+Hepatitis A,Delaware,1969,30,67,541297
+Hepatitis A,Delaware,1970,43,135,548104
+Hepatitis A,Delaware,1971,46,138,554209
+Hepatitis A,Delaware,1972,39,131,559693
+Hepatitis A,Delaware,1973,39,97,564659
+Hepatitis A,Delaware,1974,22,32,569211
+Hepatitis A,Delaware,1975,23,50,573460
+Hepatitis A,Delaware,1976,26,47,577523
+Hepatitis A,Delaware,1977,25,43,581518
+Hepatitis A,Delaware,1978,21,40,585568
+Hepatitis A,Delaware,1979,15,27,589798
+Hepatitis A,Delaware,1980,17,34,594338
+Hepatitis A,Delaware,1981,34,56,599301
+Hepatitis A,Delaware,1982,31,46,604720
+Hepatitis A,Delaware,1983,28,32,610606
+Hepatitis A,Delaware,1984,23,44,616972
+Hepatitis A,Delaware,1985,23,38,623834
+Hepatitis A,Delaware,1986,33,62,631207
+Hepatitis A,Delaware,1987,17,38,639107
+Hepatitis A,Delaware,1988,21,26,647554
+Hepatitis A,Delaware,1989,34,60,656568
+Hepatitis A,Delaware,1990,42,89,666168
+Hepatitis A,Delaware,1991,37,12,676364
+Hepatitis A,Delaware,1992,31,35,687107
+Hepatitis A,Delaware,1993,27,6,698329
+Hepatitis A,Delaware,1994,27,12,709960
+Hepatitis A,Delaware,1995,39,8,721921
+Hepatitis A,Delaware,1996,43,17,734132
+Hepatitis A,Delaware,1997,25,13,746502
+Hepatitis A,Delaware,1998,25,4,758939
+Hepatitis A,Delaware,1999,30,1,771341
+Hepatitis A,Delaware,2000,0,0,783600
+Hepatitis A,Delaware,2001,1,0,795628
+Hepatitis A,Delaware,2002,41,11,807429
+Hepatitis A,Delaware,2003,42,7,819034
+Hepatitis A,Delaware,2004,42,7,830477
+Hepatitis A,Delaware,2005,31,4,841794
+Hepatitis A,Delaware,2006,48,11,853024
+Hepatitis A,Delaware,2007,34,6,864207
+Hepatitis A,Delaware,2008,39,6,875389
+Hepatitis A,Delaware,2009,37,3,886615
+Hepatitis A,Delaware,2010,47,7,897934
+Hepatitis A,Delaware,2011,49,1,909389
+Hepatitis A,District Of Columbia,1966,25,38,767479
+Hepatitis A,District Of Columbia,1967,29,42,767400
+Hepatitis A,District Of Columbia,1968,36,67,765853
+Hepatitis A,District Of Columbia,1969,28,58,762372
+Hepatitis A,District Of Columbia,1970,37,87,756510
+Hepatitis A,District Of Columbia,1971,31,60,748020
+Hepatitis A,District Of Columbia,1972,38,95,737335
+Hepatitis A,District Of Columbia,1973,32,67,725053
+Hepatitis A,District Of Columbia,1974,21,42,711746
+Hepatitis A,District Of Columbia,1975,35,90,697960
+Hepatitis A,District Of Columbia,1976,30,101,684201
+Hepatitis A,District Of Columbia,1977,18,34,670939
+Hepatitis A,District Of Columbia,1978,18,30,658610
+Hepatitis A,District Of Columbia,1979,21,33,647615
+Hepatitis A,District Of Columbia,1980,17,36,638333
+Hepatitis A,District Of Columbia,1981,22,31,631010
+Hepatitis A,District Of Columbia,1982,17,23,625419
+Hepatitis A,District Of Columbia,1983,10,12,621237
+Hepatitis A,District Of Columbia,1984,8,11,618158
+Hepatitis A,District Of Columbia,1985,8,10,615889
+Hepatitis A,District Of Columbia,1986,11,14,614147
+Hepatitis A,District Of Columbia,1987,26,38,612651
+Hepatitis A,District Of Columbia,1988,21,9,611127
+Hepatitis A,District Of Columbia,1989,24,9,609299
+Hepatitis A,District Of Columbia,1990,42,10,606900
+Hepatitis A,District Of Columbia,1991,37,64,603744
+Hepatitis A,District Of Columbia,1992,35,12,599967
+Hepatitis A,District Of Columbia,1993,26,8,595785
+Hepatitis A,District Of Columbia,1994,29,23,591406
+Hepatitis A,District Of Columbia,1995,38,14,587034
+Hepatitis A,District Of Columbia,1996,41,30,582869
+Hepatitis A,District Of Columbia,1997,26,16,579101
+Hepatitis A,District Of Columbia,1998,34,46,575921
+Hepatitis A,District Of Columbia,1999,38,49,573512
+Hepatitis A,District Of Columbia,2000,31,32,572059
+Hepatitis A,District Of Columbia,2001,42,52,571698
+Hepatitis A,District Of Columbia,2002,48,73,572365
+Hepatitis A,District Of Columbia,2003,38,39,573947
+Hepatitis A,District Of Columbia,2004,44,5,576339
+Hepatitis A,District Of Columbia,2005,40,5,579433
+Hepatitis A,District Of Columbia,2006,50,8,583125
+Hepatitis A,District Of Columbia,2007,48,14,587310
+Hepatitis A,District Of Columbia,2008,0,0,591879
+Hepatitis A,District Of Columbia,2009,0,0,596721
+Hepatitis A,District Of Columbia,2010,31,0,601723
+Hepatitis A,District Of Columbia,2011,0,0,606787
+Hepatitis A,Florida,1966,51,649,6076182
+Hepatitis A,Florida,1967,52,646,6241386
+Hepatitis A,Florida,1968,51,1116,6411565
+Hepatitis A,Florida,1969,49,1356,6592214
+Hepatitis A,Florida,1970,50,1804,6789443
+Hepatitis A,Florida,1971,50,2121,7008662
+Hepatitis A,Florida,1972,46,2193,7250063
+Hepatitis A,Florida,1973,49,3296,7512296
+Hepatitis A,Florida,1974,49,3439,7793754
+Hepatitis A,Florida,1975,50,2279,8092494
+Hepatitis A,Florida,1976,50,1712,8406176
+Hepatitis A,Florida,1977,51,1412,8732000
+Hepatitis A,Florida,1978,49,1574,9066647
+Hepatitis A,Florida,1979,50,1268,9406243
+Hepatitis A,Florida,1980,37,1344,9746324
+Hepatitis A,Florida,1981,48,1229,10082727
+Hepatitis A,Florida,1982,49,967,10414526
+Hepatitis A,Florida,1983,50,902,10741769
+Hepatitis A,Florida,1984,48,678,11064644
+Hepatitis A,Florida,1985,43,775,11383474
+Hepatitis A,Florida,1986,39,881,11698722
+Hepatitis A,Florida,1987,50,550,12010988
+Hepatitis A,Florida,1988,22,280,12321008
+Hepatitis A,Florida,1989,33,725,12629652
+Hepatitis A,Florida,1990,42,476,12937926
+Hepatitis A,Florida,1991,37,587,13246692
+Hepatitis A,Florida,1992,35,372,13555784
+Hepatitis A,Florida,1993,26,331,13864752
+Hepatitis A,Florida,1994,28,516,14173127
+Hepatitis A,Florida,1995,40,519,14480420
+Hepatitis A,Florida,1996,44,552,14786125
+Hepatitis A,Florida,1997,26,417,15089720
+Hepatitis A,Florida,1998,34,358,15390666
+Hepatitis A,Florida,1999,38,578,15688408
+Hepatitis A,Florida,2000,39,631,15982378
+Hepatitis A,Florida,2001,39,762,16272186
+Hepatitis A,Florida,2002,46,1002,16558219
+Hepatitis A,Florida,2003,46,374,16841116
+Hepatitis A,Florida,2004,49,282,17121583
+Hepatitis A,Florida,2005,51,288,17400396
+Hepatitis A,Florida,2006,52,217,17678393
+Hepatitis A,Florida,2007,52,159,17956480
+Hepatitis A,Florida,2008,51,153,18235627
+Hepatitis A,Florida,2009,52,176,18516869
+Hepatitis A,Florida,2010,51,152,18801310
+Hepatitis A,Florida,2011,51,96,19089928
+Hepatitis A,Georgia,1966,47,509,4306523
+Hepatitis A,Georgia,1967,51,922,4373252
+Hepatitis A,Georgia,1968,50,990,4442463
+Hepatitis A,Georgia,1969,48,750,4514462
+Hepatitis A,Georgia,1970,51,763,4589575
+Hepatitis A,Georgia,1971,50,771,4668031
+Hepatitis A,Georgia,1972,47,712,4749598
+Hepatitis A,Georgia,1973,50,888,4833908
+Hepatitis A,Georgia,1974,48,1005,4920562
+Hepatitis A,Georgia,1975,48,1048,5009127
+Hepatitis A,Georgia,1976,51,1368,5099141
+Hepatitis A,Georgia,1977,47,1073,5190101
+Hepatitis A,Georgia,1978,43,528,5281471
+Hepatitis A,Georgia,1979,42,589,5372677
+Hepatitis A,Georgia,1980,38,597,5463105
+Hepatitis A,Georgia,1981,48,498,5552381
+Hepatitis A,Georgia,1982,46,342,5641222
+Hepatitis A,Georgia,1983,46,231,5730681
+Hepatitis A,Georgia,1984,44,170,5821879
+Hepatitis A,Georgia,1985,40,176,5916008
+Hepatitis A,Georgia,1986,38,144,6014339
+Hepatitis A,Georgia,1987,44,161,6118223
+Hepatitis A,Georgia,1988,22,281,6229107
+Hepatitis A,Georgia,1989,33,283,6348546
+Hepatitis A,Georgia,1990,41,298,6478216
+Hepatitis A,Georgia,1991,36,171,6619421
+Hepatitis A,Georgia,1992,34,136,6771458
+Hepatitis A,Georgia,1993,27,37,6933012
+Hepatitis A,Georgia,1994,29,48,7102632
+Hepatitis A,Georgia,1995,34,56,7278710
+Hepatitis A,Georgia,1996,33,148,7459456
+Hepatitis A,Georgia,1997,25,403,7642891
+Hepatitis A,Georgia,1998,35,546,7826830
+Hepatitis A,Georgia,1999,37,346,8008882
+Hepatitis A,Georgia,2000,36,208,8186453
+Hepatitis A,Georgia,2001,36,723,8357323
+Hepatitis A,Georgia,2002,49,434,8521472
+Hepatitis A,Georgia,2003,47,800,8679534
+Hepatitis A,Georgia,2004,47,314,8832236
+Hepatitis A,Georgia,2005,46,108,8980398
+Hepatitis A,Georgia,2006,49,56,9124929
+Hepatitis A,Georgia,2007,49,48,9266815
+Hepatitis A,Georgia,2008,50,38,9407124
+Hepatitis A,Georgia,2009,52,43,9546998
+Hepatitis A,Georgia,2010,50,32,9687653
+Hepatitis A,Georgia,2011,52,40,9830160
+Hepatitis A,Hawaii,1966,27,56,707223
+Hepatitis A,Hawaii,1967,22,45,721381
+Hepatitis A,Hawaii,1968,33,122,736258
+Hepatitis A,Hawaii,1969,40,115,751950
+Hepatitis A,Hawaii,1970,44,237,768561
+Hepatitis A,Hawaii,1971,46,336,786163
+Hepatitis A,Hawaii,1972,46,316,804667
+Hepatitis A,Hawaii,1973,46,196,823931
+Hepatitis A,Hawaii,1974,42,130,843799
+Hepatitis A,Hawaii,1975,39,240,864098
+Hepatitis A,Hawaii,1976,41,126,884635
+Hepatitis A,Hawaii,1977,39,137,905202
+Hepatitis A,Hawaii,1978,43,153,925568
+Hepatitis A,Hawaii,1979,44,135,945486
+Hepatitis A,Hawaii,1980,25,69,964691
+Hepatitis A,Hawaii,1981,32,111,982951
+Hepatitis A,Hawaii,1982,32,76,1000236
+Hepatitis A,Hawaii,1983,22,48,1016571
+Hepatitis A,Hawaii,1984,18,32,1031992
+Hepatitis A,Hawaii,1985,22,43,1046542
+Hepatitis A,Hawaii,1986,11,15,1060271
+Hepatitis A,Hawaii,1987,16,37,1073239
+Hepatitis A,Hawaii,1988,16,2,1085507
+Hepatitis A,Hawaii,1989,31,72,1097145
+Hepatitis A,Hawaii,1990,41,51,1108229
+Hepatitis A,Hawaii,1991,38,58,1118841
+Hepatitis A,Hawaii,1992,36,136,1129082
+Hepatitis A,Hawaii,1993,25,27,1139060
+Hepatitis A,Hawaii,1994,28,41,1148887
+Hepatitis A,Hawaii,1995,41,120,1158681
+Hepatitis A,Hawaii,1996,42,84,1168563
+Hepatitis A,Hawaii,1997,25,58,1178657
+Hepatitis A,Hawaii,1998,33,30,1189094
+Hepatitis A,Hawaii,1999,36,20,1200007
+Hepatitis A,Hawaii,2000,17,4,1211537
+Hepatitis A,Hawaii,2001,20,2,1223795
+Hepatitis A,Hawaii,2002,29,1,1236769
+Hepatitis A,Hawaii,2003,38,10,1250411
+Hepatitis A,Hawaii,2004,44,27,1264675
+Hepatitis A,Hawaii,2005,46,23,1279509
+Hepatitis A,Hawaii,2006,47,10,1294861
+Hepatitis A,Hawaii,2007,40,4,1310676
+Hepatitis A,Hawaii,2008,41,15,1326896
+Hepatitis A,Hawaii,2009,48,5,1343459
+Hepatitis A,Hawaii,2010,24,3,1360301
+Hepatitis A,Hawaii,2011,43,7,1377367
+Hepatitis A,Idaho,1966,43,180,680474
+Hepatitis A,Idaho,1967,38,133,684778
+Hepatitis A,Idaho,1968,40,129,691149
+Hepatitis A,Idaho,1969,36,79,700191
+Hepatitis A,Idaho,1970,43,168,712567
+Hepatitis A,Idaho,1971,50,353,728790
+Hepatitis A,Idaho,1972,46,348,748519
+Hepatitis A,Idaho,1973,46,211,771163
+Hepatitis A,Idaho,1974,44,123,796069
+Hepatitis A,Idaho,1975,37,171,822501
+Hepatitis A,Idaho,1976,38,129,849614
+Hepatitis A,Idaho,1977,40,138,876447
+Hepatitis A,Idaho,1978,46,221,901920
+Hepatitis A,Idaho,1979,41,131,924841
+Hepatitis A,Idaho,1980,26,83,943935
+Hepatitis A,Idaho,1981,44,245,958227
+Hepatitis A,Idaho,1982,29,55,968160
+Hepatitis A,Idaho,1983,36,101,974620
+Hepatitis A,Idaho,1984,31,85,978566
+Hepatitis A,Idaho,1985,38,204,980999
+Hepatitis A,Idaho,1986,31,120,982943
+Hepatitis A,Idaho,1987,49,335,985431
+Hepatitis A,Idaho,1988,23,58,989509
+Hepatitis A,Idaho,1989,34,110,996243
+Hepatitis A,Idaho,1990,41,75,1006749
+Hepatitis A,Idaho,1991,37,75,1021923
+Hepatitis A,Idaho,1992,34,67,1041563
+Hepatitis A,Idaho,1993,26,137,1065187
+Hepatitis A,Idaho,1994,28,255,1092302
+Hepatitis A,Idaho,1995,41,296,1122377
+Hepatitis A,Idaho,1996,43,206,1154828
+Hepatitis A,Idaho,1997,27,78,1188999
+Hepatitis A,Idaho,1998,34,136,1224149
+Hepatitis A,Idaho,1999,37,40,1259444
+Hepatitis A,Idaho,2000,39,47,1293953
+Hepatitis A,Idaho,2001,35,37,1326846
+Hepatitis A,Idaho,2002,31,12,1358034
+Hepatitis A,Idaho,2003,5,2,1387648
+Hepatitis A,Idaho,2004,47,19,1415847
+Hepatitis A,Idaho,2005,49,21,1442820
+Hepatitis A,Idaho,2006,48,8,1468781
+Hepatitis A,Idaho,2007,38,8,1493967
+Hepatitis A,Idaho,2008,49,17,1518639
+Hepatitis A,Idaho,2009,28,4,1543076
+Hepatitis A,Idaho,2010,50,8,1567582
+Hepatitis A,Idaho,2011,45,6,1592422
+Hepatitis A,Illinois,1966,52,1120,10778459
+Hepatitis A,Illinois,1967,52,1646,10872870
+Hepatitis A,Illinois,1968,51,1888,10960403
+Hepatitis A,Illinois,1969,50,1677,11040840
+Hepatitis A,Illinois,1970,51,1683,11113976
+Hepatitis A,Illinois,1971,51,2115,11179635
+Hepatitis A,Illinois,1972,47,2115,11237725
+Hepatitis A,Illinois,1973,50,2109,11288189
+Hepatitis A,Illinois,1974,47,1608,11330985
+Hepatitis A,Illinois,1975,51,1205,11366089
+Hepatitis A,Illinois,1976,52,1103,11393493
+Hepatitis A,Illinois,1977,51,1120,11413206
+Hepatitis A,Illinois,1978,49,1126,11425251
+Hepatitis A,Illinois,1979,51,1003,11429670
+Hepatitis A,Illinois,1980,37,769,11426518
+Hepatitis A,Illinois,1981,48,711,11416303
+Hepatitis A,Illinois,1982,49,323,11401293
+Hepatitis A,Illinois,1983,45,148,11384186
+Hepatitis A,Illinois,1984,43,189,11367670
+Hepatitis A,Illinois,1985,33,82,11354416
+Hepatitis A,Illinois,1986,28,146,11347084
+Hepatitis A,Illinois,1987,36,223,11348335
+Hepatitis A,Illinois,1988,22,368,11360847
+Hepatitis A,Illinois,1989,31,631,11387340
+Hepatitis A,Illinois,1990,40,1115,11430602
+Hepatitis A,Illinois,1991,34,986,11492528
+Hepatitis A,Illinois,1992,31,390,11571098
+Hepatitis A,Illinois,1993,25,466,11663291
+Hepatitis A,Illinois,1994,24,256,11766036
+Hepatitis A,Illinois,1995,37,498,11876178
+Hepatitis A,Illinois,1996,41,512,11990458
+Hepatitis A,Illinois,1997,19,354,12105488
+Hepatitis A,Illinois,1998,31,549,12217753
+Hepatitis A,Illinois,1999,36,536,12323608
+Hepatitis A,Illinois,2000,40,560,12419293
+Hepatitis A,Illinois,2001,41,405,12501805
+Hepatitis A,Illinois,2002,48,264,12571505
+Hepatitis A,Illinois,2003,44,189,12629664
+Hepatitis A,Illinois,2004,49,173,12677615
+Hepatitis A,Illinois,2005,49,90,12716740
+Hepatitis A,Illinois,2006,43,59,12748461
+Hepatitis A,Illinois,2007,47,99,12774230
+Hepatitis A,Illinois,2008,45,96,12795519
+Hepatitis A,Illinois,2009,49,80,12813820
+Hepatitis A,Illinois,2010,43,45,12830632
+Hepatitis A,Illinois,2011,45,52,12847214
+Hepatitis A,Indiana,1966,52,464,5010025
+Hepatitis A,Indiana,1967,51,608,5058670
+Hepatitis A,Indiana,1968,51,506,5105306
+Hepatitis A,Indiana,1969,48,566,5150209
+Hepatitis A,Indiana,1970,49,584,5193669
+Hepatitis A,Indiana,1971,50,585,5235867
+Hepatitis A,Indiana,1972,47,484,5276492
+Hepatitis A,Indiana,1973,49,550,5315101
+Hepatitis A,Indiana,1974,37,481,5351242
+Hepatitis A,Indiana,1975,45,453,5384454
+Hepatitis A,Indiana,1976,48,323,5414271
+Hepatitis A,Indiana,1977,47,243,5440224
+Hepatitis A,Indiana,1978,45,191,5461843
+Hepatitis A,Indiana,1979,47,273,5478663
+Hepatitis A,Indiana,1980,36,279,5490224
+Hepatitis A,Indiana,1981,45,564,5496400
+Hepatitis A,Indiana,1982,47,621,5498364
+Hepatitis A,Indiana,1983,41,270,5497626
+Hepatitis A,Indiana,1984,40,102,5495700
+Hepatitis A,Indiana,1985,32,95,5494100
+Hepatitis A,Indiana,1986,32,84,5494338
+Hepatitis A,Indiana,1987,37,188,5497929
+Hepatitis A,Indiana,1988,22,38,5506395
+Hepatitis A,Indiana,1989,30,131,5521279
+Hepatitis A,Indiana,1990,39,246,5544159
+Hepatitis A,Indiana,1991,36,274,5576176
+Hepatitis A,Indiana,1992,34,557,5616545
+Hepatitis A,Indiana,1993,26,233,5663995
+Hepatitis A,Indiana,1994,29,275,5717236
+Hepatitis A,Indiana,1995,41,158,5774943
+Hepatitis A,Indiana,1996,44,308,5835746
+Hepatitis A,Indiana,1997,26,147,5898221
+Hepatitis A,Indiana,1998,34,276,5960880
+Hepatitis A,Indiana,1999,35,102,6022172
+Hepatitis A,Indiana,2000,38,89,6080485
+Hepatitis A,Indiana,2001,38,89,6134497
+Hepatitis A,Indiana,2002,45,45,6184258
+Hepatitis A,Indiana,2003,42,70,6230187
+Hepatitis A,Indiana,2004,45,94,6272726
+Hepatitis A,Indiana,2005,47,58,6312336
+Hepatitis A,Indiana,2006,43,34,6349499
+Hepatitis A,Indiana,2007,40,29,6384710
+Hepatitis A,Indiana,2008,46,20,6418480
+Hepatitis A,Indiana,2009,44,19,6451332
+Hepatitis A,Indiana,2010,43,16,6483802
+Hepatitis A,Indiana,2011,46,11,6516343
+Hepatitis A,Iowa,1966,52,526,2794925
+Hepatitis A,Iowa,1967,50,329,2800485
+Hepatitis A,Iowa,1968,52,492,2806962
+Hepatitis A,Iowa,1969,50,358,2814782
+Hepatitis A,Iowa,1970,50,338,2824376
+Hepatitis A,Iowa,1971,51,301,2835986
+Hepatitis A,Iowa,1972,46,260,2849068
+Hepatitis A,Iowa,1973,44,234,2862869
+Hepatitis A,Iowa,1974,43,220,2876625
+Hepatitis A,Iowa,1975,43,191,2889554
+Hepatitis A,Iowa,1976,35,109,2900863
+Hepatitis A,Iowa,1977,35,115,2909749
+Hepatitis A,Iowa,1978,41,136,2915403
+Hepatitis A,Iowa,1979,47,181,2917020
+Hepatitis A,Iowa,1980,34,123,2913808
+Hepatitis A,Iowa,1981,45,206,2905328
+Hepatitis A,Iowa,1982,36,76,2892485
+Hepatitis A,Iowa,1983,20,29,2876515
+Hepatitis A,Iowa,1984,32,59,2858642
+Hepatitis A,Iowa,1985,23,39,2840067
+Hepatitis A,Iowa,1986,19,38,2821962
+Hepatitis A,Iowa,1987,37,109,2805467
+Hepatitis A,Iowa,1988,22,16,2791702
+Hepatitis A,Iowa,1989,34,122,2781765
+Hepatitis A,Iowa,1990,41,214,2776755
+Hepatitis A,Iowa,1991,37,33,2777459
+Hepatitis A,Iowa,1992,34,35,2783399
+Hepatitis A,Iowa,1993,26,41,2793799
+Hepatitis A,Iowa,1994,29,50,2807893
+Hepatitis A,Iowa,1995,40,79,2824918
+Hepatitis A,Iowa,1996,44,305,2844102
+Hepatitis A,Iowa,1997,27,259,2864655
+Hepatitis A,Iowa,1998,34,245,2885769
+Hepatitis A,Iowa,1999,35,124,2906611
+Hepatitis A,Iowa,2000,39,64,2926324
+Hepatitis A,Iowa,2001,38,27,2944207
+Hepatitis A,Iowa,2002,49,77,2960261
+Hepatitis A,Iowa,2003,46,36,2974671
+Hepatitis A,Iowa,2004,48,54,2987631
+Hepatitis A,Iowa,2005,46,27,2999337
+Hepatitis A,Iowa,2006,41,11,3009996
+Hepatitis A,Iowa,2007,48,42,3019813
+Hepatitis A,Iowa,2008,49,100,3029002
+Hepatitis A,Iowa,2009,37,34,3037776
+Hepatitis A,Iowa,2010,47,9,3046355
+Hepatitis A,Iowa,2011,51,8,3054921
+Hepatitis A,Kansas,1966,45,195,2231795
+Hepatitis A,Kansas,1967,46,212,2234688
+Hepatitis A,Kansas,1968,52,410,2237660
+Hepatitis A,Kansas,1969,48,276,2241394
+Hepatitis A,Kansas,1970,50,555,2246578
+Hepatitis A,Kansas,1971,50,579,2253740
+Hepatitis A,Kansas,1972,46,427,2262744
+Hepatitis A,Kansas,1973,50,531,2273286
+Hepatitis A,Kansas,1974,48,420,2285058
+Hepatitis A,Kansas,1975,47,328,2297751
+Hepatitis A,Kansas,1976,51,389,2311047
+Hepatitis A,Kansas,1977,48,335,2324623
+Hepatitis A,Kansas,1978,46,242,2338147
+Hepatitis A,Kansas,1979,43,193,2351282
+Hepatitis A,Kansas,1980,31,145,2363679
+Hepatitis A,Kansas,1981,41,151,2375093
+Hepatitis A,Kansas,1982,34,217,2385703
+Hepatitis A,Kansas,1983,24,76,2395798
+Hepatitis A,Kansas,1984,22,60,2405674
+Hepatitis A,Kansas,1985,24,64,2415633
+Hepatitis A,Kansas,1986,25,70,2425980
+Hepatitis A,Kansas,1987,45,399,2437027
+Hepatitis A,Kansas,1988,22,165,2449090
+Hepatitis A,Kansas,1989,33,185,2462495
+Hepatitis A,Kansas,1990,36,161,2477574
+Hepatitis A,Kansas,1991,37,80,2494565
+Hepatitis A,Kansas,1992,34,104,2513287
+Hepatitis A,Kansas,1993,27,37,2533448
+Hepatitis A,Kansas,1994,27,51,2554748
+Hepatitis A,Kansas,1995,40,110,2576878
+Hepatitis A,Kansas,1996,43,319,2599520
+Hepatitis A,Kansas,1997,22,90,2622343
+Hepatitis A,Kansas,1998,30,82,2645005
+Hepatitis A,Kansas,1999,36,33,2667152
+Hepatitis A,Kansas,2000,33,79,2688418
+Hepatitis A,Kansas,2001,40,149,2708510
+Hepatitis A,Kansas,2002,43,68,2727461
+Hepatitis A,Kansas,2003,41,28,2745387
+Hepatitis A,Kansas,2004,46,47,2762414
+Hepatitis A,Kansas,2005,43,19,2778669
+Hepatitis A,Kansas,2006,46,22,2794284
+Hepatitis A,Kansas,2007,34,10,2809395
+Hepatitis A,Kansas,2008,48,14,2824142
+Hepatitis A,Kansas,2009,44,7,2838668
+Hepatitis A,Kansas,2010,44,12,2853118
+Hepatitis A,Kansas,2011,42,2,2867617
+Hepatitis A,Kentucky,1966,52,948,3111003
+Hepatitis A,Kentucky,1967,52,1144,3131216
+Hepatitis A,Kentucky,1968,52,1153,3155434
+Hepatitis A,Kentucky,1969,50,1222,3184352
+Hepatitis A,Kentucky,1970,51,1241,3218706
+Hepatitis A,Kentucky,1971,50,1132,3258930
+Hepatitis A,Kentucky,1972,45,950,3304064
+Hepatitis A,Kentucky,1973,51,1040,3352745
+Hepatitis A,Kentucky,1974,47,840,3403533
+Hepatitis A,Kentucky,1975,47,911,3454903
+Hepatitis A,Kentucky,1976,43,587,3505235
+Hepatitis A,Kentucky,1977,32,444,3552815
+Hepatitis A,Kentucky,1978,31,238,3595846
+Hepatitis A,Kentucky,1979,37,269,3632467
+Hepatitis A,Kentucky,1980,34,338,3660777
+Hepatitis A,Kentucky,1981,41,318,3679465
+Hepatitis A,Kentucky,1982,47,324,3689649
+Hepatitis A,Kentucky,1983,49,929,3693119
+Hepatitis A,Kentucky,1984,46,314,3691719
+Hepatitis A,Kentucky,1985,38,160,3687312
+Hepatitis A,Kentucky,1986,29,65,3681766
+Hepatitis A,Kentucky,1987,37,168,3676940
+Hepatitis A,Kentucky,1988,23,184,3674684
+Hepatitis A,Kentucky,1989,34,85,3676847
+Hepatitis A,Kentucky,1990,42,72,3685296
+Hepatitis A,Kentucky,1991,38,53,3701439
+Hepatitis A,Kentucky,1992,33,68,3724732
+Hepatitis A,Kentucky,1993,28,76,3754153
+Hepatitis A,Kentucky,1994,29,123,3788676
+Hepatitis A,Kentucky,1995,40,39,3827257
+Hepatitis A,Kentucky,1996,44,40,3868819
+Hepatitis A,Kentucky,1997,24,49,3912246
+Hepatitis A,Kentucky,1998,25,15,3956369
+Hepatitis A,Kentucky,1999,34,39,3999968
+Hepatitis A,Kentucky,2000,40,45,4041769
+Hepatitis A,Kentucky,2001,40,107,4080716
+Hepatitis A,Kentucky,2002,45,37,4116805
+Hepatitis A,Kentucky,2003,43,27,4150317
+Hepatitis A,Kentucky,2004,43,28,4181549
+Hepatitis A,Kentucky,2005,45,28,4210813
+Hepatitis A,Kentucky,2006,43,22,4238432
+Hepatitis A,Kentucky,2007,51,18,4264745
+Hepatitis A,Kentucky,2008,51,24,4290099
+Hepatitis A,Kentucky,2009,42,10,4314851
+Hepatitis A,Kentucky,2010,48,21,4339367
+Hepatitis A,Kentucky,2011,49,10,4363959
+Hepatitis A,Louisiana,1966,52,423,3483288
+Hepatitis A,Louisiana,1967,50,588,3517562
+Hepatitis A,Louisiana,1968,51,677,3554352
+Hepatitis A,Louisiana,1969,49,737,3595096
+Hepatitis A,Louisiana,1970,50,564,3641306
+Hepatitis A,Louisiana,1971,49,654,3694057
+Hepatitis A,Louisiana,1972,46,589,3752362
+Hepatitis A,Louisiana,1973,47,755,3814642
+Hepatitis A,Louisiana,1974,46,425,3879216
+Hepatitis A,Louisiana,1975,48,425,3944284
+Hepatitis A,Louisiana,1976,50,388,4007924
+Hepatitis A,Louisiana,1977,45,505,4068096
+Hepatitis A,Louisiana,1978,42,541,4122648
+Hepatitis A,Louisiana,1979,45,591,4169345
+Hepatitis A,Louisiana,1980,35,488,4205900
+Hepatitis A,Louisiana,1981,47,701,4230701
+Hepatitis A,Louisiana,1982,49,721,4244915
+Hepatitis A,Louisiana,1983,49,604,4250495
+Hepatitis A,Louisiana,1984,40,293,4249466
+Hepatitis A,Louisiana,1985,31,109,4243892
+Hepatitis A,Louisiana,1986,30,87,4235843
+Hepatitis A,Louisiana,1987,36,109,4227383
+Hepatitis A,Louisiana,1988,21,78,4220560
+Hepatitis A,Louisiana,1989,31,166,4217411
+Hepatitis A,Louisiana,1990,41,179,4219973
+Hepatitis A,Louisiana,1991,38,109,4229758
+Hepatitis A,Louisiana,1992,31,101,4246119
+Hepatitis A,Louisiana,1993,27,42,4267874
+Hepatitis A,Louisiana,1994,26,86,4293841
+Hepatitis A,Louisiana,1995,37,104,4322823
+Hepatitis A,Louisiana,1996,41,188,4353598
+Hepatitis A,Louisiana,1997,23,118,4384910
+Hepatitis A,Louisiana,1998,33,118,4415467
+Hepatitis A,Louisiana,1999,36,198,4443942
+Hepatitis A,Louisiana,2000,35,65,4468976
+Hepatitis A,Louisiana,2001,39,52,4489491
+Hepatitis A,Louisiana,2002,41,67,4505617
+Hepatitis A,Louisiana,2003,45,53,4517805
+Hepatitis A,Louisiana,2004,41,54,4526523
+Hepatitis A,Louisiana,2005,47,66,4532253
+Hepatitis A,Louisiana,2006,45,27,4535482
+Hepatitis A,Louisiana,2007,48,27,4536709
+Hepatitis A,Louisiana,2008,39,10,4536432
+Hepatitis A,Louisiana,2009,43,2,4535152
+Hepatitis A,Louisiana,2010,41,11,4533372
+Hepatitis A,Louisiana,2011,42,4,4531509
+Hepatitis A,Maine,1966,50,274,975855
+Hepatitis A,Maine,1967,50,162,977954
+Hepatitis A,Maine,1968,37,85,981143
+Hepatitis A,Maine,1969,43,235,985733
+Hepatitis A,Maine,1970,51,642,992048
+Hepatitis A,Maine,1971,49,494,1000325
+Hepatitis A,Maine,1972,39,233,1010417
+Hepatitis A,Maine,1973,34,69,1022074
+Hepatitis A,Maine,1974,37,125,1035044
+Hepatitis A,Maine,1975,19,34,1049062
+Hepatitis A,Maine,1976,38,107,1063853
+Hepatitis A,Maine,1977,14,25,1079126
+Hepatitis A,Maine,1978,29,88,1094572
+Hepatitis A,Maine,1979,35,122,1109865
+Hepatitis A,Maine,1980,14,22,1124660
+Hepatitis A,Maine,1981,26,34,1138659
+Hepatitis A,Maine,1982,23,41,1151804
+Hepatitis A,Maine,1983,17,27,1164105
+Hepatitis A,Maine,1984,13,18,1175571
+Hepatitis A,Maine,1985,14,17,1186219
+Hepatitis A,Maine,1986,10,14,1196067
+Hepatitis A,Maine,1987,16,25,1205137
+Hepatitis A,Maine,1988,22,9,1213451
+Hepatitis A,Maine,1989,32,16,1221039
+Hepatitis A,Maine,1990,34,6,1227928
+Hepatitis A,Maine,1991,35,16,1234159
+Hepatitis A,Maine,1992,33,29,1239809
+Hepatitis A,Maine,1993,27,8,1244963
+Hepatitis A,Maine,1994,22,15,1249713
+Hepatitis A,Maine,1995,39,18,1254149
+Hepatitis A,Maine,1996,44,22,1258363
+Hepatitis A,Maine,1997,26,29,1262452
+Hepatitis A,Maine,1998,34,11,1266510
+Hepatitis A,Maine,1999,38,9,1270634
+Hepatitis A,Maine,2000,41,18,1274923
+Hepatitis A,Maine,2001,37,8,1279456
+Hepatitis A,Maine,2002,48,7,1284231
+Hepatitis A,Maine,2003,40,22,1289225
+Hepatitis A,Maine,2004,44,7,1294416
+Hepatitis A,Maine,2005,26,5,1299780
+Hepatitis A,Maine,2006,44,5,1305293
+Hepatitis A,Maine,2007,27,4,1310933
+Hepatitis A,Maine,2008,49,10,1316674
+Hepatitis A,Maine,2009,40,0,1322492
+Hepatitis A,Maine,2010,46,7,1328361
+Hepatitis A,Maine,2011,43,7,1334261
+Hepatitis A,Maryland,1966,52,812,3635161
+Hepatitis A,Maryland,1967,52,854,3717154
+Hepatitis A,Maryland,1968,52,741,3793418
+Hepatitis A,Maryland,1969,49,704,3862374
+Hepatitis A,Maryland,1970,51,907,3922399
+Hepatitis A,Maryland,1971,51,1082,3972358
+Hepatitis A,Maryland,1972,44,884,4013186
+Hepatitis A,Maryland,1973,49,669,4046451
+Hepatitis A,Maryland,1974,48,338,4073834
+Hepatitis A,Maryland,1975,51,393,4097099
+Hepatitis A,Maryland,1976,52,433,4118069
+Hepatitis A,Maryland,1977,49,364,4138611
+Hepatitis A,Maryland,1978,45,371,4160635
+Hepatitis A,Maryland,1979,47,363,4186089
+Hepatitis A,Maryland,1980,36,212,4216975
+Hepatitis A,Maryland,1981,44,179,4254868
+Hepatitis A,Maryland,1982,46,171,4299395
+Hepatitis A,Maryland,1983,44,124,4349677
+Hepatitis A,Maryland,1984,34,53,4404814
+Hepatitis A,Maryland,1985,31,65,4463868
+Hepatitis A,Maryland,1986,31,120,4525856
+Hepatitis A,Maryland,1987,50,240,4589739
+Hepatitis A,Maryland,1988,22,112,4654421
+Hepatitis A,Maryland,1989,34,731,4718739
+Hepatitis A,Maryland,1990,42,757,4781468
+Hepatitis A,Maryland,1991,38,201,4841580
+Hepatitis A,Maryland,1992,34,166,4899046
+Hepatitis A,Maryland,1993,24,71,4954109
+Hepatitis A,Maryland,1994,29,139,5007032
+Hepatitis A,Maryland,1995,41,164,5058096
+Hepatitis A,Maryland,1996,45,225,5107599
+Hepatitis A,Maryland,1997,26,109,5155854
+Hepatitis A,Maryland,1998,35,258,5203189
+Hepatitis A,Maryland,1999,38,238,5249948
+Hepatitis A,Maryland,2000,41,187,5296486
+Hepatitis A,Maryland,2001,40,255,5343114
+Hepatitis A,Maryland,2002,48,305,5389912
+Hepatitis A,Maryland,2003,47,165,5436907
+Hepatitis A,Maryland,2004,45,99,5484121
+Hepatitis A,Maryland,2005,46,83,5531582
+Hepatitis A,Maryland,2006,51,50,5579316
+Hepatitis A,Maryland,2007,47,58,5627351
+Hepatitis A,Maryland,2008,49,57,5675715
+Hepatitis A,Maryland,2009,52,41,5724439
+Hepatitis A,Maryland,2010,47,25,5773552
+Hepatitis A,Maryland,2011,50,28,5823082
+Hepatitis A,Massachusetts,1966,52,554,5509739
+Hepatitis A,Massachusetts,1967,51,752,5564299
+Hepatitis A,Massachusetts,1968,52,1023,5613418
+Hepatitis A,Massachusetts,1969,50,2168,5655560
+Hepatitis A,Massachusetts,1970,50,2204,5689170
+Hepatitis A,Massachusetts,1971,51,1589,5713201
+Hepatitis A,Massachusetts,1972,47,1603,5728661
+Hepatitis A,Massachusetts,1973,51,1353,5737120
+Hepatitis A,Massachusetts,1974,49,349,5740187
+Hepatitis A,Massachusetts,1975,51,240,5739494
+Hepatitis A,Massachusetts,1976,51,198,5736681
+Hepatitis A,Massachusetts,1977,48,170,5733391
+Hepatitis A,Massachusetts,1978,50,177,5731261
+Hepatitis A,Massachusetts,1979,49,176,5731930
+Hepatitis A,Massachusetts,1980,37,113,5737037
+Hepatitis A,Massachusetts,1981,43,168,5747853
+Hepatitis A,Massachusetts,1982,49,164,5764133
+Hepatitis A,Massachusetts,1983,44,157,5785257
+Hepatitis A,Massachusetts,1984,45,179,5810610
+Hepatitis A,Massachusetts,1985,43,182,5839576
+Hepatitis A,Massachusetts,1986,40,191,5871532
+Hepatitis A,Massachusetts,1987,51,325,5905847
+Hepatitis A,Massachusetts,1988,22,159,5941875
+Hepatitis A,Massachusetts,1989,34,170,5978960
+Hepatitis A,Massachusetts,1990,42,311,6016425
+Hepatitis A,Massachusetts,1991,36,232,6053672
+Hepatitis A,Massachusetts,1992,36,202,6090458
+Hepatitis A,Massachusetts,1993,25,171,6126630
+Hepatitis A,Massachusetts,1994,27,81,6162030
+Hepatitis A,Massachusetts,1995,39,123,6196500
+Hepatitis A,Massachusetts,1996,42,171,6229876
+Hepatitis A,Massachusetts,1997,26,117,6261992
+Hepatitis A,Massachusetts,1998,34,87,6292681
+Hepatitis A,Massachusetts,1999,35,93,6321773
+Hepatitis A,Massachusetts,2000,40,83,6349097
+Hepatitis A,Massachusetts,2001,41,259,6374540
+Hepatitis A,Massachusetts,2002,47,138,6398225
+Hepatitis A,Massachusetts,2003,47,190,6420339
+Hepatitis A,Massachusetts,2004,47,871,6441074
+Hepatitis A,Massachusetts,2005,47,524,6460624
+Hepatitis A,Massachusetts,2006,48,33,6479187
+Hepatitis A,Massachusetts,2007,30,42,6496964
+Hepatitis A,Massachusetts,2008,38,19,6514159
+Hepatitis A,Massachusetts,2009,43,51,6530978
+Hepatitis A,Massachusetts,2010,24,11,6547629
+Hepatitis A,Massachusetts,2011,43,30,6564287
+Hepatitis A,Michigan,1966,52,2572,8527158
+Hepatitis A,Michigan,1967,52,1890,8623874
+Hepatitis A,Michigan,1968,52,2185,8714199
+Hepatitis A,Michigan,1969,50,2916,8797980
+Hepatitis A,Michigan,1970,51,3809,8875083
+Hepatitis A,Michigan,1971,51,3913,8945392
+Hepatitis A,Michigan,1972,47,3319,9008807
+Hepatitis A,Michigan,1973,51,3333,9065249
+Hepatitis A,Michigan,1974,49,2657,9114655
+Hepatitis A,Michigan,1975,51,2018,9156979
+Hepatitis A,Michigan,1976,52,1657,9192197
+Hepatitis A,Michigan,1977,51,1538,9220298
+Hepatitis A,Michigan,1978,50,1162,9241292
+Hepatitis A,Michigan,1979,51,1094,9255204
+Hepatitis A,Michigan,1980,38,612,9262078
+Hepatitis A,Michigan,1981,48,744,9262309
+Hepatitis A,Michigan,1982,50,702,9257650
+Hepatitis A,Michigan,1983,49,591,9250197
+Hepatitis A,Michigan,1984,49,397,9242044
+Hepatitis A,Michigan,1985,44,319,9235276
+Hepatitis A,Michigan,1986,40,185,9231974
+Hepatitis A,Michigan,1987,51,574,9234220
+Hepatitis A,Michigan,1988,23,170,9244105
+Hepatitis A,Michigan,1989,34,211,9263744
+Hepatitis A,Michigan,1990,42,307,9295297
+Hepatitis A,Michigan,1991,37,219,9340182
+Hepatitis A,Michigan,1992,36,110,9396621
+Hepatitis A,Michigan,1993,26,93,9462013
+Hepatitis A,Michigan,1994,29,217,9533712
+Hepatitis A,Michigan,1995,41,270,9609003
+Hepatitis A,Michigan,1996,45,432,9685090
+Hepatitis A,Michigan,1997,27,555,9759086
+Hepatitis A,Michigan,1998,35,1481,9828019
+Hepatitis A,Michigan,1999,37,738,9888840
+Hepatitis A,Michigan,2000,42,387,9938444
+Hepatitis A,Michigan,2001,42,263,9974437
+Hepatitis A,Michigan,2002,49,219,9997392
+Hepatitis A,Michigan,2003,47,187,10008684
+Hepatitis A,Michigan,2004,45,147,10009737
+Hepatitis A,Michigan,2005,49,162,10002009
+Hepatitis A,Michigan,2006,50,65,9986981
+Hepatitis A,Michigan,2007,48,60,9966145
+Hepatitis A,Michigan,2008,50,82,9940990
+Hepatitis A,Michigan,2009,51,62,9912998
+Hepatitis A,Michigan,2010,51,62,9883640
+Hepatitis A,Michigan,2011,48,56,9854128
+Hepatitis A,Minnesota,1966,51,302,3666227
+Hepatitis A,Minnesota,1967,52,493,3703005
+Hepatitis A,Minnesota,1968,52,714,3738359
+Hepatitis A,Minnesota,1969,49,374,3772331
+Hepatitis A,Minnesota,1970,51,333,3804971
+Hepatitis A,Minnesota,1971,51,304,3836336
+Hepatitis A,Minnesota,1972,46,192,3866503
+Hepatitis A,Minnesota,1973,48,216,3895559
+Hepatitis A,Minnesota,1974,48,472,3923594
+Hepatitis A,Minnesota,1975,41,409,3950704
+Hepatitis A,Minnesota,1976,49,343,3976988
+Hepatitis A,Minnesota,1977,48,452,4002548
+Hepatitis A,Minnesota,1978,49,909,4027491
+Hepatitis A,Minnesota,1979,51,477,4051928
+Hepatitis A,Minnesota,1980,35,213,4075970
+Hepatitis A,Minnesota,1981,39,107,4099784
+Hepatitis A,Minnesota,1982,47,223,4123744
+Hepatitis A,Minnesota,1983,45,159,4148282
+Hepatitis A,Minnesota,1984,38,106,4173842
+Hepatitis A,Minnesota,1985,31,186,4200877
+Hepatitis A,Minnesota,1986,34,89,4229856
+Hepatitis A,Minnesota,1987,40,148,4261259
+Hepatitis A,Minnesota,1988,22,54,4295584
+Hepatitis A,Minnesota,1989,32,112,4333351
+Hepatitis A,Minnesota,1990,41,227,4375099
+Hepatitis A,Minnesota,1991,36,281,4421188
+Hepatitis A,Minnesota,1992,34,507,4471153
+Hepatitis A,Minnesota,1993,25,236,4524296
+Hepatitis A,Minnesota,1994,25,118,4579891
+Hepatitis A,Minnesota,1995,40,158,4637177
+Hepatitis A,Minnesota,1996,38,129,4695352
+Hepatitis A,Minnesota,1997,23,113,4753574
+Hepatitis A,Minnesota,1998,31,95,4810960
+Hepatitis A,Minnesota,1999,36,81,4866583
+Hepatitis A,Minnesota,2000,38,153,4919479
+Hepatitis A,Minnesota,2001,37,30,4968871
+Hepatitis A,Minnesota,2002,43,43,5014853
+Hepatitis A,Minnesota,2003,42,42,5057759
+Hepatitis A,Minnesota,2004,41,32,5097943
+Hepatitis A,Minnesota,2005,41,31,5135781
+Hepatitis A,Minnesota,2006,43,23,5171661
+Hepatitis A,Minnesota,2007,41,69,5205991
+Hepatitis A,Minnesota,2008,49,36,5239188
+Hepatitis A,Minnesota,2009,49,21,5271685
+Hepatitis A,Minnesota,2010,39,15,5303925
+Hepatitis A,Minnesota,2011,39,9,5336285
+Hepatitis A,Mississippi,1966,52,332,2172283
+Hepatitis A,Mississippi,1967,51,475,2177498
+Hepatitis A,Mississippi,1968,52,458,2186210
+Hepatitis A,Mississippi,1969,44,334,2199107
+Hepatitis A,Mississippi,1970,50,235,2216912
+Hepatitis A,Mississippi,1971,50,206,2240093
+Hepatitis A,Mississippi,1972,47,208,2267931
+Hepatitis A,Mississippi,1973,48,225,2299378
+Hepatitis A,Mississippi,1974,49,227,2333345
+Hepatitis A,Mississippi,1975,49,308,2368679
+Hepatitis A,Mississippi,1976,50,420,2404161
+Hepatitis A,Mississippi,1977,50,455,2438493
+Hepatitis A,Mississippi,1978,48,411,2470310
+Hepatitis A,Mississippi,1979,49,359,2498182
+Hepatitis A,Mississippi,1980,35,284,2520638
+Hepatitis A,Mississippi,1981,45,219,2536625
+Hepatitis A,Mississippi,1982,43,123,2546867
+Hepatitis A,Mississippi,1983,45,135,2552581
+Hepatitis A,Mississippi,1984,33,59,2555028
+Hepatitis A,Mississippi,1985,21,39,2555489
+Hepatitis A,Mississippi,1986,20,34,2555253
+Hepatitis A,Mississippi,1987,24,34,2555611
+Hepatitis A,Mississippi,1988,22,13,2557854
+Hepatitis A,Mississippi,1989,31,27,2563283
+Hepatitis A,Mississippi,1990,32,37,2573216
+Hepatitis A,Mississippi,1991,31,8,2588637
+Hepatitis A,Mississippi,1992,32,20,2609061
+Hepatitis A,Mississippi,1993,27,29,2633634
+Hepatitis A,Mississippi,1994,27,36,2661489
+Hepatitis A,Mississippi,1995,41,144,2691731
+Hepatitis A,Mississippi,1996,43,188,2723431
+Hepatitis A,Mississippi,1997,25,31,2755617
+Hepatitis A,Mississippi,1998,16,0,2787267
+Hepatitis A,Mississippi,1999,37,96,2817317
+Hepatitis A,Mississippi,2000,42,83,2844658
+Hepatitis A,Mississippi,2001,33,20,2868392
+Hepatitis A,Mississippi,2002,48,56,2888593
+Hepatitis A,Mississippi,2003,40,13,2905600
+Hepatitis A,Mississippi,2004,45,20,2919774
+Hepatitis A,Mississippi,2005,45,18,2931493
+Hepatitis A,Mississippi,2006,41,8,2941149
+Hepatitis A,Mississippi,2007,48,8,2949145
+Hepatitis A,Mississippi,2008,29,4,2955890
+Hepatitis A,Mississippi,2009,50,11,2961800
+Hepatitis A,Mississippi,2010,19,1,2967297
+Hepatitis A,Mississippi,2011,39,6,2972733
+Hepatitis A,Missouri,1966,52,928,4545284
+Hepatitis A,Missouri,1967,51,1282,4579701
+Hepatitis A,Missouri,1968,52,852,4613078
+Hepatitis A,Missouri,1969,50,586,4645362
+Hepatitis A,Missouri,1970,51,725,4676501
+Hepatitis A,Missouri,1971,51,648,4706447
+Hepatitis A,Missouri,1972,47,778,4735161
+Hepatitis A,Missouri,1973,51,793,4762611
+Hepatitis A,Missouri,1974,36,204,4788763
+Hepatitis A,Missouri,1975,47,450,4813585
+Hepatitis A,Missouri,1976,52,605,4837046
+Hepatitis A,Missouri,1977,51,543,4859115
+Hepatitis A,Missouri,1978,50,563,4879764
+Hepatitis A,Missouri,1979,50,387,4898963
+Hepatitis A,Missouri,1980,36,176,4916686
+Hepatitis A,Missouri,1981,46,277,4933014
+Hepatitis A,Missouri,1982,49,201,4948457
+Hepatitis A,Missouri,1983,46,128,4963641
+Hepatitis A,Missouri,1984,39,132,4979200
+Hepatitis A,Missouri,1985,33,84,4995774
+Hepatitis A,Missouri,1986,37,111,5014014
+Hepatitis A,Missouri,1987,48,457,5034581
+Hepatitis A,Missouri,1988,23,333,5058149
+Hepatitis A,Missouri,1989,32,525,5085409
+Hepatitis A,Missouri,1990,40,387,5117073
+Hepatitis A,Missouri,1991,35,410,5153640
+Hepatitis A,Missouri,1992,27,883,5194663
+Hepatitis A,Missouri,1993,27,595,5239450
+Hepatitis A,Missouri,1994,28,393,5287287
+Hepatitis A,Missouri,1995,39,982,5337439
+Hepatitis A,Missouri,1996,42,1244,5389146
+Hepatitis A,Missouri,1997,24,514,5441615
+Hepatitis A,Missouri,1998,33,332,5494023
+Hepatitis A,Missouri,1999,36,614,5545517
+Hepatitis A,Missouri,2000,40,244,5595211
+Hepatitis A,Missouri,2001,40,86,5642386
+Hepatitis A,Missouri,2002,46,81,5687091
+Hepatitis A,Missouri,2003,46,68,5729584
+Hepatitis A,Missouri,2004,44,50,5770132
+Hepatitis A,Missouri,2005,48,50,5809016
+Hepatitis A,Missouri,2006,50,40,5846524
+Hepatitis A,Missouri,2007,49,31,5882957
+Hepatitis A,Missouri,2008,52,42,5918623
+Hepatitis A,Missouri,2009,48,31,5953838
+Hepatitis A,Missouri,2010,51,21,5988927
+Hepatitis A,Missouri,2011,48,12,6024167
+Hepatitis A,Montana,1966,36,99,684571
+Hepatitis A,Montana,1967,45,181,685406
+Hepatitis A,Montana,1968,51,288,687055
+Hepatitis A,Montana,1969,41,120,689919
+Hepatitis A,Montana,1970,42,166,694409
+Hepatitis A,Montana,1971,49,211,700821
+Hepatitis A,Montana,1972,46,239,708926
+Hepatitis A,Montana,1973,49,253,718357
+Hepatitis A,Montana,1974,44,367,728732
+Hepatitis A,Montana,1975,49,247,739650
+Hepatitis A,Montana,1976,30,66,750689
+Hepatitis A,Montana,1977,48,198,761397
+Hepatitis A,Montana,1978,44,241,771300
+Hepatitis A,Montana,1979,43,175,779902
+Hepatitis A,Montana,1980,26,85,786690
+Hepatitis A,Montana,1981,33,83,791300
+Hepatitis A,Montana,1982,29,45,793988
+Hepatitis A,Montana,1983,22,32,795180
+Hepatitis A,Montana,1984,27,139,795319
+Hepatitis A,Montana,1985,26,97,794850
+Hepatitis A,Montana,1986,28,63,794221
+Hepatitis A,Montana,1987,40,85,793880
+Hepatitis A,Montana,1988,22,25,794273
+Hepatitis A,Montana,1989,33,41,795849
+Hepatitis A,Montana,1990,42,111,799065
+Hepatitis A,Montana,1991,38,58,804268
+Hepatitis A,Montana,1992,35,71,811322
+Hepatitis A,Montana,1993,28,22,819972
+Hepatitis A,Montana,1994,25,22,829960
+Hepatitis A,Montana,1995,40,114,841021
+Hepatitis A,Montana,1996,43,83,852879
+Hepatitis A,Montana,1997,26,37,865242
+Hepatitis A,Montana,1998,35,56,877803
+Hepatitis A,Montana,1999,36,11,890236
+Hepatitis A,Montana,2000,39,6,902195
+Hepatitis A,Montana,2001,41,10,913392
+Hepatitis A,Montana,2002,48,12,923821
+Hepatitis A,Montana,2003,38,6,933555
+Hepatitis A,Montana,2004,39,7,942672
+Hepatitis A,Montana,2005,51,9,951256
+Hepatitis A,Montana,2006,44,10,959396
+Hepatitis A,Montana,2007,35,8,967183
+Hepatitis A,Montana,2008,16,0,974715
+Hepatitis A,Montana,2009,45,5,982091
+Hepatitis A,Montana,2010,38,3,989415
+Hepatitis A,Montana,2011,47,2,996776
+Hepatitis A,Nebraska,1966,24,49,1453112
+Hepatitis A,Nebraska,1967,35,66,1459975
+Hepatitis A,Nebraska,1968,38,81,1467219
+Hepatitis A,Nebraska,1969,34,125,1475004
+Hepatitis A,Nebraska,1970,44,132,1483493
+Hepatitis A,Nebraska,1971,43,145,1492783
+Hepatitis A,Nebraska,1972,30,66,1502682
+Hepatitis A,Nebraska,1973,29,41,1512919
+Hepatitis A,Nebraska,1974,30,68,1523216
+Hepatitis A,Nebraska,1975,27,86,1533288
+Hepatitis A,Nebraska,1976,28,63,1542842
+Hepatitis A,Nebraska,1977,38,166,1551580
+Hepatitis A,Nebraska,1978,37,129,1559195
+Hepatitis A,Nebraska,1979,33,92,1565380
+Hepatitis A,Nebraska,1980,22,53,1569825
+Hepatitis A,Nebraska,1981,24,39,1572348
+Hepatitis A,Nebraska,1982,21,31,1573274
+Hepatitis A,Nebraska,1983,21,69,1573062
+Hepatitis A,Nebraska,1984,22,42,1572171
+Hepatitis A,Nebraska,1985,22,59,1571064
+Hepatitis A,Nebraska,1986,16,30,1570199
+Hepatitis A,Nebraska,1987,25,111,1570038
+Hepatitis A,Nebraska,1988,22,31,1571038
+Hepatitis A,Nebraska,1989,32,76,1573664
+Hepatitis A,Nebraska,1990,42,69,1578385
+Hepatitis A,Nebraska,1991,38,154,1585548
+Hepatitis A,Nebraska,1992,35,200,1594962
+Hepatitis A,Nebraska,1993,27,68,1606305
+Hepatitis A,Nebraska,1994,29,97,1619252
+Hepatitis A,Nebraska,1995,34,72,1633470
+Hepatitis A,Nebraska,1996,41,196,1648618
+Hepatitis A,Nebraska,1997,23,67,1664345
+Hepatitis A,Nebraska,1998,32,38,1680284
+Hepatitis A,Nebraska,1999,34,47,1696054
+Hepatitis A,Nebraska,2000,39,40,1711263
+Hepatitis A,Nebraska,2001,42,33,1725585
+Hepatitis A,Nebraska,2002,32,12,1739024
+Hepatitis A,Nebraska,2003,41,13,1751670
+Hepatitis A,Nebraska,2004,45,10,1763616
+Hepatitis A,Nebraska,2005,48,9,1774961
+Hepatitis A,Nebraska,2006,42,18,1785806
+Hepatitis A,Nebraska,2007,46,16,1796258
+Hepatitis A,Nebraska,2008,50,35,1806423
+Hepatitis A,Nebraska,2009,45,21,1816413
+Hepatitis A,Nebraska,2010,40,12,1826341
+Hepatitis A,Nebraska,2011,46,5,1836304
+Hepatitis A,Nevada,1966,10,21,396522
+Hepatitis A,Nevada,1967,10,23,417907
+Hepatitis A,Nevada,1968,18,43,440326
+Hepatitis A,Nevada,1969,23,129,463893
+Hepatitis A,Nevada,1970,28,137,488738
+Hepatitis A,Nevada,1971,17,77,514975
+Hepatitis A,Nevada,1972,27,116,542597
+Hepatitis A,Nevada,1973,26,111,571543
+Hepatitis A,Nevada,1974,39,243,601731
+Hepatitis A,Nevada,1975,41,172,633049
+Hepatitis A,Nevada,1976,38,109,665357
+Hepatitis A,Nevada,1977,4,4,698482
+Hepatitis A,Nevada,1978,31,76,732215
+Hepatitis A,Nevada,1979,43,239,766312
+Hepatitis A,Nevada,1980,35,283,800493
+Hepatitis A,Nevada,1981,45,203,834541
+Hepatitis A,Nevada,1982,43,177,868652
+Hepatitis A,Nevada,1983,40,137,903179
+Hepatitis A,Nevada,1984,46,286,938546
+Hepatitis A,Nevada,1985,44,393,975244
+Hepatitis A,Nevada,1986,39,175,1013842
+Hepatitis A,Nevada,1987,45,136,1054991
+Hepatitis A,Nevada,1988,23,84,1099441
+Hepatitis A,Nevada,1989,34,211,1148056
+Hepatitis A,Nevada,1990,42,262,1201833
+Hepatitis A,Nevada,1991,38,207,1261687
+Hepatitis A,Nevada,1992,36,69,1327618
+Hepatitis A,Nevada,1993,28,111,1399295
+Hepatitis A,Nevada,1994,27,178,1476255
+Hepatitis A,Nevada,1995,39,262,1557866
+Hepatitis A,Nevada,1996,45,392,1643298
+Hepatitis A,Nevada,1997,25,252,1731492
+Hepatitis A,Nevada,1998,33,151,1821142
+Hepatitis A,Nevada,1999,34,84,1910677
+Hepatitis A,Nevada,2000,41,63,1998257
+Hepatitis A,Nevada,2001,39,46,2082164
+Hepatitis A,Nevada,2002,44,39,2162061
+Hepatitis A,Nevada,2003,45,42,2238093
+Hepatitis A,Nevada,2004,44,13,2310540
+Hepatitis A,Nevada,2005,46,9,2379808
+Hepatitis A,Nevada,2006,47,9,2446420
+Hepatitis A,Nevada,2007,44,11,2511012
+Hepatitis A,Nevada,2008,35,7,2574323
+Hepatitis A,Nevada,2009,44,12,2637191
+Hepatitis A,Nevada,2010,47,13,2700551
+Hepatitis A,Nevada,2011,39,4,2765255
+Hepatitis A,New Hampshire,1966,33,56,678002
+Hepatitis A,New Hampshire,1967,26,44,692033
+Hepatitis A,New Hampshire,1968,26,46,706664
+Hepatitis A,New Hampshire,1969,45,169,721885
+Hepatitis A,New Hampshire,1970,46,206,737681
+Hepatitis A,New Hampshire,1971,49,231,754035
+Hepatitis A,New Hampshire,1972,47,344,770920
+Hepatitis A,New Hampshire,1973,50,230,788307
+Hepatitis A,New Hampshire,1974,49,143,806160
+Hepatitis A,New Hampshire,1975,40,116,824441
+Hepatitis A,New Hampshire,1976,35,72,843108
+Hepatitis A,New Hampshire,1977,31,46,862113
+Hepatitis A,New Hampshire,1978,26,56,881404
+Hepatitis A,New Hampshire,1979,25,43,900924
+Hepatitis A,New Hampshire,1980,17,30,920610
+Hepatitis A,New Hampshire,1981,24,40,940395
+Hepatitis A,New Hampshire,1982,21,31,960206
+Hepatitis A,New Hampshire,1983,23,33,979966
+Hepatitis A,New Hampshire,1984,23,36,999592
+Hepatitis A,New Hampshire,1985,4,4,1018996
+Hepatitis A,New Hampshire,1986,7,16,1038083
+Hepatitis A,New Hampshire,1987,15,34,1056757
+Hepatitis A,New Hampshire,1988,23,18,1074915
+Hepatitis A,New Hampshire,1989,32,29,1092450
+Hepatitis A,New Hampshire,1990,40,4,1109252
+Hepatitis A,New Hampshire,1991,36,23,1125230
+Hepatitis A,New Hampshire,1992,34,32,1140382
+Hepatitis A,New Hampshire,1993,27,28,1154734
+Hepatitis A,New Hampshire,1994,26,12,1168313
+Hepatitis A,New Hampshire,1995,35,7,1181155
+Hepatitis A,New Hampshire,1996,44,23,1193299
+Hepatitis A,New Hampshire,1997,24,18,1204785
+Hepatitis A,New Hampshire,1998,34,11,1215662
+Hepatitis A,New Hampshire,1999,36,12,1225978
+Hepatitis A,New Hampshire,2000,41,16,1235786
+Hepatitis A,New Hampshire,2001,41,16,1245139
+Hepatitis A,New Hampshire,2002,46,10,1254081
+Hepatitis A,New Hampshire,2003,40,8,1262657
+Hepatitis A,New Hampshire,2004,42,25,1270912
+Hepatitis A,New Hampshire,2005,48,76,1278893
+Hepatitis A,New Hampshire,2006,48,35,1286651
+Hepatitis A,New Hampshire,2007,50,11,1294235
+Hepatitis A,New Hampshire,2008,39,11,1301697
+Hepatitis A,New Hampshire,2009,45,6,1309091
+Hepatitis A,New Hampshire,2010,22,1,1316470
+Hepatitis A,New Hampshire,2011,0,0,1323882
+Hepatitis A,New Jersey,1966,52,932,6817662
+Hepatitis A,New Jersey,1967,52,1307,6921960
+Hepatitis A,New Jersey,1968,51,1566,7016221
+Hepatitis A,New Jersey,1969,50,1767,7098828
+Hepatitis A,New Jersey,1970,51,2655,7168164
+Hepatitis A,New Jersey,1971,51,3382,7223179
+Hepatitis A,New Jersey,1972,47,2428,7265073
+Hepatitis A,New Jersey,1973,48,1715,7295705
+Hepatitis A,New Jersey,1974,48,980,7317030
+Hepatitis A,New Jersey,1975,46,942,7331068
+Hepatitis A,New Jersey,1976,48,1249,7339883
+Hepatitis A,New Jersey,1977,48,912,7345561
+Hepatitis A,New Jersey,1978,47,686,7350204
+Hepatitis A,New Jersey,1979,48,651,7355920
+Hepatitis A,New Jersey,1980,36,493,7364823
+Hepatitis A,New Jersey,1981,38,767,7378668
+Hepatitis A,New Jersey,1982,49,709,7397735
+Hepatitis A,New Jersey,1983,50,552,7421942
+Hepatitis A,New Jersey,1984,45,573,7451215
+Hepatitis A,New Jersey,1985,44,365,7485491
+Hepatitis A,New Jersey,1986,37,214,7524714
+Hepatitis A,New Jersey,1987,39,206,7568834
+Hepatitis A,New Jersey,1988,22,198,7617809
+Hepatitis A,New Jersey,1989,31,349,7671604
+Hepatitis A,New Jersey,1990,38,248,7730188
+Hepatitis A,New Jersey,1991,34,224,7793388
+Hepatitis A,New Jersey,1992,34,154,7860434
+Hepatitis A,New Jersey,1993,27,143,7930377
+Hepatitis A,New Jersey,1994,27,208,8002241
+Hepatitis A,New Jersey,1995,37,205,8075011
+Hepatitis A,New Jersey,1996,33,264,8147636
+Hepatitis A,New Jersey,1997,24,128,8219025
+Hepatitis A,New Jersey,1998,32,236,8288053
+Hepatitis A,New Jersey,1999,36,81,8353559
+Hepatitis A,New Jersey,2000,19,140,8414350
+Hepatitis A,New Jersey,2001,30,186,8469501
+Hepatitis A,New Jersey,2002,44,131,8519244
+Hepatitis A,New Jersey,2003,40,142,8564124
+Hepatitis A,New Jersey,2004,49,138,8604708
+Hepatitis A,New Jersey,2005,47,192,8641583
+Hepatitis A,New Jersey,2006,43,62,8675353
+Hepatitis A,New Jersey,2007,46,98,8706635
+Hepatitis A,New Jersey,2008,47,58,8736057
+Hepatitis A,New Jersey,2009,48,54,8764261
+Hepatitis A,New Jersey,2010,48,13,8791894
+Hepatitis A,New Jersey,2011,35,28,8819504
+Hepatitis A,New Mexico,1966,52,479,991022
+Hepatitis A,New Mexico,1967,50,493,993555
+Hepatitis A,New Mexico,1968,49,286,997800
+Hepatitis A,New Mexico,1969,48,266,1004888
+Hepatitis A,New Mexico,1970,50,351,1016000
+Hepatitis A,New Mexico,1971,51,492,1032078
+Hepatitis A,New Mexico,1972,47,446,1052832
+Hepatitis A,New Mexico,1973,51,491,1077656
+Hepatitis A,New Mexico,1974,47,643,1105915
+Hepatitis A,New Mexico,1975,45,385,1136922
+Hepatitis A,New Mexico,1976,48,402,1169912
+Hepatitis A,New Mexico,1977,50,483,1204026
+Hepatitis A,New Mexico,1978,49,469,1238298
+Hepatitis A,New Mexico,1979,47,593,1271650
+Hepatitis A,New Mexico,1980,13,39,1302894
+Hepatitis A,New Mexico,1981,44,253,1331035
+Hepatitis A,New Mexico,1982,47,385,1356188
+Hepatitis A,New Mexico,1983,47,222,1378808
+Hepatitis A,New Mexico,1984,46,254,1399412
+Hepatitis A,New Mexico,1985,40,391,1418565
+Hepatitis A,New Mexico,1986,39,373,1436874
+Hepatitis A,New Mexico,1987,51,407,1454982
+Hepatitis A,New Mexico,1988,22,263,1473568
+Hepatitis A,New Mexico,1989,34,484,1493346
+Hepatitis A,New Mexico,1990,42,745,1515069
+Hepatitis A,New Mexico,1991,38,599,1539342
+Hepatitis A,New Mexico,1992,31,180,1566028
+Hepatitis A,New Mexico,1993,26,216,1594781
+Hepatitis A,New Mexico,1994,28,590,1625235
+Hepatitis A,New Mexico,1995,41,686,1656994
+Hepatitis A,New Mexico,1996,45,280,1689627
+Hepatitis A,New Mexico,1997,27,186,1722670
+Hepatitis A,New Mexico,1998,35,102,1755621
+Hepatitis A,New Mexico,1999,38,45,1787939
+Hepatitis A,New Mexico,2000,41,48,1819046
+Hepatitis A,New Mexico,2001,40,29,1848459
+Hepatitis A,New Mexico,2002,48,29,1876190
+Hepatitis A,New Mexico,2003,41,22,1902391
+Hepatitis A,New Mexico,2004,43,20,1927235
+Hepatitis A,New Mexico,2005,48,23,1950906
+Hepatitis A,New Mexico,2006,47,12,1973608
+Hepatitis A,New Mexico,2007,43,10,1995553
+Hepatitis A,New Mexico,2008,42,14,2016970
+Hepatitis A,New Mexico,2009,44,6,2038095
+Hepatitis A,New Mexico,2010,43,4,2059179
+Hepatitis A,New Mexico,2011,48,4,2080437
+Hepatitis A,New York,1966,50,2435,17895985
+Hepatitis A,New York,1967,52,3394,18025684
+Hepatitis A,New York,1968,52,3728,18128492
+Hepatitis A,New York,1969,49,3976,18200269
+Hepatitis A,New York,1970,51,5024,18236967
+Hepatitis A,New York,1971,50,4825,18236388
+Hepatitis A,New York,1972,46,3438,18203314
+Hepatitis A,New York,1973,47,2821,18144367
+Hepatitis A,New York,1974,46,2193,18066218
+Hepatitis A,New York,1975,49,1932,17975503
+Hepatitis A,New York,1976,51,2072,17878766
+Hepatitis A,New York,1977,50,1266,17782428
+Hepatitis A,New York,1978,49,1155,17692772
+Hepatitis A,New York,1979,50,1065,17615962
+Hepatitis A,New York,1980,38,666,17558072
+Hepatitis A,New York,1981,45,1103,17523755
+Hepatitis A,New York,1982,48,1145,17512164
+Hepatitis A,New York,1983,47,1305,17521154
+Hepatitis A,New York,1984,47,1683,17548657
+Hepatitis A,New York,1985,30,434,17592652
+Hepatitis A,New York,1986,19,207,17651150
+Hepatitis A,New York,1987,40,782,17722172
+Hepatitis A,New York,1988,22,545,17803734
+Hepatitis A,New York,1989,33,1089,17893839
+Hepatitis A,New York,1990,41,1403,17990455
+Hepatitis A,New York,1991,34,1254,18091650
+Hepatitis A,New York,1992,29,632,18195984
+Hepatitis A,New York,1993,24,189,18302118
+Hepatitis A,New York,1994,21,496,18408682
+Hepatitis A,New York,1995,39,1090,18514274
+Hepatitis A,New York,1996,41,782,18617460
+Hepatitis A,New York,1997,24,463,18716776
+Hepatitis A,New York,1998,34,521,18810729
+Hepatitis A,New York,1999,36,397,18897802
+Hepatitis A,New York,2000,40,487,18976457
+Hepatitis A,New York,2001,38,411,19045556
+Hepatitis A,New York,2002,46,715,19105612
+Hepatitis A,New York,2003,43,532,19157572
+Hepatitis A,New York,2004,48,380,19202409
+Hepatitis A,New York,2005,48,388,19241109
+Hepatitis A,New York,2006,47,280,19274679
+Hepatitis A,New York,2007,47,262,19304134
+Hepatitis A,New York,2008,51,148,19330500
+Hepatitis A,New York,2009,48,101,19354809
+Hepatitis A,New York,2010,48,2815,19378102
+Hepatitis A,New York,2011,49,112,19401248
+Hepatitis A,North Carolina,1966,52,399,4843951
+Hepatitis A,North Carolina,1967,52,339,4897944
+Hepatitis A,North Carolina,1968,50,371,4955195
+Hepatitis A,North Carolina,1969,50,635,5016342
+Hepatitis A,North Carolina,1970,51,956,5082059
+Hepatitis A,North Carolina,1971,51,1288,5152805
+Hepatitis A,North Carolina,1972,47,1504,5228047
+Hepatitis A,North Carolina,1973,51,1284,5306964
+Hepatitis A,North Carolina,1974,49,866,5388688
+Hepatitis A,North Carolina,1975,51,634,5472289
+Hepatitis A,North Carolina,1976,52,496,5556784
+Hepatitis A,North Carolina,1977,50,432,5641121
+Hepatitis A,North Carolina,1978,48,329,5724190
+Hepatitis A,North Carolina,1979,50,452,5804815
+Hepatitis A,North Carolina,1980,37,263,5881766
+Hepatitis A,North Carolina,1981,48,236,5954197
+Hepatitis A,North Carolina,1982,48,147,6023017
+Hepatitis A,North Carolina,1983,43,126,6089643
+Hepatitis A,North Carolina,1984,41,105,6155563
+Hepatitis A,North Carolina,1985,38,83,6222335
+Hepatitis A,North Carolina,1986,30,71,6291584
+Hepatitis A,North Carolina,1987,49,170,6365009
+Hepatitis A,North Carolina,1988,22,218,6444390
+Hepatitis A,North Carolina,1989,34,291,6531602
+Hepatitis A,North Carolina,1990,42,531,6628637
+Hepatitis A,North Carolina,1991,38,125,6737074
+Hepatitis A,North Carolina,1992,35,77,6856389
+Hepatitis A,North Carolina,1993,27,55,6985472
+Hepatitis A,North Carolina,1994,29,84,7123139
+Hepatitis A,North Carolina,1995,41,89,7268111
+Hepatitis A,North Carolina,1996,44,184,7418999
+Hepatitis A,North Carolina,1997,26,95,7574287
+Hepatitis A,North Carolina,1998,35,86,7732325
+Hepatitis A,North Carolina,1999,36,120,7891315
+Hepatitis A,North Carolina,2000,41,125,8049313
+Hepatitis A,North Carolina,2001,40,197,8204646
+Hepatitis A,North Carolina,2002,49,204,8357246
+Hepatitis A,North Carolina,2003,45,112,8507499
+Hepatitis A,North Carolina,2004,46,97,8655838
+Hepatitis A,North Carolina,2005,50,83,8802741
+Hepatitis A,North Carolina,2006,50,100,8948728
+Hepatitis A,North Carolina,2007,48,65,9094366
+Hepatitis A,North Carolina,2008,47,62,9240262
+Hepatitis A,North Carolina,2009,49,38,9387070
+Hepatitis A,North Carolina,2010,43,47,9535483
+Hepatitis A,North Carolina,2011,49,26,9686120
+Hepatitis A,North Dakota,1966,23,45,620595
+Hepatitis A,North Dakota,1967,27,53,618774
+Hepatitis A,North Dakota,1968,28,66,617557
+Hepatitis A,North Dakota,1969,28,43,617149
+Hepatitis A,North Dakota,1970,26,66,617761
+Hepatitis A,North Dakota,1971,43,135,619530
+Hepatitis A,North Dakota,1972,30,77,622305
+Hepatitis A,North Dakota,1973,14,26,625858
+Hepatitis A,North Dakota,1974,16,36,629961
+Hepatitis A,North Dakota,1975,35,99,634384
+Hepatitis A,North Dakota,1976,42,159,638887
+Hepatitis A,North Dakota,1977,29,66,643226
+Hepatitis A,North Dakota,1978,25,72,647149
+Hepatitis A,North Dakota,1979,6,13,650399
+Hepatitis A,North Dakota,1980,1,3,652717
+Hepatitis A,North Dakota,1981,2,2,653912
+Hepatitis A,North Dakota,1982,0,0,654077
+Hepatitis A,North Dakota,1983,1,1,653381
+Hepatitis A,North Dakota,1984,0,0,651996
+Hepatitis A,North Dakota,1985,5,9,650094
+Hepatitis A,North Dakota,1986,6,8,647847
+Hepatitis A,North Dakota,1987,0,0,645427
+Hepatitis A,North Dakota,1988,22,5,643003
+Hepatitis A,North Dakota,1989,27,10,640739
+Hepatitis A,North Dakota,1990,41,20,638800
+Hepatitis A,North Dakota,1991,33,49,637317
+Hepatitis A,North Dakota,1992,34,74,636298
+Hepatitis A,North Dakota,1993,27,55,635718
+Hepatitis A,North Dakota,1994,24,5,635555
+Hepatitis A,North Dakota,1995,34,17,635789
+Hepatitis A,North Dakota,1996,42,128,636399
+Hepatitis A,North Dakota,1997,22,7,637364
+Hepatitis A,North Dakota,1998,31,3,638665
+Hepatitis A,North Dakota,1999,24,2,640283
+Hepatitis A,North Dakota,2000,21,2,642200
+Hepatitis A,North Dakota,2001,21,2,644395
+Hepatitis A,North Dakota,2002,34,2,646845
+Hepatitis A,North Dakota,2003,13,0,649525
+Hepatitis A,North Dakota,2004,36,0,652411
+Hepatitis A,North Dakota,2005,0,0,655476
+Hepatitis A,North Dakota,2006,0,0,658696
+Hepatitis A,North Dakota,2007,0,0,662044
+Hepatitis A,North Dakota,2008,0,0,665494
+Hepatitis A,North Dakota,2009,5,0,669019
+Hepatitis A,North Dakota,2010,4,3,672591
+Hepatitis A,North Dakota,2011,0,0,676187
+Hepatitis A,Ohio,1966,52,1350,10407031
+Hepatitis A,Ohio,1967,52,1410,10482699
+Hepatitis A,Ohio,1968,52,2032,10548245
+Hepatitis A,Ohio,1969,50,1927,10604419
+Hepatitis A,Ohio,1970,51,2247,10652017
+Hepatitis A,Ohio,1971,51,1986,10691820
+Hepatitis A,Ohio,1972,47,1821,10724428
+Hepatitis A,Ohio,1973,51,1695,10750407
+Hepatitis A,Ohio,1974,49,1302,10770347
+Hepatitis A,Ohio,1975,50,1619,10784850
+Hepatitis A,Ohio,1976,52,1418,10794532
+Hepatitis A,Ohio,1977,50,1381,10800017
+Hepatitis A,Ohio,1978,50,1101,10801937
+Hepatitis A,Ohio,1979,50,931,10800929
+Hepatitis A,Ohio,1980,37,459,10797630
+Hepatitis A,Ohio,1981,47,562,10792749
+Hepatitis A,Ohio,1982,49,774,10787264
+Hepatitis A,Ohio,1983,50,779,10782220
+Hepatitis A,Ohio,1984,49,595,10778661
+Hepatitis A,Ohio,1985,44,298,10777629
+Hepatitis A,Ohio,1986,41,290,10780167
+Hepatitis A,Ohio,1987,49,246,10787323
+Hepatitis A,Ohio,1988,22,124,10800151
+Hepatitis A,Ohio,1989,34,270,10819719
+Hepatitis A,Ohio,1990,41,229,10847115
+Hepatitis A,Ohio,1991,38,233,10883011
+Hepatitis A,Ohio,1992,34,282,10926334
+Hepatitis A,Ohio,1993,28,175,10975568
+Hepatitis A,Ohio,1994,29,615,11029176
+Hepatitis A,Ohio,1995,40,1346,11085598
+Hepatitis A,Ohio,1996,45,652,11143245
+Hepatitis A,Ohio,1997,28,262,11200494
+Hepatitis A,Ohio,1998,35,308,11255689
+Hepatitis A,Ohio,1999,38,441,11307142
+Hepatitis A,Ohio,2000,42,215,11353140
+Hepatitis A,Ohio,2001,40,231,11392347
+Hepatitis A,Ohio,2002,47,318,11425030
+Hepatitis A,Ohio,2003,46,174,11451874
+Hepatitis A,Ohio,2004,49,47,11473579
+Hepatitis A,Ohio,2005,51,50,11490860
+Hepatitis A,Ohio,2006,52,53,11504443
+Hepatitis A,Ohio,2007,51,68,11515059
+Hepatitis A,Ohio,2008,50,52,11523446
+Hepatitis A,Ohio,2009,52,36,11530347
+Hepatitis A,Ohio,2010,52,48,11536504
+Hepatitis A,Ohio,2011,52,39,11542540
+Hepatitis A,Oklahoma,1966,36,99,2435889
+Hepatitis A,Oklahoma,1967,51,298,2461092
+Hepatitis A,Oklahoma,1968,49,448,2489676
+Hepatitis A,Oklahoma,1969,49,349,2522191
+Hepatitis A,Oklahoma,1970,49,400,2559229
+Hepatitis A,Oklahoma,1971,51,790,2601155
+Hepatitis A,Oklahoma,1972,46,755,2647262
+Hepatitis A,Oklahoma,1973,50,964,2696521
+Hepatitis A,Oklahoma,1974,47,586,2747823
+Hepatitis A,Oklahoma,1975,50,447,2799976
+Hepatitis A,Oklahoma,1976,52,863,2851691
+Hepatitis A,Oklahoma,1977,47,396,2901587
+Hepatitis A,Oklahoma,1978,48,334,2948193
+Hepatitis A,Oklahoma,1979,47,272,2989962
+Hepatitis A,Oklahoma,1980,36,286,3025290
+Hepatitis A,Oklahoma,1981,48,278,3053002
+Hepatitis A,Oklahoma,1982,49,706,3073780
+Hepatitis A,Oklahoma,1983,50,759,3088839
+Hepatitis A,Oklahoma,1984,48,443,3099463
+Hepatitis A,Oklahoma,1985,42,346,3106976
+Hepatitis A,Oklahoma,1986,39,275,3112726
+Hepatitis A,Oklahoma,1987,50,324,3118080
+Hepatitis A,Oklahoma,1988,23,290,3124412
+Hepatitis A,Oklahoma,1989,34,337,3133112
+Hepatitis A,Oklahoma,1990,42,468,3145585
+Hepatitis A,Oklahoma,1991,38,207,3162924
+Hepatitis A,Oklahoma,1992,34,146,3184866
+Hepatitis A,Oklahoma,1993,23,169,3210805
+Hepatitis A,Oklahoma,1994,29,259,3240130
+Hepatitis A,Oklahoma,1995,37,1215,3272219
+Hepatitis A,Oklahoma,1996,44,2197,3306427
+Hepatitis A,Oklahoma,1997,26,710,3342087
+Hepatitis A,Oklahoma,1998,35,439,3378502
+Hepatitis A,Oklahoma,1999,38,424,3414944
+Hepatitis A,Oklahoma,2000,36,169,3450654
+Hepatitis A,Oklahoma,2001,40,105,3485001
+Hepatitis A,Oklahoma,2002,43,50,3517968
+Hepatitis A,Oklahoma,2003,41,24,3549703
+Hepatitis A,Oklahoma,2004,45,15,3580362
+Hepatitis A,Oklahoma,2005,46,5,3610107
+Hepatitis A,Oklahoma,2006,47,11,3639111
+Hepatitis A,Oklahoma,2007,36,13,3667550
+Hepatitis A,Oklahoma,2008,44,8,3695608
+Hepatitis A,Oklahoma,2009,48,6,3723477
+Hepatitis A,Oklahoma,2010,15,2,3751351
+Hepatitis A,Oklahoma,2011,39,3,3779400
+Hepatitis A,Oregon,1966,52,1061,1926399
+Hepatitis A,Oregon,1967,52,877,1962204
+Hepatitis A,Oregon,1968,51,827,2001422
+Hepatitis A,Oregon,1969,50,794,2044367
+Hepatitis A,Oregon,1970,51,1008,2091385
+Hepatitis A,Oregon,1971,51,1430,2142655
+Hepatitis A,Oregon,1972,47,1408,2197540
+Hepatitis A,Oregon,1973,51,1115,2255122
+Hepatitis A,Oregon,1974,49,778,2314377
+Hepatitis A,Oregon,1975,51,673,2374166
+Hepatitis A,Oregon,1976,52,710,2433231
+Hepatitis A,Oregon,1977,51,738,2490192
+Hepatitis A,Oregon,1978,50,979,2543561
+Hepatitis A,Oregon,1979,51,764,2591750
+Hepatitis A,Oregon,1980,38,553,2633105
+Hepatitis A,Oregon,1981,48,475,2666441
+Hepatitis A,Oregon,1982,48,355,2692647
+Hepatitis A,Oregon,1983,50,760,2713240
+Hepatitis A,Oregon,1984,49,980,2729830
+Hepatitis A,Oregon,1985,44,1458,2744096
+Hepatitis A,Oregon,1986,41,1539,2757761
+Hepatitis A,Oregon,1987,51,1281,2772587
+Hepatitis A,Oregon,1988,23,673,2790374
+Hepatitis A,Oregon,1989,34,1550,2812975
+Hepatitis A,Oregon,1990,42,629,2842321
+Hepatitis A,Oregon,1991,38,325,2879922
+Hepatitis A,Oregon,1992,35,287,2925245
+Hepatitis A,Oregon,1993,28,51,2977217
+Hepatitis A,Oregon,1994,27,521,3034716
+Hepatitis A,Oregon,1995,39,1445,3096548
+Hepatitis A,Oregon,1996,45,672,3161421
+Hepatitis A,Oregon,1997,27,189,3227933
+Hepatitis A,Oregon,1998,35,247,3294557
+Hepatitis A,Oregon,1999,36,179,3359638
+Hepatitis A,Oregon,2000,40,156,3421399
+Hepatitis A,Oregon,2001,41,90,3478333
+Hepatitis A,Oregon,2002,49,63,3530420
+Hepatitis A,Oregon,2003,45,55,3578065
+Hepatitis A,Oregon,2004,47,67,3621730
+Hepatitis A,Oregon,2005,50,44,3661922
+Hepatitis A,Oregon,2006,49,41,3699187
+Hepatitis A,Oregon,2007,49,30,3734108
+Hepatitis A,Oregon,2008,47,28,3767298
+Hepatitis A,Oregon,2009,45,19,3799399
+Hepatitis A,Oregon,2010,46,19,3831074
+Hepatitis A,Oregon,2011,47,13,3862896
+Hepatitis A,Pennsylvania,1966,52,1678,11660590
+Hepatitis A,Pennsylvania,1967,52,1507,11700865
+Hepatitis A,Pennsylvania,1968,52,1783,11736478
+Hepatitis A,Pennsylvania,1969,50,2224,11767475
+Hepatitis A,Pennsylvania,1970,50,2863,11793909
+Hepatitis A,Pennsylvania,1971,51,2758,11815878
+Hepatitis A,Pennsylvania,1972,35,1361,11833653
+Hepatitis A,Pennsylvania,1973,50,1686,11847552
+Hepatitis A,Pennsylvania,1974,48,1041,11857896
+Hepatitis A,Pennsylvania,1975,46,931,11865015
+Hepatitis A,Pennsylvania,1976,48,835,11869239
+Hepatitis A,Pennsylvania,1977,42,781,11870902
+Hepatitis A,Pennsylvania,1978,28,393,11870340
+Hepatitis A,Pennsylvania,1979,25,313,11867892
+Hepatitis A,Pennsylvania,1980,28,332,11863895
+Hepatitis A,Pennsylvania,1981,14,183,11858756
+Hepatitis A,Pennsylvania,1982,26,654,11853157
+Hepatitis A,Pennsylvania,1983,36,584,11847847
+Hepatitis A,Pennsylvania,1984,33,421,11843575
+Hepatitis A,Pennsylvania,1985,31,341,11841087
+Hepatitis A,Pennsylvania,1986,23,184,11841129
+Hepatitis A,Pennsylvania,1987,21,81,11844452
+Hepatitis A,Pennsylvania,1988,14,396,11851805
+Hepatitis A,Pennsylvania,1989,34,1585,11863947
+Hepatitis A,Pennsylvania,1990,41,1340,11881643
+Hepatitis A,Pennsylvania,1991,38,327,11905415
+Hepatitis A,Pennsylvania,1992,35,186,11934776
+Hepatitis A,Pennsylvania,1993,26,72,11968987
+Hepatitis A,Pennsylvania,1994,28,172,12007307
+Hepatitis A,Pennsylvania,1995,41,173,12048988
+Hepatitis A,Pennsylvania,1996,43,436,12093277
+Hepatitis A,Pennsylvania,1997,25,273,12139408
+Hepatitis A,Pennsylvania,1998,35,258,12186608
+Hepatitis A,Pennsylvania,1999,36,230,12234090
+Hepatitis A,Pennsylvania,2000,18,138,12281054
+Hepatitis A,Pennsylvania,2001,39,185,12326849
+Hepatitis A,Pennsylvania,2002,48,197,12371452
+Hepatitis A,Pennsylvania,2003,40,990,12415000
+Hepatitis A,Pennsylvania,2004,48,143,12457635
+Hepatitis A,Pennsylvania,2005,48,163,12499498
+Hepatitis A,Pennsylvania,2006,51,47,12540734
+Hepatitis A,Pennsylvania,2007,50,67,12581490
+Hepatitis A,Pennsylvania,2008,52,107,12621916
+Hepatitis A,Pennsylvania,2009,49,44,12662161
+Hepatitis A,Pennsylvania,2010,50,40,12702379
+Hepatitis A,Pennsylvania,2011,49,51,12742699
+Hepatitis A,Rhode Island,1966,43,138,917788
+Hepatitis A,Rhode Island,1967,45,195,926815
+Hepatitis A,Rhode Island,1968,52,393,934857
+Hepatitis A,Rhode Island,1969,48,805,941600
+Hepatitis A,Rhode Island,1970,51,659,946725
+Hepatitis A,Rhode Island,1971,50,611,950018
+Hepatitis A,Rhode Island,1972,45,330,951693
+Hepatitis A,Rhode Island,1973,50,401,952081
+Hepatitis A,Rhode Island,1974,47,316,951518
+Hepatitis A,Rhode Island,1975,48,267,950344
+Hepatitis A,Rhode Island,1976,45,164,948899
+Hepatitis A,Rhode Island,1977,43,113,947522
+Hepatitis A,Rhode Island,1978,34,94,946548
+Hepatitis A,Rhode Island,1979,42,100,946313
+Hepatitis A,Rhode Island,1980,30,79,947154
+Hepatitis A,Rhode Island,1981,39,87,949324
+Hepatitis A,Rhode Island,1982,35,81,952732
+Hepatitis A,Rhode Island,1983,22,36,957207
+Hepatitis A,Rhode Island,1984,14,23,962573
+Hepatitis A,Rhode Island,1985,10,15,968656
+Hepatitis A,Rhode Island,1986,19,27,975280
+Hepatitis A,Rhode Island,1987,37,97,982261
+Hepatitis A,Rhode Island,1988,23,40,989415
+Hepatitis A,Rhode Island,1989,30,32,996548
+Hepatitis A,Rhode Island,1990,41,45,1003464
+Hepatitis A,Rhode Island,1991,38,88,1009992
+Hepatitis A,Rhode Island,1992,34,106,1016091
+Hepatitis A,Rhode Island,1993,27,35,1021749
+Hepatitis A,Rhode Island,1994,29,20,1026958
+Hepatitis A,Rhode Island,1995,40,37,1031708
+Hepatitis A,Rhode Island,1996,43,20,1035992
+Hepatitis A,Rhode Island,1997,25,44,1039802
+Hepatitis A,Rhode Island,1998,32,12,1043130
+Hepatitis A,Rhode Island,1999,29,18,1045971
+Hepatitis A,Rhode Island,2000,30,23,1048319
+Hepatitis A,Rhode Island,2001,38,59,1050177
+Hepatitis A,Rhode Island,2002,45,28,1051584
+Hepatitis A,Rhode Island,2003,40,13,1052590
+Hepatitis A,Rhode Island,2004,41,19,1053243
+Hepatitis A,Rhode Island,2005,43,14,1053593
+Hepatitis A,Rhode Island,2006,48,16,1053691
+Hepatitis A,Rhode Island,2007,36,9,1053587
+Hepatitis A,Rhode Island,2008,50,13,1053331
+Hepatitis A,Rhode Island,2009,42,4,1052974
+Hepatitis A,Rhode Island,2010,41,4,1052567
+Hepatitis A,Rhode Island,2011,42,3,1052152
+Hepatitis A,South Carolina,1966,40,84,2484962
+Hepatitis A,South Carolina,1967,40,112,2505256
+Hepatitis A,South Carolina,1968,42,158,2528934
+Hepatitis A,South Carolina,1969,50,321,2556998
+Hepatitis A,South Carolina,1970,50,375,2590516
+Hepatitis A,South Carolina,1971,49,344,2630285
+Hepatitis A,South Carolina,1972,46,408,2675776
+Hepatitis A,South Carolina,1973,48,551,2726085
+Hepatitis A,South Carolina,1974,49,291,2780252
+Hepatitis A,South Carolina,1975,49,367,2837244
+Hepatitis A,South Carolina,1976,52,253,2895937
+Hepatitis A,South Carolina,1977,48,148,2955112
+Hepatitis A,South Carolina,1978,39,91,3013449
+Hepatitis A,South Carolina,1979,49,192,3069523
+Hepatitis A,South Carolina,1980,32,97,3121820
+Hepatitis A,South Carolina,1981,41,102,3169128
+Hepatitis A,South Carolina,1982,46,309,3211758
+Hepatitis A,South Carolina,1983,40,225,3250471
+Hepatitis A,South Carolina,1984,18,32,3286086
+Hepatitis A,South Carolina,1985,21,35,3319478
+Hepatitis A,South Carolina,1986,16,33,3351569
+Hepatitis A,South Carolina,1987,33,52,3383318
+Hepatitis A,South Carolina,1988,23,17,3415724
+Hepatitis A,South Carolina,1989,31,56,3449826
+Hepatitis A,South Carolina,1990,42,35,3486703
+Hepatitis A,South Carolina,1991,38,33,3527239
+Hepatitis A,South Carolina,1992,35,14,3571367
+Hepatitis A,South Carolina,1993,27,5,3618770
+Hepatitis A,South Carolina,1994,29,29,3669116
+Hepatitis A,South Carolina,1995,34,36,3722058
+Hepatitis A,South Carolina,1996,44,53,3777228
+Hepatitis A,South Carolina,1997,26,42,3834238
+Hepatitis A,South Carolina,1998,34,37,3892671
+Hepatitis A,South Carolina,1999,36,39,3952085
+Hepatitis A,South Carolina,2000,40,70,4012012
+Hepatitis A,South Carolina,2001,38,55,4072049
+Hepatitis A,South Carolina,2002,46,63,4132165
+Hepatitis A,South Carolina,2003,43,33,4192431
+Hepatitis A,South Carolina,2004,42,23,4252921
+Hepatitis A,South Carolina,2005,44,38,4313714
+Hepatitis A,South Carolina,2006,46,18,4374895
+Hepatitis A,South Carolina,2007,50,17,4436552
+Hepatitis A,South Carolina,2008,45,16,4498782
+Hepatitis A,South Carolina,2009,44,45,4561684
+Hepatitis A,South Carolina,2010,49,22,4625364
+Hepatitis A,South Carolina,2011,47,8,4689915
+Hepatitis A,South Dakota,1966,12,14,670081
+Hepatitis A,South Dakota,1967,12,13,668073
+Hepatitis A,South Dakota,1968,28,77,666513
+Hepatitis A,South Dakota,1969,31,86,665593
+Hepatitis A,South Dakota,1970,19,21,665507
+Hepatitis A,South Dakota,1971,40,185,666387
+Hepatitis A,South Dakota,1972,41,129,668116
+Hepatitis A,South Dakota,1973,38,228,670515
+Hepatitis A,South Dakota,1974,37,154,673407
+Hepatitis A,South Dakota,1975,22,41,676610
+Hepatitis A,South Dakota,1976,28,74,679942
+Hepatitis A,South Dakota,1977,15,33,683215
+Hepatitis A,South Dakota,1978,18,140,686240
+Hepatitis A,South Dakota,1979,41,182,688823
+Hepatitis A,South Dakota,1980,24,64,690768
+Hepatitis A,South Dakota,1981,20,35,691942
+Hepatitis A,South Dakota,1982,11,13,692468
+Hepatitis A,South Dakota,1983,39,190,692533
+Hepatitis A,South Dakota,1984,40,207,692326
+Hepatitis A,South Dakota,1985,36,236,692038
+Hepatitis A,South Dakota,1986,31,159,691857
+Hepatitis A,South Dakota,1987,9,14,691972
+Hepatitis A,South Dakota,1988,13,21,692574
+Hepatitis A,South Dakota,1989,22,19,693853
+Hepatitis A,South Dakota,1990,42,422,696004
+Hepatitis A,South Dakota,1991,37,695,699170
+Hepatitis A,South Dakota,1992,36,167,703282
+Hepatitis A,South Dakota,1993,28,9,708215
+Hepatitis A,South Dakota,1994,24,21,713843
+Hepatitis A,South Dakota,1995,32,64,720041
+Hepatitis A,South Dakota,1996,44,34,726678
+Hepatitis A,South Dakota,1997,25,6,733619
+Hepatitis A,South Dakota,1998,32,25,740725
+Hepatitis A,South Dakota,1999,32,6,747850
+Hepatitis A,South Dakota,2000,12,1,754844
+Hepatitis A,South Dakota,2001,34,0,761582
+Hepatitis A,South Dakota,2002,48,2,768060
+Hepatitis A,South Dakota,2003,0,0,774306
+Hepatitis A,South Dakota,2004,43,2,780350
+Hepatitis A,South Dakota,2005,4,0,786223
+Hepatitis A,South Dakota,2006,46,8,791956
+Hepatitis A,South Dakota,2007,46,5,797584
+Hepatitis A,South Dakota,2008,51,4,803140
+Hepatitis A,South Dakota,2009,36,2,808660
+Hepatitis A,South Dakota,2010,13,0,814180
+Hepatitis A,South Dakota,2011,46,0,819731
+Hepatitis A,Tennessee,1966,52,997,3739738
+Hepatitis A,Tennessee,1967,52,838,3778242
+Hepatitis A,Tennessee,1968,52,1034,3821245
+Hepatitis A,Tennessee,1969,50,1014,3869470
+Hepatitis A,Tennessee,1970,51,1267,3923687
+Hepatitis A,Tennessee,1971,51,1426,3984366
+Hepatitis A,Tennessee,1972,47,1264,4050556
+Hepatitis A,Tennessee,1973,51,1755,4120877
+Hepatitis A,Tennessee,1974,49,1663,4193856
+Hepatitis A,Tennessee,1975,51,1170,4267912
+Hepatitis A,Tennessee,1976,52,1170,4341349
+Hepatitis A,Tennessee,1977,51,958,4412355
+Hepatitis A,Tennessee,1978,50,694,4479008
+Hepatitis A,Tennessee,1979,50,538,4539293
+Hepatitis A,Tennessee,1980,37,379,4591120
+Hepatitis A,Tennessee,1981,48,417,4633030
+Hepatitis A,Tennessee,1982,49,335,4666274
+Hepatitis A,Tennessee,1983,49,222,4692880
+Hepatitis A,Tennessee,1984,38,102,4714961
+Hepatitis A,Tennessee,1985,34,74,4734690
+Hepatitis A,Tennessee,1986,30,63,4754285
+Hepatitis A,Tennessee,1987,34,49,4776001
+Hepatitis A,Tennessee,1988,22,58,4802137
+Hepatitis A,Tennessee,1989,33,78,4835051
+Hepatitis A,Tennessee,1990,42,158,4877185
+Hepatitis A,Tennessee,1991,37,122,4930426
+Hepatitis A,Tennessee,1992,33,76,4994036
+Hepatitis A,Tennessee,1993,27,63,5066591
+Hepatitis A,Tennessee,1994,28,161,5146619
+Hepatitis A,Tennessee,1995,39,811,5232571
+Hepatitis A,Tennessee,1996,37,350,5322798
+Hepatitis A,Tennessee,1997,23,164,5415540
+Hepatitis A,Tennessee,1998,35,139,5508905
+Hepatitis A,Tennessee,1999,35,126,5600871
+Hepatitis A,Tennessee,2000,39,120,5689283
+Hepatitis A,Tennessee,2001,42,135,5772329
+Hepatitis A,Tennessee,2002,26,61,5849996
+Hepatitis A,Tennessee,2003,45,187,5922777
+Hepatitis A,Tennessee,2004,47,73,5991214
+Hepatitis A,Tennessee,2005,49,146,6055895
+Hepatitis A,Tennessee,2006,50,44,6117446
+Hepatitis A,Tennessee,2007,47,44,6176530
+Hepatitis A,Tennessee,2008,46,27,6233845
+Hepatitis A,Tennessee,2009,50,14,6290118
+Hepatitis A,Tennessee,2010,48,12,6346105
+Hepatitis A,Tennessee,2011,45,20,6402457
+Hepatitis A,Texas,1966,52,1808,10470937
+Hepatitis A,Texas,1967,51,2727,10628322
+Hepatitis A,Texas,1968,50,2190,10798697
+Hepatitis A,Texas,1969,50,2312,10986554
+Hepatitis A,Texas,1970,51,2741,11196730
+Hepatitis A,Texas,1971,51,3731,11433080
+Hepatitis A,Texas,1972,46,3407,11694123
+Hepatitis A,Texas,1973,48,4569,11976810
+Hepatitis A,Texas,1974,43,3200,12277800
+Hepatitis A,Texas,1975,49,2845,12593389
+Hepatitis A,Texas,1976,41,1531,12919453
+Hepatitis A,Texas,1977,51,2053,13251403
+Hepatitis A,Texas,1978,50,2578,13584154
+Hepatitis A,Texas,1979,51,3278,13912114
+Hepatitis A,Texas,1980,38,2066,14229191
+Hepatitis A,Texas,1981,47,2470,14530385
+Hepatitis A,Texas,1982,50,3088,14816758
+Hepatitis A,Texas,1983,50,2839,15091213
+Hepatitis A,Texas,1984,45,2014,15356979
+Hepatitis A,Texas,1985,43,1965,15617586
+Hepatitis A,Texas,1986,39,1443,15876848
+Hepatitis A,Texas,1987,50,1690,16138855
+Hepatitis A,Texas,1988,22,1020,16407975
+Hepatitis A,Texas,1989,32,1965,16688868
+Hepatitis A,Texas,1990,40,1886,16986510
+Hepatitis A,Texas,1991,35,1825,17305041
+Hepatitis A,Texas,1992,26,1089,17644041
+Hepatitis A,Texas,1993,25,1319,18001811
+Hepatitis A,Texas,1994,27,1651,18376501
+Hepatitis A,Texas,1995,39,2062,18766087
+Hepatitis A,Texas,1996,43,2555,19168347
+Hepatitis A,Texas,1997,24,1994,19580842
+Hepatitis A,Texas,1998,34,2540,20000905
+Hepatitis A,Texas,1999,36,1776,20425620
+Hepatitis A,Texas,2000,39,1016,20851820
+Hepatitis A,Texas,2001,36,971,21276781
+Hepatitis A,Texas,2002,46,424,21700457
+Hepatitis A,Texas,2003,39,397,22123555
+Hepatitis A,Texas,2004,41,558,22546865
+Hepatitis A,Texas,2005,48,161,22971255
+Hepatitis A,Texas,2006,46,147,23397676
+Hepatitis A,Texas,2007,43,71,23827160
+Hepatitis A,Texas,2008,48,61,24260820
+Hepatitis A,Texas,2009,49,59,24699858
+Hepatitis A,Texas,2010,50,93,25145561
+Hepatitis A,Texas,2011,49,91,25599089
+Hepatitis A,Utah,1966,47,170,977165
+Hepatitis A,Utah,1967,41,158,993534
+Hepatitis A,Utah,1968,52,259,1012163
+Hepatitis A,Utah,1969,48,284,1033800
+Hepatitis A,Utah,1970,48,310,1059273
+Hepatitis A,Utah,1971,50,493,1089254
+Hepatitis A,Utah,1972,46,302,1123473
+Hepatitis A,Utah,1973,43,178,1161369
+Hepatitis A,Utah,1974,44,203,1202301
+Hepatitis A,Utah,1975,49,272,1245526
+Hepatitis A,Utah,1976,44,248,1290183
+Hepatitis A,Utah,1977,43,206,1335272
+Hepatitis A,Utah,1978,44,311,1379653
+Hepatitis A,Utah,1979,41,229,1422044
+Hepatitis A,Utah,1980,33,166,1461037
+Hepatitis A,Utah,1981,31,82,1495481
+Hepatitis A,Utah,1982,43,183,1525668
+Hepatitis A,Utah,1983,47,142,1552360
+Hepatitis A,Utah,1984,45,360,1576418
+Hepatitis A,Utah,1985,40,209,1598784
+Hepatitis A,Utah,1986,37,137,1620472
+Hepatitis A,Utah,1987,48,249,1642554
+Hepatitis A,Utah,1988,23,130,1666165
+Hepatitis A,Utah,1989,33,269,1692503
+Hepatitis A,Utah,1990,41,497,1722850
+Hepatitis A,Utah,1991,38,214,1758275
+Hepatitis A,Utah,1992,34,376,1798646
+Hepatitis A,Utah,1993,25,253,1843507
+Hepatitis A,Utah,1994,29,426,1892358
+Hepatitis A,Utah,1995,37,564,1944650
+Hepatitis A,Utah,1996,45,924,1999766
+Hepatitis A,Utah,1997,26,275,2057008
+Hepatitis A,Utah,1998,34,119,2115593
+Hepatitis A,Utah,1999,37,43,2174640
+Hepatitis A,Utah,2000,41,58,2233169
+Hepatitis A,Utah,2001,40,59,2290312
+Hepatitis A,Utah,2002,47,62,2345993
+Hepatitis A,Utah,2003,45,46,2400368
+Hepatitis A,Utah,2004,47,45,2453625
+Hepatitis A,Utah,2005,50,21,2505982
+Hepatitis A,Utah,2006,48,15,2557685
+Hepatitis A,Utah,2007,37,5,2609009
+Hepatitis A,Utah,2008,45,12,2660259
+Hepatitis A,Utah,2009,42,5,2711765
+Hepatitis A,Utah,2010,35,9,2763885
+Hepatitis A,Utah,2011,18,2,2816942
+Hepatitis A,Vermont,1966,17,23,417855
+Hepatitis A,Vermont,1967,13,15,424120
+Hepatitis A,Vermont,1968,21,67,430670
+Hepatitis A,Vermont,1969,44,149,437433
+Hepatitis A,Vermont,1970,49,367,444330
+Hepatitis A,Vermont,1971,51,432,451289
+Hepatitis A,Vermont,1972,47,208,458274
+Hepatitis A,Vermont,1973,48,250,465258
+Hepatitis A,Vermont,1974,43,123,472211
+Hepatitis A,Vermont,1975,29,59,479102
+Hepatitis A,Vermont,1976,20,43,485900
+Hepatitis A,Vermont,1977,25,41,492570
+Hepatitis A,Vermont,1978,28,53,499077
+Hepatitis A,Vermont,1979,28,51,505385
+Hepatitis A,Vermont,1980,19,31,511456
+Hepatitis A,Vermont,1981,24,45,517263
+Hepatitis A,Vermont,1982,27,53,522825
+Hepatitis A,Vermont,1983,21,30,528174
+Hepatitis A,Vermont,1984,9,12,533345
+Hepatitis A,Vermont,1985,17,22,538373
+Hepatitis A,Vermont,1986,10,15,543296
+Hepatitis A,Vermont,1987,12,14,548155
+Hepatitis A,Vermont,1988,20,5,552989
+Hepatitis A,Vermont,1989,31,16,557842
+Hepatitis A,Vermont,1990,40,4,562758
+Hepatitis A,Vermont,1991,34,14,567766
+Hepatitis A,Vermont,1992,27,8,572831
+Hepatitis A,Vermont,1993,27,3,577902
+Hepatitis A,Vermont,1994,16,8,582926
+Hepatitis A,Vermont,1995,26,3,587845
+Hepatitis A,Vermont,1996,33,11,592604
+Hepatitis A,Vermont,1997,26,7,597142
+Hepatitis A,Vermont,1998,34,4,601400
+Hepatitis A,Vermont,1999,32,22,605316
+Hepatitis A,Vermont,2000,39,7,608827
+Hepatitis A,Vermont,2001,35,14,611887
+Hepatitis A,Vermont,2002,23,0,614522
+Hepatitis A,Vermont,2003,44,6,616773
+Hepatitis A,Vermont,2004,47,7,618688
+Hepatitis A,Vermont,2005,33,5,620311
+Hepatitis A,Vermont,2006,48,9,621691
+Hepatitis A,Vermont,2007,33,6,622875
+Hepatitis A,Vermont,2008,33,2,623912
+Hepatitis A,Vermont,2009,34,1,624851
+Hepatitis A,Vermont,2010,0,0,625741
+Hepatitis A,Vermont,2011,49,5,626624
+Hepatitis A,Virginia,1966,51,580,4371553
+Hepatitis A,Virginia,1967,51,709,4440903
+Hepatitis A,Virginia,1968,52,577,4510316
+Hepatitis A,Virginia,1969,49,431,4579585
+Hepatitis A,Virginia,1970,50,1353,4648494
+Hepatitis A,Virginia,1971,51,1480,4716888
+Hepatitis A,Virginia,1972,47,927,4784911
+Hepatitis A,Virginia,1973,51,758,4852796
+Hepatitis A,Virginia,1974,48,484,4920790
+Hepatitis A,Virginia,1975,49,400,4989154
+Hepatitis A,Virginia,1976,52,345,5058168
+Hepatitis A,Virginia,1977,51,332,5128123
+Hepatitis A,Virginia,1978,49,273,5199330
+Hepatitis A,Virginia,1979,49,260,5272114
+Hepatitis A,Virginia,1980,38,236,5346818
+Hepatitis A,Virginia,1981,47,192,5423715
+Hepatitis A,Virginia,1982,45,195,5502729
+Hepatitis A,Virginia,1983,43,126,5583684
+Hepatitis A,Virginia,1984,37,120,5666393
+Hepatitis A,Virginia,1985,37,138,5750657
+Hepatitis A,Virginia,1986,30,104,5836264
+Hepatitis A,Virginia,1987,45,236,5922986
+Hepatitis A,Virginia,1988,23,163,6010582
+Hepatitis A,Virginia,1989,32,169,6098796
+Hepatitis A,Virginia,1990,41,241,6187358
+Hepatitis A,Virginia,1991,36,145,6276031
+Hepatitis A,Virginia,1992,34,102,6364773
+Hepatitis A,Virginia,1993,24,84,6453592
+Hepatitis A,Virginia,1994,25,105,6542496
+Hepatitis A,Virginia,1995,38,190,6631499
+Hepatitis A,Virginia,1996,41,174,6720613
+Hepatitis A,Virginia,1997,25,121,6809854
+Hepatitis A,Virginia,1998,34,152,6899238
+Hepatitis A,Virginia,1999,36,123,6988785
+Hepatitis A,Virginia,2000,40,121,7078515
+Hepatitis A,Virginia,2001,40,116,7168459
+Hepatitis A,Virginia,2002,46,141,7258685
+Hepatitis A,Virginia,2003,43,106,7349269
+Hepatitis A,Virginia,2004,45,135,7440298
+Hepatitis A,Virginia,2005,45,78,7531857
+Hepatitis A,Virginia,2006,42,52,7624040
+Hepatitis A,Virginia,2007,46,62,7716943
+Hepatitis A,Virginia,2008,50,39,7810670
+Hepatitis A,Virginia,2009,47,35,7905326
+Hepatitis A,Virginia,2010,49,41,8001024
+Hepatitis A,Virginia,2011,50,26,8097863
+Hepatitis A,Washington,1966,50,579,3157768
+Hepatitis A,Washington,1967,50,879,3217235
+Hepatitis A,Washington,1968,51,1191,3279015
+Hepatitis A,Washington,1969,48,1259,3343024
+Hepatitis A,Washington,1970,51,1374,3409169
+Hepatitis A,Washington,1971,49,1287,3477326
+Hepatitis A,Washington,1972,47,1063,3547263
+Hepatitis A,Washington,1973,49,1071,3618704
+Hepatitis A,Washington,1974,49,676,3691346
+Hepatitis A,Washington,1975,50,735,3764862
+Hepatitis A,Washington,1976,50,445,3838897
+Hepatitis A,Washington,1977,50,567,3913069
+Hepatitis A,Washington,1978,50,857,3986966
+Hepatitis A,Washington,1979,48,934,4060150
+Hepatitis A,Washington,1980,38,374,4132156
+Hepatitis A,Washington,1981,47,583,4202665
+Hepatitis A,Washington,1982,45,422,4272055
+Hepatitis A,Washington,1983,48,247,4340912
+Hepatitis A,Washington,1984,48,363,4409870
+Hepatitis A,Washington,1985,44,580,4479602
+Hepatitis A,Washington,1986,41,823,4550828
+Hepatitis A,Washington,1987,50,2431,4624310
+Hepatitis A,Washington,1988,22,1153,4700862
+Hepatitis A,Washington,1989,33,2002,4781348
+Hepatitis A,Washington,1990,41,1134,4866692
+Hepatitis A,Washington,1991,37,423,4957590
+Hepatitis A,Washington,1992,35,527,5053591
+Hepatitis A,Washington,1993,25,445,5153900
+Hepatitis A,Washington,1994,29,277,5257654
+Hepatitis A,Washington,1995,39,612,5363915
+Hepatitis A,Washington,1996,43,658,5471663
+Hepatitis A,Washington,1997,24,340,5579793
+Hepatitis A,Washington,1998,33,710,5687112
+Hepatitis A,Washington,1999,37,331,5792342
+Hepatitis A,Washington,2000,40,234,5894121
+Hepatitis A,Washington,2001,38,118,5991319
+Hepatitis A,Washington,2002,46,142,6084016
+Hepatitis A,Washington,2003,44,56,6172643
+Hepatitis A,Washington,2004,46,53,6257679
+Hepatitis A,Washington,2005,49,52,6339647
+Hepatitis A,Washington,2006,49,53,6419111
+Hepatitis A,Washington,2007,50,56,6496675
+Hepatitis A,Washington,2008,48,43,6572980
+Hepatitis A,Washington,2009,48,42,6648698
+Hepatitis A,Washington,2010,48,20,6724540
+Hepatitis A,Washington,2011,48,28,6801121
+Hepatitis A,West Virginia,1966,50,243,1749477
+Hepatitis A,West Virginia,1967,49,363,1740635
+Hepatitis A,West Virginia,1968,52,333,1736343
+Hepatitis A,West Virginia,1969,50,338,1737298
+Hepatitis A,West Virginia,1970,50,383,1744237
+Hepatitis A,West Virginia,1971,50,510,1757602
+Hepatitis A,West Virginia,1972,45,385,1776420
+Hepatitis A,West Virginia,1973,48,325,1799353
+Hepatitis A,West Virginia,1974,44,153,1825021
+Hepatitis A,West Virginia,1975,43,162,1851977
+Hepatitis A,West Virginia,1976,51,262,1878690
+Hepatitis A,West Virginia,1977,50,311,1903537
+Hepatitis A,West Virginia,1978,43,151,1924819
+Hepatitis A,West Virginia,1979,46,138,1940779
+Hepatitis A,West Virginia,1980,33,85,1949644
+Hepatitis A,West Virginia,1981,40,106,1950183
+Hepatitis A,West Virginia,1982,37,81,1943276
+Hepatitis A,West Virginia,1983,31,64,1930383
+Hepatitis A,West Virginia,1984,20,31,1912990
+Hepatitis A,West Virginia,1985,16,29,1892575
+Hepatitis A,West Virginia,1986,24,54,1870576
+Hepatitis A,West Virginia,1987,16,19,1848374
+Hepatitis A,West Virginia,1988,19,9,1827291
+Hepatitis A,West Virginia,1989,32,16,1808587
+Hepatitis A,West Virginia,1990,40,21,1793477
+Hepatitis A,West Virginia,1991,37,13,1782845
+Hepatitis A,West Virginia,1992,36,8,1776378
+Hepatitis A,West Virginia,1993,23,21,1773494
+Hepatitis A,West Virginia,1994,27,10,1773638
+Hepatitis A,West Virginia,1995,41,18,1776274
+Hepatitis A,West Virginia,1996,43,15,1780874
+Hepatitis A,West Virginia,1997,26,5,1786913
+Hepatitis A,West Virginia,1998,25,4,1793862
+Hepatitis A,West Virginia,1999,34,31,1801186
+Hepatitis A,West Virginia,2000,36,46,1808344
+Hepatitis A,West Virginia,2001,31,24,1814887
+Hepatitis A,West Virginia,2002,44,20,1820780
+Hepatitis A,West Virginia,2003,42,12,1826090
+Hepatitis A,West Virginia,2004,43,5,1830889
+Hepatitis A,West Virginia,2005,34,10,1835246
+Hepatitis A,West Virginia,2006,39,5,1839236
+Hepatitis A,West Virginia,2007,37,9,1842932
+Hepatitis A,West Virginia,2008,43,4,1846406
+Hepatitis A,West Virginia,2009,19,6,1849735
+Hepatitis A,West Virginia,2010,42,9,1852994
+Hepatitis A,West Virginia,2011,30,4,1856246
+Hepatitis A,Wisconsin,1966,52,378,4249813
+Hepatitis A,Wisconsin,1967,52,446,4294241
+Hepatitis A,Wisconsin,1968,51,542,4337060
+Hepatitis A,Wisconsin,1969,50,415,4378235
+Hepatitis A,Wisconsin,1970,51,480,4417731
+Hepatitis A,Wisconsin,1971,49,423,4455510
+Hepatitis A,Wisconsin,1972,47,317,4491500
+Hepatitis A,Wisconsin,1973,49,331,4525620
+Hepatitis A,Wisconsin,1974,48,581,4557793
+Hepatitis A,Wisconsin,1975,51,425,4587941
+Hepatitis A,Wisconsin,1976,51,327,4615990
+Hepatitis A,Wisconsin,1977,50,419,4641866
+Hepatitis A,Wisconsin,1978,48,274,4665500
+Hepatitis A,Wisconsin,1979,49,262,4686822
+Hepatitis A,Wisconsin,1980,35,211,4705767
+Hepatitis A,Wisconsin,1981,34,74,4722410
+Hepatitis A,Wisconsin,1982,28,77,4737376
+Hepatitis A,Wisconsin,1983,2,3,4751438
+Hepatitis A,Wisconsin,1984,4,5,4765381
+Hepatitis A,Wisconsin,1985,0,0,4779997
+Hepatitis A,Wisconsin,1986,0,0,4796090
+Hepatitis A,Wisconsin,1987,1,2,4814473
+Hepatitis A,Wisconsin,1988,22,120,4835977
+Hepatitis A,Wisconsin,1989,33,168,4861451
+Hepatitis A,Wisconsin,1990,41,322,4891769
+Hepatitis A,Wisconsin,1991,36,449,4927545
+Hepatitis A,Wisconsin,1992,34,575,4968242
+Hepatitis A,Wisconsin,1993,27,346,5013015
+Hepatitis A,Wisconsin,1994,26,124,5060999
+Hepatitis A,Wisconsin,1995,38,130,5111299
+Hepatitis A,Wisconsin,1996,40,141,5162987
+Hepatitis A,Wisconsin,1997,24,75,5215094
+Hepatitis A,Wisconsin,1998,32,117,5266615
+Hepatitis A,Wisconsin,1999,36,44,5316503
+Hepatitis A,Wisconsin,2000,39,12,5363675
+Hepatitis A,Wisconsin,2001,29,62,5407258
+Hepatitis A,Wisconsin,2002,44,175,5447341
+Hepatitis A,Wisconsin,2003,43,35,5484273
+Hepatitis A,Wisconsin,2004,46,48,5518418
+Hepatitis A,Wisconsin,2005,49,36,5550158
+Hepatitis A,Wisconsin,2006,48,37,5579888
+Hepatitis A,Wisconsin,2007,33,3,5608014
+Hepatitis A,Wisconsin,2008,43,32,5634954
+Hepatitis A,Wisconsin,2009,47,20,5661132
+Hepatitis A,Wisconsin,2010,51,26,5686986
+Hepatitis A,Wisconsin,2011,48,5,5712883
+Hepatitis A,Wyoming,1966,29,54,321526
+Hepatitis A,Wyoming,1967,28,65,321596
+Hepatitis A,Wyoming,1968,23,37,323145
+Hepatitis A,Wyoming,1969,28,81,326595
+Hepatitis A,Wyoming,1970,38,83,332416
+Hepatitis A,Wyoming,1971,25,49,340985
+Hepatitis A,Wyoming,1972,26,43,352081
+Hepatitis A,Wyoming,1973,27,47,365309
+Hepatitis A,Wyoming,1974,18,47,380233
+Hepatitis A,Wyoming,1975,18,34,396342
+Hepatitis A,Wyoming,1976,7,9,413027
+Hepatitis A,Wyoming,1977,15,20,429572
+Hepatitis A,Wyoming,1978,13,29,445144
+Hepatitis A,Wyoming,1979,14,21,458809
+Hepatitis A,Wyoming,1980,11,17,469557
+Hepatitis A,Wyoming,1981,23,78,476591
+Hepatitis A,Wyoming,1982,28,78,480117
+Hepatitis A,Wyoming,1983,17,31,480671
+Hepatitis A,Wyoming,1984,18,29,478860
+Hepatitis A,Wyoming,1985,6,9,475320
+Hepatitis A,Wyoming,1986,13,15,470694
+Hepatitis A,Wyoming,1987,12,19,465612
+Hepatitis A,Wyoming,1988,20,3,460682
+Hepatitis A,Wyoming,1989,33,38,456486
+Hepatitis A,Wyoming,1990,41,72,453588
+Hepatitis A,Wyoming,1991,37,86,452414
+Hepatitis A,Wyoming,1992,21,4,452883
+Hepatitis A,Wyoming,1993,27,10,454802
+Hepatitis A,Wyoming,1994,25,17,457989
+Hepatitis A,Wyoming,1995,37,89,462267
+Hepatitis A,Wyoming,1996,39,35,467464
+Hepatitis A,Wyoming,1997,27,22,473401
+Hepatitis A,Wyoming,1998,33,25,479897
+Hepatitis A,Wyoming,1999,35,6,486758
+Hepatitis A,Wyoming,2000,35,16,493782
+Hepatitis A,Wyoming,2001,38,23,500794
+Hepatitis A,Wyoming,2002,44,2,507765
+Hepatitis A,Wyoming,2003,36,1,514708
+Hepatitis A,Wyoming,2004,49,5,521635
+Hepatitis A,Wyoming,2005,0,0,528557
+Hepatitis A,Wyoming,2006,37,2,535490
+Hepatitis A,Wyoming,2007,28,2,542448
+Hepatitis A,Wyoming,2008,45,2,549445
+Hepatitis A,Wyoming,2009,13,0,556499
+Hepatitis A,Wyoming,2010,29,3,563626
+Hepatitis A,Wyoming,2011,42,1,570841

@@ -1,0 +1,89 @@
+---
+title: "Untitled"
+author: "Ralph Trane"
+date: "2/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+Import libraries:
+
+```{r}
+library(tidyverse) 
+library(distributions3)
+```
+
+Create two random variables -- one Normal ($X$) and one Exponential ($Y$):
+
+```{r}
+X <- Normal(mu = 1, sigma = 1) 
+Y <- Exponential(rate = 1)
+```
+
+Set the sample size.
+
+```{r}
+sample_size <- 100
+```
+
+Create a vector of i's to use. This will help us with the plot later. We don't want to simply use 1,2,...,16, since we would then know that the first 8 are normal, the last 8 exponential. We want to scrample (or permute) the numbers.
+
+```{r}
+is <- sample(1:16)
+```
+
+This next bit is a bit complicated, but do not worry -- you are not expected to know exactly what's going on. I suggest you run it one step at a time by highlighting and executing. 
+
+* The first part gets a `data.frame` (i.e. data set) started with a column of 8 numbers
+* we then `mutate` to create two new columns:
+    - `distribution` will just tell us what variable have in this row
+    - `sample`: the function `map` runs the function `random(X, sample_size)` for each value of `i`. I.e. we create 8 samples of size `sample_size` by drawing independently from a Normal(1,1). Each of the entries in this new columns will be a vector of numbers.
+    - `unnest_longer` takes that new column of vectors and makes "unfolds" it. 
+* in the end, we have a data.frame with three columns:
+    - `i`: the sample number
+    - `distribution` tells us that this is from a normal distribution
+    - `sample` are the draws 
+
+We do the same using the exponential distribution instead of the normal.
+
+
+```{r}
+normal_samples <- data.frame(i = is[1:8]) %>%
+  mutate(distribution = "Normal", 
+         sample = map(.x = i, .f = ~random(X, sample_size))) %>% 
+  unnest_longer(col = sample) 
+
+exponential_samples <- data.frame(i = is[9:16]) %>% 
+  mutate(distribution = "Exponential",
+         sample = map(i, ~random(Y, sample_size))) %>% 
+  unnest_longer(col = sample)
+```
+
+To be able to create QQ-plots for all 16 samples at once, we combine the two `data.frame`s into one. We stack them on top of each other using `bind_rows`:
+
+```{r}
+all_samples <- bind_rows( 
+  normal_samples, 
+  exponential_samples
+)
+```
+
+Finally, we create QQ-plots
+
+```{r}
+ggplot(all_samples,
+       aes(sample = sample)) +
+  geom_qq() +
+  facet_wrap(~i) +
+  geom_abline(aes(slope = sd(sample), intercept = mean(sample)))
+```
+
+To reveal the truth behind the i's, run this line:
+
+```{r}
+all_samples %>% select(i, distribution) %>% unique() %>% arrange(distribution, i)
+```
+

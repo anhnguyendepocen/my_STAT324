@@ -1,0 +1,120 @@
+---
+title: "Homework 0"
+author: "Ralph Trane"
+date: "1/21/2020"
+output: html_document
+---
+
+The following is the product of great collaboration with Nathanial. 
+
+First we import packages we will need.
+
+```{r}
+library(tidyverse)
+```
+
+We read the data into R. 
+
+```{r}
+measles <- read_csv("measles.csv") 
+```
+
+# Question 1
+
+We have 6 variables in the data set. They are disease, state, year, weeks_reporting, count, and population. 
+
+# Question 2 
+
+The data have 3876 observations. 
+
+# Question 3
+
+Using `filter`, we can get just the data for Wisconsin in 1993. 
+
+```{r}
+filter(measles, state == "Wisconsin", year == 1993)
+```
+
+# Question 4
+
+To find the mean rate by state we first create a new varible called `rate` (using `mutate`), then `group_by` state before summarizing the data. We use `arrange` to find the smallest and largest means. 
+
+```{r}
+measles %>% 
+  mutate(rate = count / population) %>% 
+  group_by(state) %>% 
+  summarize(mean = mean(rate)) %>% 
+  arrange(mean)
+```
+
+The state with the overall lowest mean rate is Mississippi. 
+
+```{r}
+measles %>% 
+  mutate(rate = count / population) %>% 
+  group_by(state) %>% 
+  summarize(mean = mean(rate)) %>% 
+  arrange(desc(mean))
+```
+
+The state with the overall largest mean rate is Wisconsin. 
+
+
+# Question 5
+
+Data is missing for Alaska and Hawaii, so we remove them. The we create the rate variable, `group_by` year, and summarize to get the mean rate per year. The result is saved to an object called `yearly_mean_rate`. 
+
+```{r}
+yearly_mean_rate <- measles %>% 
+  filter(state != "Alaska", state != "Hawaii") %>% 
+  mutate(rate = count / population) %>% 
+  group_by(year) %>% 
+  summarize(mean = mean(rate))
+```
+
+To actually show the result:
+
+```{r}
+yearly_mean_rate
+```
+
+Create a plot:
+
+```{r}
+ggplot(data = yearly_mean_rate, 
+       aes(x = year, y = mean)) + 
+  geom_line()
+```
+
+From the plot, it seems like something significant happened around 1960.
+
+# Question 6
+
+Add a vertical line using `geom_vline`.
+
+```{r}
+ggplot(data = yearly_mean_rate, 
+       aes(x = year, y = mean)) + 
+  geom_line() + 
+  geom_vline(xintercept = 1963)
+```
+
+Just for Wisconsin and Alabama.
+
+```{r}
+ggplot(data = filter(measles, state %in% c("Wisconsin", "Alabama")),
+       aes(x = year, y = count / population, color = state)) +
+  geom_line()
+```
+
+# Bonus
+
+Pretty plot using `geom_tile`, and make the vertical line red. 
+
+```{r}
+ggplot(data = measles, 
+       aes(x = year, y = state, fill = count / population)) + 
+  geom_tile(color = "grey") +
+  geom_vline(xintercept = 1963, color = "red")
+```
+

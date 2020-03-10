@@ -1,0 +1,743 @@
+---
+title: "Lecture 12: One Sample Hypothesis Tests"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    self_contained: false
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ration: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# One Sample Hypothesis Test: Example I
+
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE,
+                      dpi = 300, fig.align = "center",
+                      fig.width = 4, fig.height = 2.5, 
+                      out.height = "375px")
+```
+
+
+Recall: car manufacturer uses automatic device to apply paint to engine blocks. It is important that the paint is a certain thickness, so it can resist the heat produced by the engine when running.
+
+The manufacturer knows that as long as the thickness is greater than 1.5mm, all is good. They are willing to accept some loss, so they really just want to make sure that, on average, the thickness is greater than 1.5mm. 
+
+The manufacturer decides to hire you as a consultant. They want your help to answer the question: "is the mean thickness greater than 1.5mm?" 
+
+--
+
+As a statistical wizard, you know to test such a hypothesis, the first thing to do is to setup a null and alternative hypothesis. Recall: the null is always the simplest/least interesting hypothesis. So, if we let $\mu$ denote the mean paint thickness, we would like to test the hypothesis
+
+$$
+  H_0: \mu = 1.5 \qquad \text{against} \qquad H_A: \mu < 1.5.
+$$
+
+--
+
+Next, we have to decide on a reasonable significance level, $\alpha$. Remember, $\alpha$ is the probability of making a Type I error. I.e. $\alpha = P(\text{reject } H_0\ |\ H_0 \text{ true})$. 
+
+We pick $\alpha = 0.05$. I.e. we decide that it is acceptable to us to rejecting the null, even if it is true, $5\%$ of the time. 
+
+---
+
+We collect a sample of 16 engines, and measure the paint thickness. Our first step is to visualize the data:
+
+```{r paint_thickness_boxplot, echo = T, eval = F}
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+paint_thickness <- tibble(
+  thickness = c(1.29, 1.12, 0.88, 1.65, 1.48, 1.59, 1.04, 0.83, 
+                1.76, 1.31, 0.88, 1.71, 1.83, 1.09, 1.62, 1.49))
+
+ggplot(data = paint_thickness,
+       aes(y = thickness)) + 
+  geom_boxplot(width = 0.5) + 
+  geom_jitter(aes(x = 0),
+              width = 0.2) + 
+  geom_hline(aes(yintercept = 1.5,
+                 color = "Null hypothesis")) +
+  geom_hline(aes(yintercept = mean(thickness),
+                 color = "Sample average")) +
+  xlim(c(-1,1))
+```
+
+
+---
+
+We collect a sample of 16 engines, and measure the paint thickness. Our first step is to visualize the data:
+
+```{r ref.label="paint_thickness_boxplot", echo = F, eval = T}
+```
+
+
+The question then is: are the two lines so far apart that we do no longer think that $\mu = 1.5$ is reasonable? Does the data seem to suggest we should change our beliefs? 
+
+---
+
+The next step is to find a good measure of what we are looking for: difference between the observed ( $\bar{x}$ ) and the null hypothesis ( $\mu = 1.5$ ) relative to the variation in the data ( $\sigma$ ) and sample size ( $n$ ). 
+
+
+Maybe $T = \frac{\bar{X} - 1.5}{\sigma/\sqrt{16}}$ will work? 
+
+--
+
+We do not know $\sigma$, so would need to consider $T = \frac{\bar{X} - 1.5}{s/\sqrt{16}}$. To find out if this would work, we want to ask: can we find $P(T \text{ more extreme than } T_{\text{obs}} | H_0 \text{ is true})$? To find this, we need to find the distribution of $T$ **ASSUMING** the null hypothesis is true. I.e. we will pretend $\mu = 1.5$ is the true mean paint thickness. If this is the case, 
+
+$$
+  T = \frac{\bar{X} - 1.5}{s/\sqrt{16}} = \frac{\bar{X} - E(\bar{X})}{\widehat{\text{SD}}(\bar{X})}.
+$$
+
+We know that this follows a $t$-distribution with $n-1$ degrees of freedom, **IF** $\bar{X}$ is normally distributed. 
+
+---
+
+Since $n < 30$, need the data to be normal for $\bar{X} \sim N$. QQ-plot:
+
+```{r out.height = "350px"}
+ggplot(data = paint_thickness, aes(sample = thickness)) +
+  geom_qq() + 
+  geom_qq_line() +
+  labs(title = "QQ-plot for paint thickness data")
+```
+
+Seems like it is not crazy to think the data is normally distributed.
+
+---
+
+So, we know that $T = \frac{\bar{X} - 1.5}{s/\sqrt{16}} \sim t_{n-1}$ **IF** the null hypothesis $\mu = 1.5$ is true. 
+
+Next, calculate the observed value of $T$:
+
+```{r}
+paint_thickness %>% 
+  summarize(xbar = mean(thickness),
+            s = sd(thickness),
+            T_obs = (xbar - 1.5)/(s/sqrt(16)))
+```
+
+Recall, $T_{\text{obs}} << 0$ if $\bar{x} << 1.5$, and close to $0$ if $\bar{x}$ is close to $1.5$. So, want to ask: is $T_{\text{obs}}$ so small (i.e. very negative) that we do not think the true mean is $1.5$, but instead think that $\mu < 1.5$? 
+
+---
+
+**IF** the null is true, $T_{\text{obs}} \sim t_{15}$. So, **IF** the null is true, and $T_{\text{obs}}$ is very small, then $P(T_{15} < T_{\text{obs}})$ must be very small. Remember, here "small" means "smaller than $\alpha$". We picked $0.05$.
+
+```{r fig.height = 2, out.height = "300px", echo = FALSE}
+T_15 <- StudentsT(df = 15)
+plot_pdf(T_15) +
+  geom_auc(to = -1.795) + 
+  geom_vline(aes(xintercept = -1.795, 
+                 color = "T")) + 
+  scale_color_manual(values = "red", labels = expression(T[obs]~"= -1.795"))
+```
+
+---
+
+We find $P(T_{15} < T_{obs}) = P(T_{15} < -1.795)$:
+
+```{r}
+cdf(T_15, -1.795)
+```
+
+Since this is greater than $\alpha$, we conclude that $T_{obs} = -1.795$ is NOT crazy small.
+
+I.e. $\bar{x}$ is NOT much smaller than $1.5$.
+
+So, we do NOT reject the idea the the true mean is in fact $1.5$. 
+
+---
+ 
+Summary:
+
+* Want to test $H_0: \mu = 1.5$ against $H_A: \mu < 1.5$ using $\alpha = 0.05$.
+
+--
+
+* Find that we can assume the data are normal from QQ-plot, so $\bar{X}$ is normal.
+
+--
+
+* **IF** $\mu = 1.5$ is true, then $T = \frac{\bar{X} - 1.5}{s/\sqrt{16}} = \frac{\bar{X} - E(\bar{X})}{\widehat{\text{SD}}(\bar{X})} \sim t_{15}$.
+
+--
+
+* **IF** $\mu = 1.5$, then the probability of something "more extreme" is $P(T_{15} < T_{\text{obs}}) \approx 0.33$.
+
+--
+
+* **IF** $\mu = 1.5$, then something "more extreme" isn't super unlikely, so our observation is not that unlikely
+
+--
+
+* Since our observation isn't unlikely **IF** $\mu = 1.5$, we do not reject $H_0: \mu = 1.5$
+
+---
+
+On second thought, the manufacturer is actually also interested in the mean paint thickness not beeing TOO large. Thicker layer of paint, more materials used, increased cost. 
+
+--
+
+So, they would like to test the hypothesis
+
+$$
+  H_0: \mu = 1.5 \quad \text{against} \quad H_A: \mu \neq 1.5.
+$$
+
+Once again, we pick $\alpha = 0.05$. 
+
+Most of the procedure is the same: 
+
+* we still ask, if $\bar{X}$ is close enough to $1.5$ that we do still believe in the null hypothesis. 
+
+* we still answer in terms of the difference compared to the variation: 
+
+$$T = \frac{\bar{X} - 1.5}{\sigma/\sqrt{16}}$$
+
+* $\bar{X}$ is still normally distributed (the QQ-plot is the same, so data still normal...), so $T \sim t_{15}$
+
+The difference is in what it means to be "more extreme".
+
+---
+
+First, remember that $T_{\text{obs}} = -1.795$. So, what does it mean to be "more extreme"?
+--
+ Since the alternative is $H_A: \mu \neq 1.5$, "more extreme" goes in both directions: "more extreme" is "further from 0", i.e. outside the dotted lines below:
+
+```{r echo = FALSE}
+plot_pdf(T_15) +
+  geom_vline(data = data.frame(), 
+             aes(xintercept = c(-1,1)*1.795, 
+                 color = rep("T", 2)),
+             linetype = "dashed") + 
+  scale_color_manual(values = "red") +
+  guides(color = 'none')
+```
+
+---
+
+So, the p-value is 
+
+$$\begin{aligned}
+P(\text{more extreme}\ |\ H_0 \text{ true}) &= P(T < -1.795 \text{ OR } T > 1.795) \\
+&= P(T < -1.795) + P(T > 1.795) \\
+&= 2\cdot P(T < -1.795)
+\end{aligned}$$
+ 
+Found in `R`:
+
+.pull-left[
+```{r p_val, eval = FALSE}
+p_value <- 2*cdf(T_15, -1.795)
+p_value
+```
+]
+
+.pull-right[
+```{r echo = F, ref.label="p_val"}
+```
+]
+
+--
+
+Since $p > 0.05$, we do NOT reject the null hypothesis:
+
+* **IF** the null is true, the probability of seeing something "futher away" from the null is large
+
+* **IF** the null is true, our observed data are NOT unlikely
+
+* since our observed is NOT unlikely **IF** the null is true, our observed data provides little evidence against the null
+
+* we do NOT reject the null.
+
+
+---
+layout: true
+
+# One Sample Hypothesis Test: Example II
+
+---
+ 
+Recall: Framingham Heart Study. Interested in the true population mean total cholesterol. In particular, is the population mean total cholesterol 230 mg/dL?
+
+--
+
+To perform a hypothesis test, we setup our null- and alternative hypotheses: we will test
+
+$$
+  H_0: \mu = 230 \quad \text{against} \quad H_A: \mu \neq 230.
+$$
+
+This time, we pick $\alpha = 0.01$, i.e. we will only accept making a Type I error $1\%$ of the time. 
+
+---
+
+We'll take a look at the data:
+
+```{r totChol_boxplot, echo = T, eval = F}
+fram <- read_csv(here::here("csv_data/framingham.csv")) %>% 
+  filter(!is.na(totChol))
+
+ggplot(fram,
+       aes(y = totChol)) +
+  geom_boxplot(width = 0.5) + 
+  geom_jitter(aes(x = 0), 
+              height = 0, width = 0.2, alpha = 0.05) +
+  geom_hline(aes(yintercept = 230, 
+                 color = "Null hypothesis")) +
+  geom_hline(aes(yintercept = mean(totChol), 
+                 color = "Sample average"))
+```
+
+---
+
+We'll take a look at the data:
+
+```{r ref.label='totChol_boxplot', eval = T, echo = F}
+```
+
+
+---
+
+Question: is our sample average far from $230$ mg/dL?
+
+Once again, we will assess this using $T = \frac{\bar{X} - 230}{\widehat{\text{SD}}(\bar{X})} = \frac{\bar{X} - 230}{s/\sqrt{n}}$. 
+
+**IF** the null hypothesis is true, then $E(\bar{X}) = 230$. 
+
+Therefore, **IF** the null hypothesis is true, 
+
+$$
+  T = \frac{\bar{X} - 230}{s/\sqrt{n}} = \frac{\bar{X} - E(\bar{X})}{\widehat{\text{SD}}(\bar{X})} \sim t_{n-1}.
+$$
+
+Let's find $T_{\text{obs}}$:
+
+```{r}
+fram %>% 
+  summarize(xbar = mean(totChol),
+            SD = sd(totChol),
+            n = n(),
+            T_obs = (xbar - 230)/(SD/sqrt(n)))
+```
+
+---
+
+So, is $9.725$ far from $0$? 
+
+**IF** the null hypothesis is true, what is the probability of being further away? The area outside of:
+
+```{r echo = FALSE}
+T_4189 <- StudentsT(df = 4189)
+
+plot_pdf(T_4189, limits = c(-1,1)*10) + 
+  geom_vline(xintercept = c(-1,1)*9.725,
+             linetype = "dashed", color = "red")
+```
+
+---
+
+Find the p-value: 
+
+$$
+\begin{aligned}
+P(\text{more extreme}\ |\ H_0 \text{ true}) &= P(T_{4189} > 9.725) + P(T_{4189} < -9.725) \\
+&= 2*P(T_{4189} < -9.725)
+\end{aligned}
+$$
+
+Very small:
+
+```{r}
+T_4189 <- StudentsT(df = 4189)
+
+2*cdf(T_4189, -9.725)
+```
+
+Since $p < \alpha$, the probability of something "more extreme" is small, so our data is very extreme. 
+
+Our data are far from the null hypothesis, so why would we still think the null hypothesis is true? We reject the null. 
+
+---
+
+This is not very constructive: sure, the true mean is not $230$ mg/dL... but what is it then? 
+
+Let's try to characterize all the values of $\mu_0$ that we would NOT reject. I.e. which $H_0: \mu = \mu_0$ would not be rejected? 
+
+--
+
+If $\bar{X}$ is close enough to $\mu_0$, then we wouldn't not reject the null.
+
+"Close enough" means that the probability of being "more extreme" is greater than $\alpha = 0.05$. In other words, $T = \frac{\bar{X} - \mu_0}{s/\sqrt{n}}$ has to be so close to zero that 
+
+$$
+\begin{aligned}
+P(\text{more extreme}\ |\ H_0) &= P(T_{n-1} > |T_{\text{obs}}|) + P(T_{n-1} < -|T_{\text{obs}}|) \\
+                               &= 2\cdot P(T_{n-1} > |T_{\text{obs}}|) < 0.05. 
+\end{aligned}
+$$
+
+I.e. $P(T_{n-1} > |T_{\text{obs}}|) = 0.025$. 
+
+---
+
+That means that if $T_{\text{obs}} > t_{n-1, 0.025}$ or $T_{\text{obs}} < -t_{n-1, 0.025}$, then we would reject. Or, in other words, if $-t_{n-1, 0.025} < T_{\text{obs}} < t_{n-1, 0.025}$, then we would not reject. So, we do NOT reject when
+
+$$-t_{n-1, 0.025} < \frac{\bar{X} - \mu_0}{s/\sqrt{n}} < t_{n-1, 0.025}$$
+
+--
+
+or equivalently, when
+
+$$\bar{X}-t_{n-1, 0.025}\frac{s}{\sqrt{n}} < \mu_0 < \bar{X} + t_{n-1,0.025}\frac{s}{\sqrt{n}}$$
+
+--
+
+This is **EXACTLY** the $95\%$ confidence interval we would calculate for $\mu$!!
+
+```{r echo = FALSE, out.width = "480px", out.height = "252px"}
+knitr::include_graphics(here::here("Lectures/lecture12/images/wow.gif"))
+```
+
+---
+
+So, 
+
+$$
+\begin{equation}
+  \text{reject } H_0: \mu = \mu_0 \text{ against } H_A: \mu \neq \mu_0 \text{ at significance level } \alpha \\
+  \iff \\
+  \mu_0 \text{ is NOT in the } (1-\alpha)\cdot 100 \% \text{ CI for } \mu
+\end{equation}
+$$
+
+This supports our interpretation of CIs as a "collection of plausible values", i.e. values we wouldn't reject based on the data we have.
+
+---
+
+For the total cholesterol, let's find a $95\%$ confidence interval:
+
+```{r}
+T_4189 <- StudentsT(df = 4189)
+
+fram %>% 
+  summarize(xbar = mean(totChol),
+            SD = sd(totChol),
+            n = n(),
+            LL = xbar - quantile(T_4189, 0.975)*SD/sqrt(n),
+            UL = xbar + quantile(T_4189, 0.975)*SD/sqrt(n))
+```
+
+As expected, the value we just rejected (230 mg/dL) is NOT in the $95\%$ confidence interval. 
+
+---
+layout: true
+
+# One Sample Hypothesis Test: Example I (revisited)
+
+---
+
+Let's revisit the paint thickness data and calculate a $95\%$ confidence interval:
+
+```{r}
+paint_thickness_CI <- paint_thickness %>% 
+  summarize(xbar = mean(thickness),
+            SD = sd(thickness),
+            n = n(),
+            LL = xbar - quantile(StudentsT(df = n - 1), 0.975)*SD/sqrt(n),
+            UL = xbar + quantile(StudentsT(df = n - 1), 0.975)*SD/sqrt(n))
+
+paint_thickness_CI
+```
+
+We see that the value we did not reject, i.e. 1.5, is indeed in the $95\%$ confidence interval, as we would expect. 
+
+---
+
+```{r fig.height = 1.5, out.height = "200px"}
+ggplot(data = paint_thickness,
+       aes(x = thickness, y = 1)) + 
+  geom_jitter(width = 0, height = 0.1) + 
+  ## Below we add some things to the plot using a different data set,
+  ## namely paint_thickness_CI, which has the things we just calculated
+  geom_errorbarh(data = paint_thickness_CI,
+                 aes(xmin = LL, xmax = UL, x = NULL),
+                 height = 0.1, color = "red") +
+  geom_point(data = paint_thickness_CI,
+             aes(x = xbar), color = "red") +
+  scale_y_continuous(limits = c(0.8, 1.2), breaks = NULL, minor_breaks = NULL) ## y-axis stuff
+```
+
+---
+layout: true
+
+# One Sample Hypothesis Test: Example III
+
+---
+
+.small[
+```{r out.width = "600px", out.height = "450px"}
+library(lubridate)
+corona_virus <- read_csv(here::here("csv_data/corona_virus.csv")) %>% 
+  mutate(date = mdy(date))
+
+corona_virus %>% DT::datatable(options = list(pageLength = 5, scrollX = T))
+```
+]
+
+---
+
+Using this data, we can estimate the risk of dying:
+
+```{r}
+corona_virus %>% 
+  filter(date == max(date)) %>% 
+  summarize_at(.vars = vars(Confirmed, Deaths, Recovered),
+               .funs = sum) %>% 
+  mutate(P = Deaths/Confirmed)
+```
+
+
+---
+
+Obviously many problems with this:
+
+* data highly dependent
+
+* would definitely need a time component
+
+* ...
+
+For now, let's ignore this.
+
+---
+
+Researchers might be interested in knowing if the risk of dying from the corona virus is dependent on region. They want to test if the risk in Italy is the same as the risk in Mainland China. 
+
+**NOTE**: the following is not how you would actually do this, but is the best we can do with our current tools. We will revisit this later.
+
+First, they estimate the risk in Mainland China and Italy:
+
+```{r}
+corona_virus %>% 
+  filter(`Country/Region` %in% c("Italy", "Mainland China"),
+         date == max(date)) %>% 
+  group_by(`Country/Region`) %>% 
+  summarize_at(vars(Confirmed, Deaths, Recovered),
+               sum) %>% 
+  mutate(P = Deaths/Confirmed)
+```
+
+```{r echo = FALSE}
+ps <- corona_virus %>% 
+  filter(`Country/Region` %in% c("Italy", "Mainland China"),
+         date == max(date)) %>% 
+  group_by(`Country/Region`) %>% 
+  summarize_at(vars(Confirmed, Deaths, Recovered),
+               sum) %>% 
+  mutate(P = Deaths/Confirmed)
+
+p_china <- round(filter(ps, `Country/Region` == 'Mainland China')$P, digits = 4)
+p_italy <- round(filter(ps, `Country/Region` == 'Italy')$P, digits = 4)
+
+n_italy <- filter(ps, `Country/Region` == 'Italy')$Confirmed
+```
+
+---
+
+If we take the estimated risk in Mainland China as "the true risk" in Mainland China, we can test $H_0: \pi_{\text{Italy}} = `r p_china`$ vs. $H_A: \pi_{\text{Italy}} \neq `r p_china`$.
+
+We will use $\alpha = 0.1$, and estimate $\pi_{\text{Italy}}$ using $P = \frac{\#\text{deaths}}{\#\text{confirmed}}$
+--
+ $= \frac{1}{n}\sum_{i=1}^n X_i$, where $X_i \sim \text{Bernoulli}(\pi_{\text{Italy}})$.
+
+--
+
+As always, we want to see if our estimate $P$ is far from our null $`r p_china`$, and we still want to compare it to a measure of variation of our estimator $P$. So think about using 
+
+$$
+  \frac{P - `r p_china`}{\text{SD}(P)}
+$$
+
+--
+
+**IF** the null hypothesis is true, then $`r p_china` = E(P)$. 
+
+Remember, $\text{SD} =\sqrt{\pi_{\text{Italy}}(1-\pi_{\text{Italy}})/n}$. **IF** the null hypothesis is true, then $\pi_{\text{Italy}} = `r p_china`$, so $\text{SD}(P) = \sqrt{`r p_china`\cdot (1-`r p_china`)/n}$. 
+
+So **IF** the null hypothesis is true, then 
+
+$$\frac{P - `r p_china`}{\sqrt{\frac{`r p_china`(1-`r p_china`)}{`r n_italy`}}} = \frac{P - E(P)}{\text{SD}(P)}.$$
+
+---
+
+Now, remember that $P \sim N$, if $n\cdot \pi_{\text{Italy}} > 5$ and $n(1-\pi_{\text{Italy}}) > 5$. 
+
+--
+
+**IF** the null is true, then $P \sim N$ if $n \cdot `r p_china` > 5$ and $n \cdot (1-`r p_china`) > 5$. 
+
+--
+
+$n$ is the number of confirmed in Italy, so $n = `r n_italy`$. Since $`r n_italy` \cdot `r p_china` = `r n_italy* p_china`$ and $`r n_italy` \cdot (1-`r p_china`) = `r n_italy*(1-p_china)`$, the CLT tells us that $P \sim N$, **IF** $H_0$ is true.
+
+--
+
+So, **IF** $H_0$ is true, then 
+
+$$
+Z = \frac{P - E(X)}{\text{SD}(P)} = \frac{P - `r p_china`}{\sqrt{\frac{`r p_china`(1-`r p_china`)}{`r n_italy`}}} \sim N(0,1).
+$$
+
+---
+
+So, to test the null hypothesis $H_0: \pi_{\text{Italy}} = `r p_china`$ vs. $H_A: \pi_{\text{Italy}} \ne `r p_china`$, we need to find the probability of something *more extreme*. 
+
+--
+
+First, we find $Z_{\text{obs}}$:
+
+$$
+  Z_{\text{obs}} = \frac{\hat{p} - `r p_china`}{\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}} = \frac{`r p_italy` - `r p_china`}{\sqrt{\frac{`r p_china`(1-`r p_china`)}{`r n_italy`}}} \approx `r (z_obs <- round((p_italy - p_china)/sqrt(p_china*(1-p_china)/n_italy), digits = 4))`
+$$
+
+Then we want to find $P(\text{more extreme} | H_0 \text{ true})$. What is more extreme in this case? 
+--
+ Smaller than `r -abs(z_obs)` or greater than `r abs(z_obs)`. 
+ 
+---
+
+So, $\text{p-value} = P(Z < `r -abs(z_obs)`) + P(Z > `r abs(z_obs)`) = 2\cdot P(Z < `r -abs(z_obs)`)$.
+
+```{r echo = FALSE}
+plot_pdf(Normal(),
+         limits = 1.02*c(-1,1)*abs(z_obs)) + 
+  geom_auc(to = -abs(z_obs)) +
+  geom_auc(from = abs(z_obs)) +
+  geom_vline(xintercept = c(-1,1)*z_obs,
+             color = "red", linetype = "dashed") 
+```
+
+.pull-left[
+```
+Z <- Normal(mu = 0, sigma = 1)
+
+2*cdf(Z, -`r abs(z_obs)`)
+```
+```{r echo = FALSE}
+Z <- Normal(mu = 0, sigma = 1)
+
+2*cdf(Z, -abs(z_obs))
+```
+]
+
+--
+
+.pull-right[
+Since this is much larger than our $\alpha = 0.1$, we do not reject the idea that the mortality rates are the same in Italy and Mainland China.
+]
+
+---
+
+$90\%$ CIs for the risk in Mainland China and Italy:
+
+```{r}
+corona_virus %>%
+  filter(`Country/Region` %in% c("Italy", "Mainland China"),
+         date == max(date)) %>% 
+  group_by(`Country/Region`) %>% 
+  summarize_at(.vars = vars(Confirmed, Deaths, Recovered),
+               .funs = sum) %>% 
+  mutate(P = Deaths/Confirmed,
+         LL = P - quantile(Normal(), 0.95)*sqrt(P*(1-P)/Confirmed),
+         UL = P + quantile(Normal(), 0.95)*sqrt(P*(1-P)/Confirmed))
+```
+
+---
+
+What assumptions did we make that most likely are NOT true?
+
+--
+
+* Outcome of each confirmed case is a Bernoulli RV with some probability of success
+
+--
+
+* All independent
+
+--
+
+Other problems:
+
+* When comparing rate in Italy to rate in Mainland China, we ignored that the rate in Mainland China was actually *estimated* from the data.
+
+---
+
+A map:
+
+```{r eval = T}
+world_map <- map_data("world")
+
+for_map <- corona_virus %>% 
+  filter(date == max(date)) %>% 
+  group_by(region = `Country/Region`) %>% 
+  summarize_at(vars(Confirmed, Deaths, Recovered), sum) %>% 
+  ungroup() %>% 
+  mutate(region = case_when(region == "Mainland China" ~ "China",
+                            region == "US" ~ "USA", 
+                            TRUE ~ region))
+```
+
+---
+
+A map:
+
+```{r map1, eval = F}
+ggplot() +
+  geom_map(data = left_join(world_map, for_map),
+           map = world_map,
+           aes(x = long, y = lat, map_id = region,
+               fill = log(Confirmed + 1))) +
+  scale_fill_gradient2(limits = c(0, log(max(for_map$Confirmed)+1)),
+                       low = "white", high = "red") +
+  coord_fixed() +
+  labs(x = "", y = "") +
+  guides(fill = guide_colorbar(title.position = "top",
+                               barheight = 0.75, barwidth = 15)) +
+  theme_void() +
+  theme(legend.position = 'bottom',
+        legend.margin = margin(0, 0, 0, 0),
+        legend.box.margin = margin(0, 0, 0, 0),
+        panel.background = element_rect(fill = "lightblue")) +
+  ggtitle(label = "Confirmed Cases Of Corona Virus", 
+          subtitle = max(corona_virus$date))
+```
+
+
+---
+
+A map:
+
+```{r ref.label='map1', eval = T, echo = F, out.width = "707px", out.height = NULL}
+```
+
+---
+
+An animation:
+
+<center>
+  <video controls width="707" height="400">
+    <source src="`r paste(here::here('covid-19.mp4'))`" type="video/mp4">
+  </video>
+</center>

@@ -1,0 +1,609 @@
+---
+title: "Lecture 3: Descriptive Statistics"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ration: '16:9'
+      navigation:
+        scroll: false
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, dpi = 300, fig.align = "center")
+```
+
+
+# Objectives
+
+1. "Previously on STAT 324..."
+
+2. Descriptive Statistics
+    - Types of data/variables
+    
+    - Numerical summaries
+    
+    - Graphical summaries
+
+---
+
+# Previously on STAT 324...
+
+* The general setup
+
+--
+* Three parts of this class:
+
+    1. Descriptive Statistics
+
+--
+    2. Probability
+
+--
+    3. Inferential Statistics
+
+---
+layout: true
+
+# Descriptive Statistics
+
+---
+
+* What: the art of describing data with few important measures ('summary statistics')
+
+* Why: 
+    - know your population!!
+    - explore your data
+
+* How: try to get an idea of the distributions of variables included 
+    - what's a distribution?!
+    - what's a variable?!
+
+???
+
+* What: when doing big studies, you collect lots of data. Take the essense of the data, summarize it in a few summary statistics, present it to the audience.
+
+* Why: 
+    - the sample is supposed to be representative of the population. Describe the sample to know what population you MIGHT be able to generalize to
+    - often find things -- data entry errors, potential confounding variables, potential associations
+
+* How: use numbers and especially figures to describe the distribution
+    - what's a distribution? Next week
+    - what's a variable -- today.
+
+---
+
+* Discrete data
+    - categorical
+        - no natural ordering
+        - examples: sex, race, blood type, political orientation, etc. 
+    - ordinal
+        - naturally ordered
+        - educational level, age groups, disease severity scales, counts, etc.
+    - summarized by 
+        - frequency counts
+        - relative frequencies
+
+--
+
+* Continuous data
+    - numerical
+        - examples: age, height, weight, BMI, proportions, etc.
+    - infinite (uncountable, actually...) number of potential values
+    - summarized by
+        - location measures
+        - spread/variation measures
+        - shape
+
+---
+layout: true
+
+# Descriptive Statistics
+
+**Data example: STAR WARS**
+
+---
+
+First, some `R` setup:
+
+```{r message = FALSE, warning = FALSE}
+library(tidyverse)
+library(DT); library(kableExtra)
+
+# Change theme for plots
+theme_set(theme_bw()) 
+
+# Change color scheme for plots
+scale_color_continuous <- scale_color_viridis_c
+scale_color_discrete <- scale_color_viridis_d
+
+scale_fill_continuous <- scale_fill_viridis_c
+scale_fill_discrete <- scale_fill_viridis_d
+```
+
+---
+
+Let's load some data, and take a look:
+
+```{r starwarsdata}
+starwars <- read_csv("../../csv_data/starwars.csv")
+
+## datatable and formatStyle are from the DT package
+datatable(starwars, options = list(pageLength = 4, lengthChange = FALSE,
+                                   scrollX = TRUE, dom = "tp")) %>% 
+  formatStyle(columns = 1:ncol(starwars), fontSize = "12pt")
+```
+
+---
+
+How many films have the characters been in? 
+
+Ordinal variable. Summarized using frequency counts, and relative frequencies.
+
+Numerical summary:
+
+.pull-left[
+```{r starwars1, eval = FALSE}
+n_films <- starwars %>% 
+  group_by(n_films) %>% 
+  summarize(frequency = n()) %>%
+  mutate(relative = frequency / sum(frequency))
+
+kable(n_films, 
+      format = "html") %>% 
+  kable_styling(font_size = 12) 
+# kable_styling is from the kableExtra package.
+```
+]
+
+.pull-right[
+
+```{r starwars1-out, ref.label="starwars1", echo = FALSE, warning = FALSE, message = FALSE}
+```
+
+]
+
+---
+
+How many films have the characters been in? 
+
+Ordinal variable. Summarized using frequency counts, and relative frequencies.
+
+Graphical summary:
+
+.pull-left[
+```{r starwars2, eval = FALSE}
+ggplot(data = starwars,
+       aes(x = n_films)) +
+  geom_bar() +
+  labs(x = "Number of films", 
+       y = "Frequencies")
+```
+]
+
+.pull-right[
+```{r starwars2-out, ref.label="starwars2", echo = FALSE, warning = FALSE, message = FALSE, fig.width=2, fig.height=2, dpi = 300, out.width = "100%"}
+```
+]
+
+---
+
+How many films have the characters been in? 
+
+Ordinal variable. Summarized using frequency counts, and relative frequencies.
+
+Graphical summary:
+
+.pull-left[
+```{r starwars3, eval = FALSE}
+ggplot(data = starwars,
+       aes(x = n_films)) +
+  geom_bar(aes(y = ..count../sum(..count..))) +
+  labs(x = "Number of films", 
+       y = "Relative frequencies")
+```
+]
+
+.pull-right[
+```{r starwars3-out, ref.label="starwars3", echo = FALSE, warning = FALSE, message = FALSE, fig.width=2, fig.height=2, dpi = 300, out.width = "100%"}
+```
+]
+
+---
+
+When would we use relative frequencies rather than frequencies?
+--
+ When comparing groups.
+
+.pull-left[
+```{r compare-groups, eval = FALSE}
+n_films_gender <- starwars %>% 
+  group_by(gender, n_films) %>% 
+  summarize(frequencies = n()) %>% 
+  mutate(relative = frequencies / sum(frequencies))
+
+kable(n_films_gender,
+             format = "html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+
+.pull-right[
+```{r ref.label="compare-groups", echo = FALSE}
+```
+]
+---
+
+When would we use relative frequencies rather than frequencies? When comparing groups.
+
+```{r compare-groups-fig, fig.height = 2.75, dpi = 300}
+ggplot(data = n_films_gender,
+       aes(x = n_films, y = frequencies, fill = gender)) + 
+  geom_bar(stat = "identity") + 
+  facet_grid(~gender) + 
+  labs(x = "Number of films")
+```
+
+---
+
+When would we use relative frequencies rather than frequencies? When comparing groups.
+
+```{r fig.height = 2.75, dpi = 300}
+ggplot(data = n_films_gender,
+       aes(x = n_films, y = relative, fill = gender)) + 
+  geom_bar(stat = "identity") + 
+  facet_grid(~gender) + 
+  labs(x = "Number of films")
+```
+
+
+---
+layout: true
+
+# Descriptive Statistics
+
+---
+
+For continuous data, measures of location and spread
+
+Measures of location:
+
+* mean/average: $\bar{x} = \frac{1}{n}\left(x_1 + x_2 + ... + x_n\right) = \frac{1}{n} \sum_{i=1}^n x_i$
+* median: the observation in the middle of the data. 
+* minimum and maximum: the smallest and largest observations, respectively
+
+--
+
+```{r echo = FALSE}
+silly_data <- c(1, 5, 2, -3, 7, -12, 0)
+```
+
+Simple example data: $`r paste(silly_data, collapse = ", ")`$. 
+
+Mean:
+--
+ `r mean(silly_data)`
+
+Median: 
+--
+ `r median(silly_data)`
+
+Minimum and maximum: 
+--
+ `r min(silly_data)` and `r max(silly_data)`
+
+
+---
+
+Measures of spread:
+
+* variance: $s^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2$
+* standard deviation: $s = \sqrt{s^2}$
+* range: $\text{max} - \text{min}$
+* percentiles (sometimes referred to as quantiles): 
+    
+> The *p'th percentile* of a set of measurements is the one that has $p \%$ of the data below it.
+
+* Inter Quartile Range (IQR): 75th percentile - 25th percentile
+    - 25th percentile = first quartile = median of 1st half including median
+    - median = second quartile
+    - 75th percentile = third quartile = median of 2nd half including median
+
+--
+
+Simple example data: $`r paste(silly_data, collapse = ", ")`$. 
+
+Variance:
+--
+ `r var(silly_data)`. Standard deviation:
+--
+ `r sd(silly_data)`. Range:
+--
+ $`r max(silly_data) - min(silly_data)`$. <br>
+1st and 3rd quartiles (i.e. 25th and 75th percentiles):
+--
+ `r quantile(silly_data, p = c(0.25, 0.75))`. IQR:
+--
+ `r IQR(silly_data)`
+
+Why don't we use these summaries for discrete data?
+--
+ Doesn't make sense for categorical data. Could maybe use these in some cases when working with ordinal data, although interpretation might be hard.
+---
+layout: true
+
+# Descriptive Statistics
+
+**Data example: STAR WARS**
+
+---
+
+```{r many-summaries, eval = FALSE}
+starwars %>% 
+  filter(!is.na(height), gender %in% c('male', 'female')) %>% 
+  group_by(gender) %>% 
+  summarize(n = n(),
+            mean = mean(height),
+            var = var(height),
+            sd = sd(height),
+            median = median(height),
+            Q1 = quantile(height, p = 0.25),
+            Q2 = quantile(height, p = 0.50),
+            Q3 = quantile(height, p = 0.75),
+            IQR = IQR(height), 
+            min = min(height),
+            max = max(height),
+            range = max - min) %>% 
+  kable(format = "markdown", digits = 2)
+```
+
+---
+
+```{r ref.label="many-summaries", echo = FALSE}
+```
+
+---
+
+```{r}
+starwars %>% 
+  filter(!is.na(height), gender %in% c('male', 'female')) %>% 
+  group_by(gender) %>% 
+  summarize(n = n(),
+            '10th percentile' = quantile(height, p = 0.1),
+            '57th percentile' = quantile(height, p = 0.57),
+            '82nd percentile' = quantile(height, p = 0.82)) %>% 
+  kable(format = "markdown", digits = 2)
+```
+
+
+
+---
+
+Visually, continous data can be summarized using a *histogram*. 
+
+```{r fig.width = 5, fig.height = 2, out.height = "45%", out.width = "90%"}
+ggplot(data = starwars,
+       aes(x = height)) + 
+  geom_histogram(binwidth = 10, boundary = 60,
+                 na.rm = TRUE, color = 'black')
+```
+
+How does mean and variance relate to a histogram? 
+
+---
+
+Proportion of an area is the proportion of data in the corresponding interval: proportion of characters with height less than 100 $= \frac{7 \cdot 10}{`r nrow(filter(starwars, !is.na(height)))` \cdot 10} \approx 0.086$. 
+
+This will be **very** important to us later. 
+
+```{r echo = FALSE, fig.width = 5, fig.height = 3, out.height = "50%", out.width = "90%"}
+plotly::ggplotly(
+  ggplot(data = starwars,
+         aes(x = height)) + 
+    geom_histogram(binwidth = 10, boundary = 60, aes(fill = height <= 100),
+                   na.rm = TRUE, color = 'black') +
+    scale_fill_manual(values = c("grey40", "red")) + 
+    theme(legend.position = "none"), tooltip = "count"
+)
+```
+
+---
+
+```{r echo = FALSE, fig.width = 5, fig.height = 3, out.width = "100%"}
+ggplot(data = starwars %>% filter(gender %in% c('male', 'female')),
+       aes(x = height)) +
+  geom_histogram(binwidth = 10, boundary = 60, na.rm = T) +
+  geom_vline(data = starwars %>% 
+               filter(gender %in% c('male', 'female')) %>% 
+               group_by(gender) %>% 
+               summarize(mean = mean(height, na.rm = T),
+                         median = median(height, na.rm = T),
+                         `90th percentile` = stats::quantile(height, p = 0.9, na.rm = T)) %>% 
+               pivot_longer(cols = c(mean, median, `90th percentile`), names_to = 'stat', values_to = 'value'),
+             aes(xintercept = value, color = stat)) +
+  facet_grid(gender ~ .) + 
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+---
+
+Histograms can also be used to depict *relative frequencies*. To do so, you simply divide the counts by the total number of observations.
+
+```{r echo = FALSE, fig.width = 5, fig.height = 2, out.height = "50%", out.width = "90%"}
+ggplot(data = starwars,
+       aes(x = height)) + 
+  geom_histogram(binwidth = 10, boundary = 60,
+                 na.rm = TRUE, color = 'black',
+                 aes(y = ..count../sum(..count..)))
+```
+
+---
+
+Another useful figure for numerical data: the boxplot (also known as box-and-whisker plot, or box-and-whisker diagram).
+
+The key to decipher a box plot:
+
+.pull-left[
+Outlier if 
+
+$\text{obs} < \text{Q1} - 1.5\cdot \text{IQR}$ 
+
+or 
+
+$\text{obs} > \text{Q3} + 1.5\cdot \text{IQR}$
+
+
+25% of the data are above the box
+
+50% of the data are in the the box
+
+25% of the data are below the box
+
+
+]
+
+.pull-right[
+```{r echo = FALSE}
+ggplot(data = data.frame(y = c(1,2,5,10,10,10,11,13,13,13,15,15,15,15,16,20,24)),
+       aes(x = 1, y = y)) + 
+  geom_boxplot(width = 0.5) + 
+  geom_text(data = data.frame(y = c(1.5,5,10,13,15,20,24),
+                               labels = c("outliers", "minimum\n(excluding outliers)",
+                                          "Q1", "median", "Q3", 
+                                          "maximum\n(excluding outliers)", "outlier")),
+            aes(x = 1.75, label = labels),
+            hjust = 0, size = 4.75) +
+  geom_segment(data = data.frame(y = c(1.5,1.5,5,10,13,15,20,24),
+                                 yend = c(1,2,5,10,13,15,20,24)),
+               aes(x = 1.65, xend = c(1.1, 1.1, 1.1, 1.35, 1.35, 1.35, 1.1, 1.1),
+                   y = y, yend = yend),
+               arrow = arrow(length = unit(0.03, "npc")),
+               color = 'darkred') +
+  theme_minimal() +
+  labs(x = '', y = '') +
+  scale_x_continuous("", limits = c(0,2.2)) +
+  theme(panel.grid = element_blank(),
+        axis.text = element_blank(),
+        plot.margin=grid::unit(c(0,0,0,0), "mm"))
+```
+]
+
+---
+
+
+```{r fig.height = 3, fig.width = 3, out.height = "300px", fig.align="center"}
+boxplots <- ggplot(data = starwars %>% filter(gender %in% c('male', 'female')),
+       aes(x = gender, y = height)) +
+  geom_boxplot()
+
+boxplots
+```
+
+---
+
+My personal favorite when data set not too large: boxplot + points!
+
+```{r boxplot-plus-points, fig.height = 3, fig.width = 3, out.height = "300px", fig.align="center"}
+boxplots +
+  geom_point(aes(color = gender), alpha = 0.5,
+             position = position_jitter(width = 0.2)) +
+  guides(color = "none")
+```
+
+---
+layout: true
+
+# Descriptive Statistics
+
+**Continuous Data: shape**
+
+---
+
+
+So far, only talked about *location* and *spread* of data. 
+
+--
+
+However, this does not provide the full picture:
+
+```{r 4_dists, echo = FALSE, out.height = "350px", fig.width = 8, fig.height = 4}
+mu <- 2
+var <- mu^2
+
+exp_data <- rexp(1000, rate = 1/mu)
+norm_data <- rnorm(1000, mean = mu, sd = sqrt(var))
+beta_data <- rbeta(1000, shape1 = 0.9, shape2 = 0.25)
+for_bimodal <- rbernoulli(1000, p = 0.75)
+bimodal_data <- for_bimodal*rnorm(1000, -3) + (1-for_bimodal)*rnorm(1000, 3) #runif(1000, min = 0, max = 6.928203)
+
+dat <- data.frame(data = c(exp_data, norm_data, beta_data, bimodal_data),
+                  dist = rep(1:4, each = 1000)) %>% 
+  group_by(dist) %>% 
+  mutate(data = (data - mean(data))/sd(data)*mu + mu,
+         label = paste0("Mean = ", mean(data), "; Variance = ", var(data)))
+
+dist_hists <- ggplot(data = dat,
+       aes(x = data)) + 
+  geom_histogram(bins = 50) +
+  theme(legend.position = "top")
+
+dist_hists + 
+  facet_wrap(~dist, scales = "free", nrow = 1,
+             labeller = labeller(dist = rep(unique(dat$label), 4) %>% setNames(1:4)))
+```
+
+---
+
+The *shape* of the data is generally described as either *symmetrical* or *non-symmetrical*, and if non-symmetrical as either *right skewed* or *left-skewed*. 
+
+When symmetrical, mean = median. Right skewed, mean > median. Left skewed, mean < median.
+
+```{r echo = FALSE, out.height = "350px", fig.width = 8, fig.height = 4}
+dist_hists + 
+  geom_vline(data = dat %>% 
+               group_by(dist) %>% 
+               summarize(mean = mean(data),
+                         median = median(data)) %>% 
+               pivot_longer(cols = c(mean, median), 
+                            names_to = "stat"),
+             aes(xintercept = value, color = stat)) +
+  facet_wrap(~dist, scales = "free", nrow = 1,
+             labeller = labeller(dist = c("Right skewed", "Symmetrical", "Left skewed", "Asymmetrical/bimodal") %>% setNames(1:4)))
+```
+
+---
+
+Boxplots don't give us the entire shape, but they let us determine if the data is symmetrical: 
+
+.pull-left[
+For symmetrical data
+
+* median is in the middle of the data.
+* median = mean. 
+
+Right skewed data => median closer to bottom of box.
+
+Left skewed data => median closer to top of box.
+]
+
+.pull-right[
+```{r out.height = "300px", echo = FALSE, fig.width = 2, fig.height = 2}
+ggplot(data = dat,
+       aes(x = as.character(dist), y = data)) + 
+  geom_boxplot() + 
+  labs(x = "") + 
+  theme(legend.position = "top")
+```
+]
+

@@ -1,0 +1,106 @@
+---
+title: "Discussion 4"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Consider a large population which has true mean $\mu$ and true standard deviation $\sigma$. We take a sample of size 3 from this population, thinking of the sample as the RVs $X_1, X_2, X_3$ where $X_i$  can be considered iid (independent identically distributed). We are interested in estimating $\mu$.
+
+    a. Consider the estimator $\hat{\mu_1}=X_1 +X_2 -X_3$. What is the mean of this estimator? 
+  
+    b. Find the variance of $\hat{\mu_1}$. 
+  
+    c. Consider the estimator $\hat{\mu_2}=\frac{X_1 + X_2 + X_3}{3}$. What is the mean of this estimator?
+  
+    d. Find the variance of $\hat{\mu_2}$.
+  
+    e. Now, consider the estimator $\hat{\mu_3}=\frac{X_1 +2X_2 +3X_3}{6}$. What is the mean of this estimator?
+  
+    f. Find the variance of $\hat{\mu_3}$. 
+  
+    g. Which of these three estimators is preferable? Why?
+  
+    <!-- h. Now let $\mu=100$ and $\sigma=10$. Define the estimator $\hat{\mu_4}=\frac{X_1 +X_2 +X_3}{3}+\epsilon X_1$. Compute the Mean Squared Error: $\text{MSE} = \text{Bias}(\hat{\mu_4}) + \text{Var}(\hat{\mu_4})$. -->
+
+    <!-- g. Is  $\hat{\mu_4}$ ever a better estimator than  $\hat{\mu_1}$? If so, find a value of $\epsilon$ for which this is the case. Is $\hat{\mu_4}$ ever better than $\hat{\mu_2}$? Than $\hat{\mu_3}$? -->
+
+2. A packing plant fills bags with cement. The weight X kg of a bag of cement can be modeled by a normal distribution with mean 50kg and standard deviation 0.7kg.
+	
+  	a. Find $P(X > 51)$
+  	
+  	b. Three bags are selected randomly. Find the probability that at least two weigh more than 51kg.
+  	
+
+3. Weights of female cats are well approximated by a normal distribution with mean 4.1kg and standard deviation of 0.6kg $X \sim N(4.1, 0.6^2)$.
+
+    a. What proportion of female cats have weights between 3.7 and 4.4kg?
+  
+    b. A certain female cat has a weight that is 0.5 standard deviations above the mean. What proportion of female cats are heavier than this one?
+  
+    c. How heavy is a female cat whose weight is on the 80th percentile?
+  
+    d. A female cat is chosen at random. What is the probability that she weighs more than 4.5 kg?
+  
+    <!-- e. Ten female cats are chosen at random from a large population. What is the probablity that exactly 2 of them weigh more than 4.5 kg? Assume that the weights of the 10 cats are independent (large population size). -->
+
+    <!-- f. Ten female cats are chosen at random from a large population. What is the probablity that their average weight is more than 4.2 kg? Assume that the weights of the 10 cats are independent (large population size). -->
+
+    <!-- g. Suppose 1 female cat is selected at random from the given distribution and 1 male cat of that same breed is also selected at random. Male weights are well approximated by a normal distribution with mean of 4.3 and standard deviation of 0.2; $Y~\sim(4.3, 0.2^2)$. Define a new random variable: $D=Y-X$. Describe the distribution of $D$ and calculate the probability that $D>0$ assuming X and Y are independent. What does this value mean in the context of the problem? -->
+
+4. Take a look at the `R`-code below. [**Note**: You can also find this as a separate .Rmd file on Canvas. Everything after a pound symbol (\#) is a comment, and NOT part of the `R` code.]
+
+    a. Walk through it, one line at a time, and try to make sense of it. 
+    
+    b. Run all the code, **EXCEPT FOR THE LAST LINE**. This should generate a bunch of QQ-plots. Half of them are from a normal distribution, the other half an exponential distribution. Can you tell which correspond to samples from the normal distribution, and which correspond to samples from the exponential distribution?
+    
+    c. Repeat with `sample_size <- 100`. Does this change anything?
+
+```{r eval = FALSE}
+library(tidyverse)
+library(distributions3)
+
+## Create two random variables -- one Normal and one Exponential
+X <- Normal(mu = 1, sigma = 1)
+Y <- Exponential(rate = 1)
+
+sample_size <- 10
+
+## Create a vector of i's to use for scrambling
+is <- sample(1:16)
+
+normal_samples <- data.frame(i = is[1:8]) %>% 
+  mutate(distribution = "Normal",                  # Create column that just says "Normal". 
+                                                   # For book keeping.
+         sample = map(i, random,                   # map runs the function "random" with
+                      d = X, n = sample_size)) %>% # arguments d = X, and n = sample_size 
+                                                   # for each i. I.e. it creates 8 random 
+                                                   # samples of size sample_size from the 
+                                                   # distribution X.
+                                                   # The result is this weird list thing...
+  unnest_longer(col = sample) # This get's rid of the list and simply gives us a 
+                              # data.frame that we can work with...
+
+exponential_samples <- data.frame(i = is[9:16]) %>% 
+  mutate(distribution = "Exponential", 
+         sample = map(i, random, d = Y, n = sample_size)) %>% 
+  unnest_longer(col = sample)
+
+# Here we just stack the two data.frame on top of each other (i.e. bind the rows together)
+all_samples <- bind_rows(
+  normal_samples,
+  exponential_samples
+) 
+
+# Create QQ-plots
+ggplot(all_samples,
+       aes(sample = sample)) + 
+  geom_qq() +
+  facet_wrap(~i) +
+  geom_abline(aes(slope = sd(sample), intercept = mean(sample)))
+
+## To reveal the truth behind the i's, run this line:
+all_samples %>% select(i, distribution) %>% unique()
+```

@@ -1,0 +1,183 @@
+---
+title: "Discussion 7"
+output: pdf_document
+params:
+  solution: FALSE
+  create_solution: TRUE
+  this_file: FALSE
+---
+
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse); library(distributions3)
+
+knitr::opts_chunk$set(dpi = 300, warning = FALSE, message = FALSE, include = params$solution)
+
+## Just to avoid having to do `params$solution` all the time...
+solution <- params$solution
+create_solution <- params$create_solution
+
+knitr::opts_template$set(solution = list(include = solution))#echo = solution, 
+                                         #results = ifelse(solution, knitr::opts_chunk$get()$results, 'hide'), 
+                                         #fig.show = ifelse(solution, "show", "hide")))
+
+
+## If using RStudio, you can leave `this_file: FALSE` above, and the file name/path will be retrieved 
+## here. 
+if(isFALSE(params$this_file)){
+  this_file <- rstudioapi::getActiveDocumentContext()$path
+} else {
+  this_file <- params$this_file
+}
+
+## Beginning of solution to a question: if we are creating the solution, include bold "Solution", and make text color red. If not, then include "vspace", and start comment section. Specify how much space to leave for answers. (If discussion/homework 0. If exam, >0.)
+sol_start <- function(vspace="0cm"){
+  ifelse(solution, 
+         "\\textcolor{red}{\\textbf{Solution}:", 
+         paste0("\\vspace{", vspace, "}<!--"))
+}
+## End of solution to a question. If we are creating the solution, end \\textcolor{. Else, end comment.
+sol_end <- ifelse(solution, "}", "-->")
+```
+
+1. Specifications for a water pipe call for a mean breaking strength $\mu$ of more than 2000 lb per linear foot. Engineers will perform a test to decide whether or not to use a certain kind of pipe. A random sample of 1 ft sections of pipe is selected and their breaking strengths are measured. The pipe will not be used unless the engineers can conclude (statistically, not with certainty) that the mean breaking strength is greater than 2000.
+
+    a. Specify appropriate null and alternative hypotheses for this situation.  
+    `r sol_start()`
+    $H_0: \mu =2000$, $H_a: \mu >2000$
+    `r sol_end`
+
+    b. Based on last week's analsysis, the engineers chose to obtain a sample of 75 random 1 foot pipe sections. The data is provided in a .csv file. Perform a one sample t-test at the $5\%$ level after checking that the assumptions for testing are well met and interpret the results in context.  
+    
+    ```{r echo = solution, fig.show = ifelse(solution, "show", "hide")}
+    library(tidyverse)
+    pipes <- read_csv(here::here("Discussions/disc07/pipes.csv"))
+    
+    ggplot(pipes, aes(x = strength)) + 
+      geom_histogram(binwidth = 10, boundary = 1970)
+    
+    ggplot(pipes, aes(sample = strength)) + 
+      geom_qq() + 
+      geom_qq_line()
+    ```
+    
+    ```{r echo = solution, results = ifelse(solution, knitr::opts_chunk$get()$results, "hide")}
+    sum_stats <- pipes %>% 
+      summarize(n = n(),
+                Mean = mean(strength),
+                SD = sd(strength),
+                T_obs = (Mean - 2000)/(SD/sqrt(n)))
+    sum_stats
+    ```
+    
+    
+    `r sol_start()`
+    We are assuming these 75 samples are randomly and independently chosen (ie, we aren't only testing from 1 long pipe 75 times). From the qqplot and histogram of the sample data, we do not have strong evidence that the sample came from a non-normal population. Addiitionally, with such a large sample size, we are confident the CLT has kicked in and the distribution of sample means would be normal, even if the population data is not.  
+    T-test T-statistic: $t_{obs}=\frac{`r sum_stats[['Mean']]` - 2000}{`r sum_stats[['SD']]`/\sqrt{75}}= `r round(sum_stats[['T_obs']], digits = 4)`$. Then, we can compare that observed test statistic to the critical values in the $T_{74}$ distribution, or calculate the p-value. Let's do both.  
+    Since $`r round(sum_stats[['T_obs']], digits = 4)` = T_{\text{obs}} < t_{74, 0.05} = `r round(quantile(StudentsT(74), 1-0.05), digits = 4)`$, our observed value is NOT far from the null (i.e. $0$), hence we do NOT reject.  
+    Since $P(T_{74} > T_{\text{obs}}) = P(T_{74} > `r round(sum_stats[['T_obs']], digits = 4)`) = `r round(cdf(StudentsT(74), sum_stats[["T_obs"]]), digits = 4)` > 0.05$, we do not reject -- the probability of observing something more extreme is low. 
+    `r sol_end`
+    
+    ```{r opts.label = solution}
+    library(distributions3)
+    T_74 <- StudentsT(df = 74)
+    
+    ## Critical Value
+    quantile(T_74, 1-0.05)
+    
+    ## P-value
+    1-cdf(T_74, sum_stats$T_obs)
+    ```
+    
+    c. Another scientist in the lab suggests instead of a t test, a z test could be performed. Explain why either a t or z test will give very similar conclusions in this case.  
+    `r sol_start()`
+    Since our sample size is so large (75), we are confident that the sample standard deviation is a good approximation for the population standard deviation. Additionally, with 74 degrees of freedom, the t-distribution will be very similar to the standard Normal, so if we calculate the critical value and p-value based on the normal rather than the t, we get very similar results:
+    `r sol_end`
+
+    ```{r opts.label = solution}
+    Z <- Normal()
+    
+    ## Critical Value
+    quantile(Z, 1 - 0.05)
+    
+    ## P-value
+    1-cdf(Z, sum_stats$T_obs)
+    ```
+
+
+2. A crop scientist evaluating lettuce yields plants 20 plots, treats them with a new fertilizer, lets the lettuce grow, and then measures yield in numbers of heads per plot. The results are provided in a .csv file.  
+The old fertilizer led to an average yield of 145 heads per plot. Test whether the new fertilizer leads to an improved yield via the following steps.
+    
+    a. Perform a bootstrap test at a $0.1$ significance level. State all assumptions needed.  
+    
+    ```{r opts.label = solution}
+    lettuce <- read_csv(here::here("Discussions/disc07/lettuce.csv"))
+    
+    bootstrap_samples <- tibble(i = 1:5000) %>% 
+      mutate(bootstrap_sample = map(i, ~sample_n(lettuce, 
+                                                 size = nrow(lettuce), replace = T)$yields),
+             bootstrap_mean = map_dbl(bootstrap_sample, mean), 
+             bootstrap_sd = map_dbl(bootstrap_sample, sd),
+             bootstrap_T = (bootstrap_mean - mean(lettuce$yields))/(bootstrap_sd/sqrt(nrow(lettuce))))
+    
+    (critical_values <- bootstrap_samples %>% 
+      summarize(t_left = quantile(bootstrap_T, 0.05),
+                t_right = quantile(bootstrap_T, 0.95)))
+    
+    T_obs <- (mean(lettuce$yields) - 145)/(sd(lettuce$yields)/sqrt(nrow(lettuce)))
+    
+    p_value <- sum(bootstrap_samples$bootstrap_T > T_obs)/5000
+    
+    ggplot(bootstrap_samples, aes(x = bootstrap_T)) + 
+      geom_histogram(bins = 30)
+    ```
+    `r sol_start()`
+    We are testing $H_0: \mu = 145$ against $H_A: \mu > 145$ using a bootstrap test. For this to work, we need to assume that the samples are independent of each other.  
+    We need to choose a significance level. Let's use $\alpha = 0.1$.  
+    Our observed test statistics is $T_{\text{obs}} = `r round(T_obs, digits = 3)`$.  
+    The p-value is found using the bootstrap samples as the proportion of bootstrap T's that are "more extreme" than what we observe. Since $H_A: \mu > 145$, "more extreme" = "greater". So, the p-value is $\frac{\# \text{ bootstrap T's } > T_{\text{obs}}}{\# \text{ bootstrap samples}} = \frac{`r p_value*5000`}{5000} = `r round(p_value, digits = 3)`$. Since this is greater than our chosen significance level ($\alpha = 0.1$), we do NOT reject the null in favor of the alternative. 
+    `r sol_end`
+    
+    b. Find a $90\%$ bootstrap confidence interval.  
+    `r sol_start()`
+    A $90\%$ CI for mu is given as $[\bar{x}_{\text{obs}} - \hat{t}_{0.05}\frac{s}{\sqrt{n}}, \bar{x}_{\text{obs}} - \hat{t}_{0.95}\frac{s}{\sqrt{n}}] = [`r mean(lettuce[['yields']])` - `r critical_values[['t_right']]`\cdot \frac{`r sd(lettuce[['yields']])`}{\sqrt{20}}] = [`r paste(round(mean(lettuce[['yields']]) - c(critical_values[['t_right']], critical_values[['t_left']])*sd(lettuce[['yields']])/sqrt(20), digits = 3), collapse = ", ")`]$.
+    `r sol_end`
+    
+    c. Perform a t-test and find a corresponding confidence interval using $\alpha = 0.1$. State all assumptions needed, and whether or not you find them reasonable. Compare to results from b and c.  
+    `r sol_start()`
+    Calculations below. For us to do this, we need to add the assumption that $\bar{X} \sim N$, i.e. either the data are normal, or CLT gives us normality.  From the histogram and QQ-plot below, the data don't seem to be normally distributed, so we would have to rely on CLT. With 20 observations, this assumption seems hard to defend.  
+    Comparison: p-value smaller, confidence interval shifted a bit. 
+    `r sol_end`
+    
+    ```{r opts.label = solution}
+    ggplot(lettuce,
+           aes(x = yields)) +
+      geom_histogram(bins = 12)
+    
+    ggplot(lettuce,
+           aes(sample = yields)) +
+      geom_qq() + 
+      geom_qq_line()
+    
+    lettuce %>% 
+      summarize(Mean = mean(yields),
+                SD = sd(yields),
+                n = n(),
+                T_obs = (Mean - 145)/(SD/sqrt(n)),
+                crit_val = quantile(StudentsT(df = n-1), 1-0.1),
+                p_val = 1 - cdf(StudentsT(df = n-1), T_obs),
+                LL = Mean - quantile(StudentsT(df = n-1), 1-0.05)*SD/sqrt(n),
+                UL = Mean + quantile(StudentsT(df = n-1), 1-0.05)*SD/sqrt(n))
+    
+    ## Perform test using build-in t.test function:
+    t.test(x = lettuce$yields, conf.level = 0.9, alternative = "greater")
+    
+    ## Get confidence interval from build-in t.test function:
+    t.test(x = lettuce$yields, conf.level = 0.9)$conf.int
+    ```
+    
+```{r include = FALSE, eval = (!solution && create_solution)}
+rm("params")
+rmarkdown::render(input = this_file, 
+                  output_file = paste0(str_remove(this_file, ".Rmd"), "_solution"),
+                  params = list(solution = TRUE, create_solution = FALSE))
+```

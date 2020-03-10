@@ -1,0 +1,19 @@
+discipline,gender,applications,awards
+Chemical sciences,men,83,22
+Chemical sciences,women,39,10
+Physical sciences,men,135,26
+Physical sciences,women,39,9
+Physics,men,67,18
+Physics,women,9,2
+Humanities,men,230,33
+Humanities,women,166,32
+Technical sciences,men,189,30
+Technical sciences,women,62,13
+Interdisciplinary,men,105,12
+Interdisciplinary,women,78,17
+Earth/life sciences,men,156,38
+Earth/life sciences,women,126,18
+Social sciences,men,425,65
+Social sciences,women,409,47
+Medical sciences,men,245,46
+Medical sciences,women,260,29

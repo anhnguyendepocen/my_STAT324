@@ -1,0 +1,39 @@
+---
+title: "Homework 5"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Instructions: To receive credit, you must submit your assignment to Canvas before 6pm, Friday, February 28th. The file submission must be a knitted .pdf or .html file, made using RMarkdown. The code you used to answer the questions should be included in your file. You do not need to submit your .rmd file. This assignment is worth 35 points.
+
+**1.** Working for a car company, you have been assigned to find the average miles per gallon (mpg) for a certain model of car. You take a random sample of 15 cars of the assigned model. Based on previous evidence and a QQ plot, you have reason to believe that the gas milage is normally distributed. You find that the sample average miles per gallon is around 26.7 with a standard deviation of 6.2 mpg.
+
+  (a) Construct and interpret a 95\% confidence interval for the mean mpg, $\mu$, for the certain model of car.
+    
+  (b) What would happen to the interval if you increased the confidence level from 95\% to 99\%? Explain your reasoning. (Do not compute the new interval.)
+    
+  (c) The lead engineer is not happy with the interval you contructed and would like to keep the width of the whole interval to be less than 4 mpg wide. The lead engineer decides to prepare a new experiment where the width of a $95\%$ CI is less than 4mpg. When preparing their next experiment, the engineer decides to use 6.2 mpg as the population standard deviation.  
+How many cars would you have to sample to create the interval the engineer is requesting? 
+
+  (d) Suppose you are asked to repeat this process with data gathered from all across the country. You end up constructing a total of 60 separate 95\% confidence intervals at different factories for the estimated average mpg of the model of car. Of these intervals, how many of them do you expect would fail to contain the true value of $\mu$?
+
+
+**2.** Suppose a computer engineer is interested in determining the average weight of a motherboard manufactured by a certain company. A summary of a large sample provided to the engineer suggest a mean weight of 11.8 ounces and an estimated standard deviation of 0.75 ounces. When preparing their next experiment, the engineer decides to use 0.75 ounces as the population standard deviation.
+
+  (a) How large a sample size is required if we want a 99\% confidence interval, with a tolerable interval width of 0.4?
+
+  (b) How large a sample would we need if we are interested in a 95\% confidence interval with a tolerable width of 0.5?
+
+**3.** A large population has an unknown distribution, but it is known that the population has mean 100 and variance 200. A sample of size n = 90 is going to be taken. Use the CLT to find the approximate probability that the sample mean will be greater than 102.
+
+**4.** Most penguin species are not sexually dimorphic, which means that there are no obvious outward body characteristics which indicate gender. Therefore, penguin gender must be determined by a blood test. A penguin researcher is interested in estimating the proportion of females in a large penguin population. She takes a random sample of n = 24 penguins, and determines the gender of each one using a blood test. She finds 15 males and 9 females. Let $\pi$ be the proportion of females in the population.
+
+  (a) Compute a numerical point estimate of $\pi$.
+    
+  (b) Compute the estimated standard error of the estimate.
+    
+  (c) Is it possible to compute a 95\% CI for $\pi$ using the normal approximation in this case? If it is possible, explain why, and make the CI. If it is not possible, explain why not.
+

@@ -1,0 +1,179 @@
+---
+title: "Cool stuff"
+author: "Ralph Trane"
+output: html_document
+---
+
+Load packages:
+
+```{r}
+library(tidyverse)
+```
+
+
+## Historic CO2
+
+Contains CO2 data:
+
+* Carbon dioxide concentration in ppm by volume
+* year
+* source
+
+```{r}
+historic_co2 <- read_csv("data/historice_co2.csv")
+
+co2_plot <- ggplot(data = historic_co2, 
+                   aes(x = year, y = co2, color = source)) + 
+  geom_line()
+
+co2_plot
+```
+
+Using a different package (`plotly`), we can make this interactive with one (!!) line of code!
+
+```{r}
+library(plotly)
+ggplotly(co2_plot)
+```
+
+## Murders
+
+
+
+```{r}
+murders <- read_csv("data/murders.csv")
+```
+
+Contains
+
+* US state
+* abbreviation
+* region
+* population in 2010
+* number of gun murders in 2010
+
+Overall average
+
+```{r}
+murders %>% 
+  summarize(mean_total = mean(total))
+```
+
+Any state differences? 
+
+```{r}
+murders %>% 
+  group_by(state) %>% 
+  summarize(mean_total = mean(total))
+```
+
+Any region differences?
+
+```{r}
+murders %>% 
+  group_by(region) %>% 
+  summarize(mean_total = mean(total))
+```
+
+Should probably do per capita:
+
+```{r}
+murders %>% 
+  mutate(n_per_1000 = total / population * 1000) %>% 
+  group_by(region) %>% 
+  summarize(mean_total = mean(n_per_1000))
+```
+
+South seems higher. But any difference between Northeast and North Central? 
+
+* Briefly mention sampling error: "if we sampled different year, see same?"
+* Anything else that hints to the need for more analysis
+
+Let's create a pretty map. Need some state data first:
+
+```{r}
+states_map <- map_data("state")
+```
+
+Create the map, and save it for later use:
+
+```{r}
+murders_by_state <- ggplot(murders, aes(map_id = state)) +
+  geom_map(aes(fill = total / population * 1000), 
+           map = states_map) +
+  coord_map() +
+  expand_limits(x = states_map$long, y = states_map$lat)
+```
+
+Show map
+
+```{r}
+murders_by_state
+```
+
+
+Interactive:
+
+```{r}
+ggplotly(murders_by_state)
+```
+
+## Research Funding
+
+Read data:
+
+```{r}
+research_funding_rates <- read_csv("data/research_funding_rates.csv")
+```
+
+Overall success rates:
+
+```{r}
+research_funding_rates %>% 
+  group_by(gender) %>% 
+  summarize(total_applications = sum(applications),
+            total_awards = sum(awards)) %>% 
+  mutate(success_rate = total_awards / total_applications)
+```
+
+By discipline:
+
+```{r}
+research_funding_rates %>% 
+  mutate(success_rate = awards / applications)
+```
+
+Bar chart:
+
+```{r}
+success_rates <- research_funding_rates %>% 
+  mutate(success_rate = awards / applications)
+
+ggplot(data = success_rates,
+       aes(x = discipline, y = success_rate, fill = gender)) + 
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme(axis.text.x = element_text(angle = -45, hjust = 0))
+```
+
+## Interactive Maps (Google style)
+
+```{r}
+library(leaflet)
+
+leaflet() %>% addTiles()
+```
+
+
+```{r}
+leaflet() %>% 
+  addProviderTiles(provider = "Esri.WorldImagery",
+                   options = tileOptions(minZoom = 2,
+                                         noWrap = TRUE)) %>% 
+  addPopups(lng = c(-89.405032, -89.407260, 11.324524), 
+            lat = c(43.074805, 43.074241, 55.257877), 
+            popup = c("We're here.", "MSC", "Denmark!"),
+            options = popupOptions(closeButton = FALSE,
+                                   closeOnClick = FALSE)) %>% 
+  setView(lng = -89.405032, lat = 43.074805, zoom = 20)
+```
+
