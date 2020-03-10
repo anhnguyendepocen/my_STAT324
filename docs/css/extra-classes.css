@@ -1,0 +1,14 @@
+.middlecenter {
+  height: 300px;
+  line-height: 300px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.75rem;
+}
+
+.large { font-size: 130% }
+.small { font-size: 70% }
+.vsmall { font-size: 50% }
+
+.red { color: red;}
+.blue { color: blue;}
