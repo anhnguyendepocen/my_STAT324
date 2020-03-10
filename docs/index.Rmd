@@ -30,8 +30,8 @@ include_slides <- function(title, file, create = TRUE){
 
 files <- c("./lecture01/lecture01.html",
            paste0("./lecture", 
-                  stringr::str_pad(2:13, width = 2, side = "left", pad = "0"), "/lec", 
-                  stringr::str_pad(2:13, width = 2, side = "left", pad = "0"),"_slides.html"))
+                  stringr::str_pad(2:2, width = 2, side = "left", pad = "0"), "/lec", 
+                  stringr::str_pad(2:2, width = 2, side = "left", pad = "0"),"_slides.html"))
 
 names(files) <- paste0("Lecture", 1:length(files))
 
