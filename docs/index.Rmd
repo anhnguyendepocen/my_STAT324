@@ -3,8 +3,8 @@ title: 'Lecture Slides'
 date: 'Last updated: `r Sys.Date()`'
 ---
 
-[Lecture 1](../Lectures/lecture01/lecture01.html)
+[Lecture 1](https://github.com/rmtrane/my_STAT324/tree/master/Lectures/lecture01/lecture01.html)
 
-[Lecture 2](../Lectures/lecture02/lec02_slides.html)
+[Lecture 2](https://github.com/rmtrane/my_STAT324/tree/master/Lectures/lecture02/lec02_slides.html)
 
-[Lecture 3](../Lectures/lecture02/lec03_slides.html)
+[Lecture 3](https://github.com/rmtrane/my_STAT324/tree/master/Lectures/lecture02/lec03_slides.html)
