@@ -492,7 +492,7 @@ library(lubridate)
 corona_virus <- read_csv(here::here("csv_data/corona_virus.csv")) %>% 
   mutate(date = mdy(date))
 
-corona_virus %>% tail(nrow(corona_virus)-500) %>% DT::datatable(options = list(pageLength = 5, scrollX = T))
+corona_virus %>% group_by(`Country/Region`, `Province/State`) %>% tail(20) %>% DT::datatable(options = list(pageLength = 5, scrollX = T))
 ```
 ]
 
