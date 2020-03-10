@@ -3,29 +3,41 @@ title: 'Lecture Slides'
 date: 'Last updated: `r Sys.Date()`'
 ---
 
-[Lecture 1](./lecture01/lecture01_slides.html)
+<br/>
 
-[Lecture 2](./lecture02/lec02_slides.html)
+```{r echo = FALSE, results = "asis"}
+knitr::opts_chunk$set(include = FALSE)
 
-[Lecture 3](./lecture03/lec03_slides.html)
+create_pdf <- function(file){
+  filename <- stringr::str_remove(basename(file), ".html")
+  path <- stringr::str_remove(file, paste0(filename, ".html"))
+  
+  if(!file.exists(paste0(path, filename, ".pdf"))){
+    pagedown::chrome_print(input = file, 
+                           output = paste0(path, filename, ".pdf"),
+                           timeout = 600)
+  }
+}
 
-[Lecture 4](./lecture04/lec04_slides.html)
 
-[Lecture 5](./lecture05/lec05_slides.html)
+include_slides <- function(title, file, create = TRUE){
+  if(create)
+    create_pdf(file)
+  
+  paste0("**", title, "**: [html](", file, "), [pdf](", stringr::str_replace(file, ".html", ".pdf)"))
+}
 
-[Lecture 6](./lecture06/lec06_slides.html)
+files <- c("./lecture01/lecture01.html",
+           paste0("./lecture", 
+                  stringr::str_pad(2:13, width = 2, side = "left", pad = "0"), "/lec", 
+                  stringr::str_pad(2:13, width = 2, side = "left", pad = "0"),"_slides.html"))
 
-[Lecture 7](./lecture07/lec07_slides.html)
+names(files) <- paste0("Lecture", 1:length(files))
 
-[Lecture 8](./lecture08/lec08_slides.html)
-
-[Lecture 9](./lecture09/lec09_slides.html)
-
-[Lecture 10](./lecture10/lec10_slides.html)
-
-[Lecture 11](./lecture11/lec11_slides.html)
-
-[Lecture 12](./lecture12/lec12_slides.html)
-
-[Lecture 13](./lecture13/lec13_slides.html)
-
+for(i in seq_along(files)){
+  cat(include_slides(title = names(files[i]),
+                     file = files[i], 
+                     create = F))
+  cat("<br/><br/>")
+}
+```
