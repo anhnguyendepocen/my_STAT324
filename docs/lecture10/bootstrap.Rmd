@@ -1,0 +1,324 @@
+---
+title: "How to Bootstrap"
+author: "Ralph Trane"
+date: "2/20/2020"
+output: html_document
+---
+
+In this document, we will explore how the bootstrap works through a few examples. In the first few examples, we know from theory exactly what distribution we should get. Here we simply confirm that the bootstrap works as expected. Then we will see a few examples where we do NOT know the distribution, but will see that the bootstrap does indeed still work.
+
+## Setup
+
+Load the libraries, and set a nicer theme for the plots. We also `set.seed`, which ensures that the plots will look the same every time I run this.
+
+```{r}
+library(tidyverse)
+library(distributions3)
+
+theme_set(theme_bw())
+
+set.seed(124019)
+```
+
+
+### Normal distribution
+
+First we will pretend that the population actually follows a normal distribution. That is, $X_1, ..., X_n \sim N(5,2^2)$. 
+
+First, we create the population:
+
+```{r}
+X <- Normal(mu = 5, sigma = 2)
+population <- tibble(x = random(X, 10000))
+```
+
+Let's double check that the data in the population matches the Normal distribution:
+
+```{r}
+ggplot(data = population,
+       aes(x = x)) + 
+  geom_histogram(bins = 100,
+                 aes(y = ..density..)) + 
+  stat_function(fun = pdf, args = list(d = X))
+```
+
+Looks pretty good. 
+
+We will draw a sample of 35 from the population. Using this sample, we calculate $\bar{x}$, which I call `original_xbar` below.
+
+```{r}
+sample_size <- 35
+
+original_sample <- sample_n(population, size = sample_size)
+original_xbar <- mean(original_sample$x)
+```
+
+To get the true distribution of $\frac{\bar{X} - E(\bar{X})}{\widehat{\text{SD}}(\bar{X})}$, we would create many new samples *from the population*, calculate $\frac{\bar{x} - E(\bar{X})}{\widehat{\text{SD}}(\bar{X})}$ for each of them, then look at the histogram. Theoretically, since $X_i \sim N$, $\frac{\bar{X} - E(\bar{X})}{\widehat{\text{SD}}(\bar{X})}$ should follow a $t_{`r sample_size - 1`}$ distribution. 
+
+```{r}
+resamples <- tibble(i = 1:5000) %>%
+  mutate(type = "new_sample",
+         sample = map(i, ~sample_n(population, 
+                                   size = sample_size)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean-mean(population$x))/(sd/sqrt(sample_size)))
+
+T_34 <- StudentsT(df = sample_size - 1)
+
+ggplot(data = resamples,
+       aes(x = t_stat)) +
+  geom_histogram(aes(y = ..density..),
+                 bins = 50) +
+  stat_function(fun = pdf, args = list(d = T_34))
+```
+
+But what if we couldn't do this? In real life, we can barely ever just create 5000 new samples from the population to check the distribution of $\frac{\bar{X} - E(\bar{X})}{\widehat{\text{SD}}(\bar{X})}$. So instead, we create 5000 bootstrap samples by sampling with replacement from the original sample. We then calcuate $\hat{t}_j$ by taking the average of the $j$'th bootstrap sample, subtract the average of the original sample, and divide by the standard deviation of the bootstrap sample over $\sqrt{n}$. I.e.
+
+$$
+  \hat{t}_j = \frac{\bar{x}_{\cdot j} - \bar{x}}{s/\sqrt{n}}
+$$
+
+
+```{r}
+bootstrap_samples <- tibble(i = 1:5000) %>%
+  mutate(type = "bootstrap",
+         sample = map(i, ~sample_n(original_sample, 
+                                   size = sample_size, 
+                                   replace = TRUE)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean - original_xbar)/(sd/sqrt(sample_size)))
+
+ggplot(bootstrap_samples,
+       aes(x = t_stat)) + 
+  geom_histogram(aes(y = ..density..),
+                 bins = 100)
+```
+
+Does that actually look like the histogram above? Let's compare:
+
+```{r}
+all_samples <- bind_rows(
+  resamples,
+  bootstrap_samples
+)
+
+ggplot(all_samples,
+       aes(x = t_stat)) +
+  geom_histogram(aes(y = ..density..),
+                 binwidth = 0.1) +
+  facet_grid(type ~ .)
+```
+
+Pretty darn close!
+
+
+### Beta distribution
+
+Let's do the exact same thing, but this time the population follows a beta distribution. The specific beta we use looks like this:
+
+```{r}
+X <- Beta(0.5, 0.5)
+population <- tibble(x = random(X, 10000))
+
+ggplot(population,
+       aes(x = x)) + 
+  geom_histogram(aes(y = ..density..),
+                 bins = 100) + 
+  geom_line(data = tibble(x = c(seq(0.005, 0.009, by = 0.001),
+                                seq(0.01, 0.99, by = 0.01),
+                                seq(0.99, 0.995, by = 0.001)),
+                          y = pdf(X, x)),
+            aes(x = x, y = y))
+```
+
+
+```{r}
+## Specify sample size
+sample_size <- 20
+
+## Create original sample
+original_sample <- sample_n(population, size = sample_size)
+original_xbar <- mean(original_sample$x)
+
+## 5000 new samples from population
+resamples <- tibble(i = 1:5000) %>%
+  mutate(type = "new_sample",
+         sample = map(i, ~sample_n(population, size = sample_size)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean-0.5)/(sd/sqrt(sample_size)))
+
+
+## Create 5000 bootstrap samples
+bootstrap_samples <- tibble(i = 1:5000) %>%
+  mutate(type = "bootstrap",
+         sample = map(i, ~sample_n(original_sample, size = sample_size, replace = TRUE)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean - original_xbar)/(sd/sqrt(sample_size)))
+
+## Stack on top of each other
+all_samples <- bind_rows(
+  resamples,
+  bootstrap_samples
+)
+
+ggplot(all_samples,
+       aes(x = t_stat, fill = type)) +
+  geom_histogram(aes(y = ..density..),
+                 binwidth = 0.1, position = "identity", alpha = 0.5) +
+  scale_fill_viridis_d()
+```
+
+Actually, in this particular case, $\bar{X}$ is normally distributed:
+
+```{r}
+ggplot(resamples,
+       aes(x = mean)) + 
+  geom_histogram(aes(y = ..density..),
+                 bins = 50) + 
+  stat_function(fun = pdf, args = list(d = Normal(mu = mean(population$x),
+                                                  sigma = sd(population$x)/sqrt(sample_size))))
+```
+
+### Bernoulli distribution
+
+Let's take a look at a different distribution, where the mean is definitely not normally distribued. 
+
+```{r}
+X <- Bernoulli(p = 0.1)
+population <- tibble(x = random(X, 10000))
+
+ggplot(population,
+       aes(x = x)) + 
+  geom_histogram(aes(y = ..density..),
+                 bins = 2)
+```
+
+```{r}
+## Specify sample size
+sample_size <- 20
+
+## Create original sample
+original_sample <- sample_n(population, size = sample_size)
+original_xbar <- mean(original_sample$x)
+
+## 5000 new samples from population
+resamples <- tibble(i = 1:5000) %>%
+  mutate(type = "new_sample",
+         sample = map(i, ~sample_n(population, size = sample_size)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean-0.1)/(sd/sqrt(sample_size)))
+
+
+## Create 5000 bootstrap samples
+bootstrap_samples <- tibble(i = 1:5000) %>%
+  mutate(type = "bootstrap",
+         sample = map(i, ~sample_n(original_sample, size = sample_size, replace = TRUE)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean - original_xbar)/(sd/sqrt(sample_size)))
+
+## Stack on top of each other
+all_samples <- bind_rows(
+  resamples,
+  bootstrap_samples
+)
+```
+
+Looking at the means, definitely NOT normal:
+
+```{r}
+ggplot(resamples,
+       aes(x = mean)) + 
+  geom_histogram(binwidth = 1/sample_size)
+```
+
+And yet, the bootstrap distribution is a pretty good approximation of the true distribution.
+
+```{r}
+ggplot(all_samples %>% filter(t_stat > -Inf, t_stat < Inf),
+       aes(x = t_stat, fill = type)) +
+  geom_histogram(aes(y = ..density..),
+                 binwidth = 0.5, position = "identity", alpha = 0.5) +
+  scale_fill_viridis_d()
+```
+
+
+### Poisson distribution
+
+
+```{r}
+X <- Poisson(lambda = 0.5)
+population <- tibble(x = random(X, 10000))
+
+true_mean <- mean(population$x)
+
+ggplot(population,
+       aes(x = x)) + 
+  geom_histogram(aes(y = ..density..),
+                 binwidth = 1)
+```
+
+```{r}
+## Specify sample size
+sample_size <- 15
+
+## Create original sample
+original_sample <- sample_n(population, size = sample_size)
+original_xbar <- mean(original_sample$x)
+
+## 5000 new samples from population
+resamples <- tibble(i = 1:10000) %>%
+  mutate(type = "new_sample",
+         sample = map(i, ~sample_n(population, size = sample_size)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean-true_mean)/(sd/sqrt(sample_size)))
+
+
+## Create 5000 bootstrap samples
+bootstrap_samples <- tibble(i = 1:10000) %>%
+  mutate(type = "bootstrap",
+         sample = map(i, ~sample_n(original_sample, size = sample_size, replace = TRUE)$x),
+         mean = map_dbl(sample, mean),
+         sd = map_dbl(sample, sd),
+         t_stat = (mean - original_xbar)/(sd/sqrt(sample_size)))
+
+## Stack on top of each other
+all_samples <- bind_rows(
+  resamples,
+  bootstrap_samples
+)
+```
+
+Looking at the means, definitely NOT normal:
+
+```{r}
+ggplot(resamples,
+       aes(x = mean)) + 
+  geom_histogram(binwidth = 1/sample_size)
+```
+
+
+```{r}
+ggplot(resamples,
+       aes(sample = mean)) + 
+  geom_qq() + 
+  geom_abline(aes(intercept = mean(mean),
+                  slope = sd(mean)))
+```
+
+
+
+```{r}
+ggplot(all_samples %>% filter(abs(t_stat) < Inf),
+       aes(x = t_stat, fill = type)) +
+  geom_histogram(aes(y = ..density..),
+                 binwidth = 0.5, position = "identity", alpha = 0.5) +
+  scale_fill_viridis_d()
+```
+
