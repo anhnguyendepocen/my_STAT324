@@ -25,20 +25,20 @@ include_slides <- function(title, file, create = TRUE){
   if(create)
     create_pdf(file)
   
-  paste0("**", title, "**: [html](", file, "), [pdf](", stringr::str_replace(file, ".html", ".pdf)"))
+  paste0("**", title, "**: [html](", file, ")")#, [pdf](", stringr::str_replace(file, ".html", ".pdf)"))
 }
 
 files <- c("./lecture01/lecture01.html",
            paste0("./lecture", 
-                  stringr::str_pad(2:2, width = 2, side = "left", pad = "0"), "/lec", 
-                  stringr::str_pad(2:2, width = 2, side = "left", pad = "0"),"_slides.html"))
+                  stringr::str_pad(2:13, width = 2, side = "left", pad = "0"), "/lec", 
+                  stringr::str_pad(2:13, width = 2, side = "left", pad = "0"),"_slides.html"))
 
 names(files) <- paste0("Lecture", 1:length(files))
 
 for(i in seq_along(files)){
   cat(include_slides(title = names(files[i]),
                      file = files[i], 
-                     create = T))
+                     create = F))
   cat("<br/><br/>")
 }
 ```
