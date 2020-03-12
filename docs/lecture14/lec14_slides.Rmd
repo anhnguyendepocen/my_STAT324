@@ -6,6 +6,7 @@ institute: "University of Wisconsin--Madison<br><br>"
 date: "Spring 2020"
 output:
   xaringan::moon_reader:
+    self_contained: true
     css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
     lib_dir: libs
     nature:
