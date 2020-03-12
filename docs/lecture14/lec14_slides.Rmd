@@ -1,0 +1,595 @@
+---
+title: "Lecture 14: Power and Sample Size Calculations"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ration: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# Power/Type II Error Rate
+
+---
+ 
+Recall: for every hypothesis test, there is a conclusion. For every conclusion, one of three things will happen:
+
+* we make the right decision
+    - i.e. reject when $H_0$ is false, do not reject when $H_0$ is true
+
+* we make a type I error
+    - i.e. reject when $H_0$ is actually true
+
+* we make a type II error
+    - i.e. fail to reject when $H_0$ is actually false
+
+
+---
+
+We have full control over the type I error rate - it is exactly $\alpha$. To see this, say we are testing $H_0: \mu = \mu_0$ against $H_A: \mu \neq \mu_0$. 
+
+--
+
+$$\begin{aligned}
+  P(\text{reject } H_0\ |\ H_0 \text{ true}) &= P(T \text{ very far from 0}\ |\ H_0 \text{ true}) \\
+                                             &= P(T > t_{n-1, \alpha/2}\ |\ H_0 \text{ true}) + P(T < -t_{n-1, \alpha/2}\ |\ H_0 \text{ true})\\
+                                             &= \alpha
+\end{aligned}$$
+
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE,
+                      dpi = 300, fig.height = 4, out.height = "400px",
+                      fig.align = "center")
+```
+
+```{r echo = F, out.height = "250px", fig.height = 2.5}
+library(tidyverse); library(distributions3)
+ggplot() + 
+  geom_pdf(d = StudentsT(df = 5)) +
+  geom_vline(xintercept = quantile(StudentsT(df = 5), c(0.05, 0.95)),
+             color = "red", linetype = "dashed") +
+  theme_void()
+```
+
+
+Similarly can be done for the two other alternative hypotheses.
+
+---
+
+The Type II error rate is a bit more tricky: $P(\text{type II}) = P(\text{fail to reject } H_0\ |\ H_0 \text{ false})$. 
+
+--
+
+To get a better sense of how this works, we will consider a simple case that we haven't talked about yet: one sample hypothesis test with known variance $\sigma^2$. 
+
+Remember: good old paint thickness data.
+
+```{r warning = FALSE, message = FALSE}
+library(tidyverse); library(distributions3)
+paint_thickness <- tibble(
+  thickness = c(1.29, 1.12, 0.88, 1.65, 1.48, 1.59, 1.04, 0.83, 
+                1.76, 1.31, 0.88, 1.71, 1.83, 1.09, 1.62, 1.49)
+)
+```
+
+```{r echo = FALSE}
+sigma2 <- round(var(paint_thickness[['thickness']]), digits = 3)
+```
+
+
+Let us assume that $\bar{X} \sim N$, and that we know the true variance $\sigma^2 = `r sigma2`$.
+
+---
+
+When testing $H_0: \mu = 1.5$ against $H_A: \mu \neq 1.5$ using $\alpha = 0.05$, we would reject when $\bar{x}_\text{obs}$ is very, very far from $1.5$.  
+
+--
+
+Actually, we reject when $\bar{x}_\text{obs}$ is so far from $1.5$ that the probability of $\bar{X}$ being even further from $1.5$ is less than $0.05$: $2\cdot P(\bar{X} > |\bar{x}_\text{obs}|\ |\ H_0 \text{ true}) < 0.05$.
+
+---
+
+When $H_0$ is true, $\bar{X} \sim N(1.5, `r sigma2`/16)$. So, when $H_0$ is true, $\bar{X}$ follows this distribution:
+
+```{r echo = FALSE}
+library(distributions3)
+X_H0 <- Normal(1.5, sqrt(sigma2/16))
+
+plot_pdf(X_H0, limits = c(1,2)) + labs(x = '', y = '')
+```
+
+---
+
+Will reject when $\bar{X}$ outside red dotted lines. 
+
+```{r  echo = F}
+plot_pdf(X_H0, limits = c(1, 2)) + 
+  geom_vline(xintercept = quantile(X_H0, c(0.025, 0.975)),
+             color = "red", linetype = "dashed") + 
+  labs(x = '', y = '')
+```
+
+Type II error rate has to do with what happens when the *alternative* is true: $P(\text{fail to reject } H_0\ |\ H_0 \text{ not true}) = P(\text{fail to reject } H_0\ |\ H_A \text{ true})$.
+
+Power = 1 - Type II error rate.
+
+---
+
+Assuming we know the true $\sigma^2 = `r sigma2`$, and that the null hypothesis is true, then $\bar{X} \sim N(1.5, `r sigma2`/16)$. 
+
+So, we reject when $\bar{X}$ outside red dotted lines. I.e. if $0.025 > P\left(\bar{X} > |\bar{x}_\text{obs}|\right)$. 
+
+```{r}
+X_H0 <- Normal(mu = 1.5, sigma = sqrt(0.115/16))
+
+quantile(X_H0, c(0.025, 0.975))
+```
+
+
+So, we reject when $\bar{x} < 1.33$ or $\bar{x} > 1.66$. 
+
+---
+
+But what if the true mean is NOT $1.5$? What if, instead, it is $1.3$? What is $P(\text{type II error})$? 
+
+--
+
+To find the probability of rejecting, we need to look at a different curve, because if $\mu = 1.3$, then $\bar{X} \sim N(1.3, 0.115/16)$. 
+
+```{r echo = F}
+ggplot() +
+  geom_pdf(d = X_H0, color = "grey80", limits = c(1, 2)) +
+  geom_pdf(d = Normal(1.3, sqrt(sigma2/16)), limits = c(1, 2)) +
+  geom_vline(xintercept = quantile(X_H0, c(0.025, 0.975)),
+             color = "red", linetype = "dashed") +
+  theme_bw()
+```
+
+---
+
+But what if the true mean is NOT $1.5$? What if, instead, it is $1.3$? What is $P(\text{type II error})$? 
+
+To find the probability of rejecting, we need to look at a different curve, because if $\mu = 1.3$, then $\bar{X} \sim N(1.3, 0.115/16)$. 
+
+$$
+\begin{aligned}
+  P(\text{type II error}) &= P(\text{fail to reject } |\ \mu = 1.3) \\
+                          &= P(1.33 < \bar{X} < 1.66\ |\ \mu = 1.3) \\
+                          &= P(\bar{X} < 1.66\ |\ \mu = 1.3) - P(\bar{X} < 1.33\ |\ \mu = 1.3)
+\end{aligned}
+$$
+
+```{r}
+X_HA <- Normal(1.3, sqrt(0.115/16))
+
+cdf(X_HA, 1.66) - cdf(X_HA, 1.33)
+```
+
+--
+
+That is, **IF** the true mean is $1.3$, we would fail to reject the idea that $\mu = 1.5$ about $37\%$ of the time. 
+
+Or, similarly, we would only reject $\mu = 1.5$ about $63\%$ of the time.
+
+--
+
+What can we do to do better? 
+--
+ Increase sample size! 
+
+---
+
+What sample size do we need to be able to distinguish between $\mu = 1.5$ and $\mu = 1.3$ most of the time? Say, $80\%$ of the time? 
+
+That is, what should $n$ be such that $P(\text{reject } H_0: \mu = 1.5\ |\ \mu = 1.3) = 0.8$? 
+
+--
+
+More general, if we are testing $H_0: \mu = \mu_0$ against $H_A: \mu \neq \mu_0$ at significance level $\alpha$, what sample size is needed to make sure that $P(\text{reject } H_0\ |\ \mu = \mu_A) = 1 - \beta$?
+
+--
+
+Turns out, this is approximately 
+
+\begin{equation}
+  n \approx \left(\frac{\sigma(z_{\alpha/2} + z_\beta)}{\mu_0 - \mu_A}\right)^2
+\end{equation}
+
+In our specific example, $\sigma = 0.34$, $\alpha = 0.05$, $\beta = 0.2$, $\mu_0 = 1.5$, and $\mu_A = 1.3$. 
+
+---
+
+We can find $z_{0.025}$ and $z_{0.2}$:
+
+```{r}
+Z <- Normal()
+quantile(Z, c(1-0.025, 1-0.2))
+```
+
+So, $n \approx \left(\frac{0.34(1.96 + 0.84)}{1.5 - 1.3} \right)^2 = `r ((0.34*(1.96 + 0.84))/0.2)^2`$.
+
+To have $80\%$ power to reject $1.5$ as the true mean if the true mean is in fact $1.3$, we would need 23 samples. 
+
+---
+
+Note: 
+
+* sample size depends only on standard deviation, $\alpha$, $\beta$, and *difference* between true and hypothesized means. 
+
+* in practice, it goes as follows:
+--
+
+  - researchers pick desired $\alpha$ and $\beta$
+--
+
+  - from previous, well-done experiments, a solid estimate of $\sigma$ is obtained 
+--
+
+  - from expert knowledge, a "minimal interesting difference" is chosen (i.e. $\mu_0 - \mu_A$)
+--
+
+  - based on this, needed sample size is determined.
+
+
+---
+
+* Based on the data at hand, the engineers at the car manufacturer want to design a new study. 
+
+* They want to test $H_0: \mu = 1.5$ vs $H_A: \mu \neq 1.5$ using $\alpha = 0.01$
+
+* What sample size is needed to make sure they have $80\%$ power to detect a difference of $0.4$? 
+
+    - i.e. if the true mean is $0.4$ from their null hypothesis, they want a $80\%$ chance of rejecting the null
+
+---
+
+Based on the data, $\sigma^2 = `r sigma2`$. So, if the null hypothesis is true, $\bar{X} \sim N(1.5, `r sigma2`/n)$. 
+
+If the alternative is true (say, $\mu = 1.9$), then $\bar{X} \sim N(1.9, `r sigma2`/n)$. What should $n$ be such that the area under the TRUE curve in the rejection region is 0.8)
+
+```{r echo = F, cache = T}
+cut_offs <- quantile(Normal(1.5, sqrt(sigma2/3)), c(0.005, 0.995))
+
+plot_pdf(Normal(1.9, sigma = sqrt(sigma2/3)),
+         color = "red", limits = c(0.9, 2.5)) +
+  geom_pdf(d = Normal(1.5, sigma = sqrt(sigma2/3)),
+           limits = c(0.9, 2.5)) + 
+  geom_auc(from = cut_offs[2], alpha = 0.2) +
+  geom_auc(to = cut_offs[1], alpha = 0.2) +
+  geom_vline(xintercept = cut_offs, linetype = "dashed", color = "black") +
+  theme_bw()
+```
+
+---
+
+Using formula above:
+
+$$
+  n \approx \left(\frac{0.34(`r paste(round(quantile(Normal(), c(0.995, 0.8)), digits = 3), collapse = " + ")`)}{0.4} \right)^2 = `r ((0.34*sum(round(quantile(Normal(), c(0.995, 0.8)), digits = 3)))/0.4)^2`
+$$
+
+So we would need a sample size of $9$ to achieve the desired power to detect a difference of $0.4$. 
+
+---
+
+Sometimes, the sample size is limited by other resources such as time or money. A natural question to ask is then, what power do we have to detect a certain difference, given the sample size we can afford?
+
+--
+
+We want to test $H_0: \mu = 1.5$ against $H_A: \mu \neq 1.5$ using $\alpha = 0.1$. With a sample size of $5$, what power do we have to detect a difference of $0.3$ if the true variance is $\sigma^2 = `r sigma2`$?
+
+--
+
+Step 1: find rejection region. 
+
+- we do this **assuming $H_0$ is true**. I.e. what value of $\bar{x}_\text{obs}$ would lead us to reject $\mu = 1.5$?
+--
+
+- we reject when $P(\text{more extreme}\ |\ H_0) < 0.1$. I.e. reject when $\bar{x}_{\text{obs}}$ is smaller than the $0.05$th quantile or larger than the $0.95$th of the distributions of $\bar{X}$
+
+```
+Xbar <- Normal(1.5, sqrt(`r sigma2`/5))
+quantile(Xbar, 1-0.05)
+```
+```{r echo = FALSE}
+Xbar <- Normal(1.5, sqrt(sigma2/5))
+(crit_vals <- round(quantile(Xbar, c(0.05, 1-0.05)), digits = 5))
+```
+--
+
+- so RR is $(-\infty, `r crit_vals[1]`]$ and $[`r crit_vals[2]`, \infty)$. 
+
+---
+
+Step 2: What is the probability of $\bar{X}$ being in the RR **IF** the *alternative* is true? 
+--
+
+- if the alternative is a difference of $0.3$ from the null, then $\mu = 1.2$ or $\mu = 1.8$. Because of the symmetry of the normal distribution, which you pick won't change the result
+--
+
+- so, say that the alternative is true such that $\mu = 1.8$. Then what is $P(\bar{X} \text{ in } RR)$?
+--
+
+- $P(\bar{X} < `r crit_vals[1]`\ |\ \mu = 1.8) + P(\bar{X} > `r crit_vals[2]`\ | \mu = 1.8)$
+
+```
+X_HA <- Normal(1.8, sqrt(`r sigma2`/5))
+cdf(X_HA, `r crit_vals[1]`) + (1 - cdf(X_HA, `r crit_vals[2]`))
+```
+```{r echo = F}
+X_HA <- Normal(1.8, sqrt(sigma2/5))
+cdf(X_HA, crit_vals[1]) + (1 - cdf(X_HA, crit_vals[2]))
+```
+
+```{r echo = FALSE, out.height = "200px", fig.height = 2, fig.width = 4}
+plot_pdf(d = X_HA, limits = c(1, 2.5), color = "red") + 
+  geom_auc(to = crit_vals[1], alpha = 0.2) + 
+  geom_auc(from = crit_vals[2], alpha = 0.2) +
+  geom_vline(xintercept = crit_vals, linetype = "dashed") +
+  geom_pdf(d = Xbar, limits = c(1, 2.5))
+```
+
+---
+layout: true
+
+# Two Independent Samples Hypothesis Test
+
+---
+
+--
+
+The horned lizard Phrynosoma mcalli is named for the fringe of spikes around the back of the head. It was thought that the spikes may provide the lizard protection from its primary predator, the loggerhead shrike, Lanius ludovicanus, though there was not much existing quantitative evidence to support this. Researchers were interested in comparing two populations: the population of dead lizards known to be killed by shrikes, and the population of live lizards from the same geographic location. Random samples were taken from each population. The longest spike was measured on each sampled lizard, in mm.
+
+---
+
+The fundamental question: is there, overall, a difference between the longest spike in the two populations?
+
+--
+
+In terms of means: is $\mu_\text{dead} = \mu_\text{alive}$ or not?
+
+--
+
+Some data:
+
+```{r include = FALSE}
+dead <- c(17.65, 20.83, 24.59, 18.52, 21.40, 23.78, 20.36, 18.83, 21.83, 20.06)
+alive <- c(23.76, 21.17, 26.13, 20.18, 23.01, 24.84, 19.34, 24.94, 27.14, 25.87, 18.95, 22.61)
+
+lizards <- tibble(group = rep(c("dead", "alive"), times = c(length(dead), length(alive))),
+                  size = c(dead, alive))
+
+```
+
+```{r}
+DT::datatable(lizards, options = list(pageLength = 4))
+```
+
+
+---
+
+The fundamental question: is there, overall, a difference between the longest spike in the two populations?
+
+In terms of means: is $\mu_\text{dead} = \mu_\text{alive}$ or not?
+
+.pull-left[
+```{r lizards_boxplot, eval = FALSE}
+ggplot(lizards,
+       aes(x = group, y = size)) + 
+  geom_boxplot(aes(fill = group),
+               alpha = 0.2) + 
+  geom_hline(data = lizards %>% 
+               group_by(group) %>% 
+               summarize(mean = mean(size)),
+             aes(yintercept = mean, color = group)) + 
+  geom_jitter(height = 0, width = 0.2, 
+              aes(color = group)) +
+  labs(color = "", fill = "")
+```
+]
+
+.pull-right[
+```{r echo = F, ref.label='lizards_boxplot', fig.width=4, fig.height=3, out.width = "400px", out.height = "300px"}
+```
+]
+
+Are the lines so far apart that we reject the idea that the underlying true means are the same?
+
+---
+
+Since $\bar{X}_\text{dead}$ is expected to be close to $\mu_\text{dead}$, and $\bar{X}_\text{alive}$ is expected to be close to $\mu_\text{alive}$, $\bar{X}_\text{alive} - \bar{X}_\text{dead}$ is expected to be close to $\mu_\text{alive} - \mu_\text{dead}$. 
+
+--
+
+We can rephrase the question in terms of hypotheses:
+
+$$H_0: \mu_\text{alive} - \mu_\text{dead} = 0 \qquad \text{vs.} \qquad H_A: \mu_\text{alive} - \mu_\text{dead} \neq 0$$
+
+So the question is, is our observed difference in averages ( $\bar{X}_\text{alive} - \bar{X}_\text{dead}$ ) so far from $0$ that we no longer think that $\mu_\text{alive} - \mu_\text{dead} = 0$ (i.e. we reject the idea that the means are the same)?
+
+How would we go about answering this question?
+
+---
+
+**IF** $\bar{X}_\text{alive} \sim N$ and $\bar{X}_\text{dead} \sim N$, then $\bar{X}_\text{alive} - \bar{X}_\text{dead} \sim$
+--
+ $N$. 
+
+--
+
+**IF** $H_0$ is true, then $E(\bar{X}_\text{alive} - \bar{X}_\text{dead}) = E(\bar{X}_\text{alive}) - E(\bar{X}_\text{dead}) = \mu_\text{alive} - \mu_\text{dead} =$
+--
+ $0$.
+
+
+--
+
+So, **IF** $H_0$ is true, then $\bar{X}_\text{alive} - \bar{X}_\text{dead} \sim N(0, ??)$. 
+
+--
+
+**IF** the two samples are independent of each other, $\bar{X}_\text{alive}$ is independent of $\bar{X}_\text{dead}$, so 
+
+--
+
+$$\text{Var}(\bar{X}_\text{alive} - \bar{X}_\text{dead}) = \text{Var}(\bar{X}_\text{alive}) + \text{Var}(\bar{X}_\text{dead}) = \frac{\sigma^2_\text{alive}}{n_\text{alive}} + \frac{\sigma^2_\text{dead}}{n_\text{dead}}$$
+
+--
+
+So, **IF** $H_0$ is true, then $\bar{X}_\text{alive} - \bar{X}_\text{dead} \sim N\left(0, \frac{\sigma^2_\text{alive}}{n_\text{alive}} + \frac{\sigma^2_\text{dead}}{n_\text{dead}}\right)$. 
+
+---
+
+So, how do we judge if what we see are so far from the null hypothesis that we decide to reject it? 
+
+--
+
+By finding the probability of observing something more extreme if we were to repeat the experiment, **assuming the null hypothesis is true**!
+
+--
+
+**IF** $H_0$ is true, **and we know $\sigma_\text{alive}, \sigma_\text{dead}$**, this is pretty straight forward:
+
+- look at the curve that is the distribution of the difference $\bar{X}_\text{alive} - \bar{X}_\text{dead}$, i.e. $N\left(0, \frac{\sigma^2_\text{alive}}{n_\text{alive}} + \frac{\sigma^2_\text{dead}}{n_\text{dead}}\right)$. 
+
+--
+
+- using quantiles:
+    - find quantiles that cut-off $\alpha/2$ on each side.
+    - reject if observed value of the difference is outside the cut-offs
+
+--
+
+- using p-value:
+    - find probability of something "more extreme"
+    - reject if smaller than $\alpha$
+
+---
+
+Using quantiles: reject if outside of dotted lines that cut-off $\alpha/2$ on each side.
+
+```{r echo = F}
+D <- Normal(0, 4)
+
+plot_pdf(D) + 
+  geom_auc(to = quantile(D, p = 0.025), fill = "grey70") +
+  geom_auc(from = quantile(D, p = 0.975), fill = "grey70") +
+  geom_vline(xintercept = quantile(D, p = c(0.025, 0.975)),
+             linetype = "dashed", color = "red") +
+  # annotate(x = 10, y = 0.1, label = "Area of each\n grey area is 0.025",
+  #          #hjust = 1, 
+  #          vjust = 1,
+  #          geom = "label") +
+  labs(x = "Difference in averages", y = 'Density') +
+  theme_bw()
+```
+
+---
+
+Using p-value: reject if area outside dotted lines is smaller than $\alpha$
+
+```{r echo = F, fig.height = 4.5, fig.width = 7, out.height = "450px", out.width = "700px"}
+D <- Normal(0, 4)
+
+plot_pdf(D) + 
+  geom_auc(to = -5, fill = "grey75") +
+  geom_auc(from = 5, fill = "grey75") +
+  geom_vline(data = tibble(x = c(-5, 5),
+                           color = c("Mirrored value", "Observed value")),
+             aes(xintercept = x,
+                 color = color),
+             linetype = "dashed") +
+  labs(x = "Difference in averages", y = 'Density') +
+  scale_color_manual("", values = c("grey45", "red")) +
+  theme_bw() +
+  theme(legend.position = "bottom")
+```
+
+---
+ 
+Problem: we never know $\sigma_\text{dead}, \sigma_\text{alive}$!! 
+
+--
+
+In the one sample case, we got around this by considering $\frac{\bar{X} - \mu_0}{\widehat{\text{SD}}(\bar{X})} = \frac{\bar{X} - \mu_0}{s/\sqrt{n}}$, which we know is $t_{n-1}$.
+
+--
+
+In the two sample case, we will use 
+
+$$
+  T = \frac{V - v_0}{\widehat{\text{SD}}(V)},
+$$
+
+where $V = \bar{X}_\text{dead} - \bar{X}_\text{alive}$, and (in the most general case) 
+
+$$\widehat{\text{SD}}(V) = \sqrt{s^2_\text{dead}/n_\text{dead} + s^2_\text{alive}/n_\text{alive}}$$
+
+As usual, **IF** $V \sim N$, and $H_0: v = v_0$, then  $T \sim t_\text{some appropriate df}$. Things get a bit more tricky here, though, as deciding the approriate df is not trivial.
+
+---
+
+In general, two scenarios:
+
+**Scenario 1**: $\sigma_1^2 = \sigma_2^2$. 
+
+When this is the case, we replace both by a common number, $\sigma_\text{pooled}^2$ (or simply $\sigma^2_p$ for convenience). 
+
+Adding this extra bit of information means we can do slightly better in trying to estimate the variance in the two groups. Our best guess for the pooled variance is 
+
+$$\hat{\sigma}^2_p = s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}$$
+
+---
+
+$$\hat{\sigma}^2_p = s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}$$
+
+Intuition: 
+
+* this is a *weighted average* of our two best guesses
+
+* we have a best guess for group 1, best guess for group 2, so surely the "truth" must be somewhere between the two.
+
+* the group with more data (i.e. more information) gets more weight
+
+--
+
+* if the means in the two groups were the same, the pooled standard deviation is actually the same as just treating the two groups as one.
+    - cannot do this when means are different because of definition of standard deviation
+
+--
+
+We now have that $\text{Var}(D) = \frac{s_p^2}{n_1} + \frac{s_p^2}{n_2} = s_p^2 (1/n_1 + 1/n_2)$, and our test statistic will follow a $t_{n_1+n_2-2}$ distribution:
+
+$$T = \frac{D - d_0}{s_p\sqrt{1/n_1 + 1/n_2}} \sim t_{n_1 + n_2 - 2}$$
+
+---
+
+**Scenario 2**: $\sigma_1^2 \neq \sigma_2^2$. 
+
+In this case, we do not gain any insights, and so there's no adjustments we can make to the test statistic. 
+
+It turns out that 
+
+$$T = \frac{D - d_0}{\sqrt{s_1^2/n_1 + s_2^2/n_2}} \sim t_{\nu},$$
+
+where 
+
+$$
+  \nu = \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} \right)}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}
+$$
+
+
+--
+
+In either case, we can find the distribution of $T$, and use this to either reject or not reject the null hypothesis!
