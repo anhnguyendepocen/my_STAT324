@@ -1,4 +1,4 @@
-update_git:
+update_web: index.html
 	git add *; git commit -m "Update"; git push
 
 index.html: index.Rmd */*_slides.html
