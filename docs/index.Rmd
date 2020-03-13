@@ -28,12 +28,9 @@ include_slides <- function(title, file, create = TRUE){
   paste0("**", title, "**: [html](", file, ")")#, [pdf](", stringr::str_replace(file, ".html", ".pdf)"))
 }
 
-files <- c("./lecture01/lecture01.html",
-           paste0("./lecture", 
-                  stringr::str_pad(2:14, width = 2, side = "left", pad = "0"), "/lec", 
-                  stringr::str_pad(2:14, width = 2, side = "left", pad = "0"),"_slides.html"))
+files <- list.files(pattern = "*_slides.Rmd", full.names = T, recursive = T)
 
-names(files) <- paste0("Lecture", 1:length(files))
+names(files) <- basename(dirname(files))
 
 for(i in seq_along(files)){
   cat(include_slides(title = names(files[i]),

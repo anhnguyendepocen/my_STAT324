@@ -1,0 +1,276 @@
+---
+title: 'STAT 324: Lecture 1 (lecture notes)'
+author: "Ralph Trane"
+date: "1/16/2020"
+output: pdf_document
+---
+
+This document is intended for lecturers **only**. Most of it is included in the "intro_to_R.pdf", which will be distributed to students for reference **after** class. 
+
+# Overview of lecture
+
+* Introduce yourself
+
+* Briefly walk through most important parts of the syllabus
+
+* Guided tour of RStudio
+    * Top left: your document. This is where you will be working most of the time.
+    * Bottom left: the console. This is where R code is actually run. If you need to install packages, or quickly try something simple, this is where you'd do that.
+    * Top right: any data sets, variables, etc. that we define in our working session will pop up here. Very neat to keep track of what's going on.
+    * Bottom right: any plots or help pages will show up here. 
+
+* Intro to R:
+    * Install packages in the console
+    * Silly code in console (2+2, sqrt(9), 3^2, etc)
+
+* R Markdown essentials:
+    * how to start a new document
+    * header vs. text vs. R chunks
+
+**BEFORE MOVING ON: STRESS THAT THIS IS A LOT, AND THEY ARE NOT EXPECTED TO RETAIN EVERYTHING. THIS IS A DEMONSTRATION.**
+
+The idea is to expose them to this as early as possible, as they will catch on sooner.
+
+* "Homework 0"
+    * exact replicate of discussion 1 and homework 1
+    * download data and questions from Canvas. Talk folders and folder structure!!!
+    * Solve homework 0 live (solutions below -- this is approximately what I intend to recreate live in class, while explaining the steps. Obviously with much less text.)
+
+* Other cool stuff you can do in R, and interesting questions with data
+    * see `cool_stuff.Rmd`
+
+# Homework 0 (Discussion 1 + Homework 1)
+
+Before we get started, we load the package `tidyverse`.
+
+```{r warning=FALSE, message = FALSE}
+library(tidyverse)
+```
+
+
+## Import Data
+
+We will use a data set containing information about measles in the US with data from 1928 to 2003. Before we can use the data, we need to read it into R. Since this data is provided as a .csv file, we do so using the `read_csv` function:
+
+```{r}
+measles <- read_csv("measles.csv")
+```
+
+This creates a new object called `measles`. The arrow `<-` is used to assign things to objects. It takes what's on the right and saves it to what you put on the left, so we can reuse it later. 
+
+## First look at data
+
+When using the `read_csv` function to read the data, it will only print the first 10 rows by default: 
+
+```{r}
+measles
+```
+
+This is very useful, since there's a total of `r nrow(measles)` rows -- way too many to actually show them all! 
+
+Click the data on the right to see it all interactively. Talk about the data. What would be an interesting question?
+
+## Some summaries
+
+Mean number of cases across time and states:
+
+```{r}
+mean(measles$count)
+```
+
+We use `$` to extract one column of the data. 
+
+Not very informative. What about mean count per year? We create a new object (`measles_grouped`) where the data is grouped by year using the function `group_by`, then use summarize to get the mean count within each group.
+
+```{r}
+measles_grouped <- group_by(measles, year)
+summarize(measles_grouped, mean_count = mean(count))
+```
+
+Gets really messy really quickly. One way to clean up code is using the pipe (` %>%`). This sends whatever comes before it into whatever functino comes after it, and places it at the very front.
+
+Examples:
+
+```{r}
+sum(2,1,7,-6,2)
+```
+
+```{r}
+c(2,1,7,-6,2) %>% sum
+```
+
+```{r}
+c(2,1) %>% 
+  sum(7,-6, 2)
+```
+
+```{r}
+sqrt(7)
+```
+
+We can combine multiple functions at once:
+
+```{r}
+7 %>% sqrt
+```
+
+```{r}
+3 %>% 
+  sum(4) %>% 
+  sqrt
+```
+
+
+Now use this to clean up the code:
+
+```{r}
+measles %>% 
+  group_by(year) %>% 
+  summarize(mean_count = mean(count))
+```
+
+Easily do the same thing by state instead of by year:
+
+```{r}
+measles %>% 
+  group_by(state) %>% 
+  summarize(mean_count = mean(count))
+```
+
+Comparing these doesn't make much sense -- obviously states with larger populations will have a higher count. So, instead of using the counts directly, we turn them into rates. 
+
+To create new variables (i.e. new columns), use `mutate`:
+
+```{r}
+measles %>% 
+  mutate(rate = count / population) %>% 
+  group_by(state) %>% 
+  summarize(mean_rate = mean(rate))
+```
+
+Alaska is `NA`. Why?
+
+```{r}
+measles %>% 
+  filter(state == "Alaska")
+```
+
+We see that there are years where we simply do not know the population of Alaska! The same is actually the case for Hawaii. To not have to deal with this, we exclude these two states, and save the results in a new object called `new_measles`. We also calculate and include the rate in this object:
+
+```{r}
+new_measles <- measles %>% 
+  filter(state != "Alaska", state != "Hawaii") %>% 
+  mutate(rate = count / population)
+
+new_measles
+```
+
+What the difference between `measles` and `new_measles`? 
+
+```{r}
+new_measles %>% 
+  filter(state == "Wisconsin", year == 1993)
+```
+
+Now we have the rate for each state for each year. Which state has had the highest average rate of measles over the years? We can use `arrange` to basically sort the data by `mean_rate`:
+
+```{r}
+new_measles %>% 
+  group_by(state) %>% 
+  summarize(mean_rate = mean(rate)) %>% 
+  arrange(mean_rate)
+```
+
+By default, it is sorted in ascending order. Luckily it is easy to change it to descending: 
+
+```{r}
+new_measles %>% 
+  group_by(state) %>% 
+  summarize(mean_rate = mean(rate)) %>% 
+  arrange(desc(mean_rate))
+```
+
+One thing that could be interesting to look at is how the rate of measles has changed over the years. To do so, we calculate the mean rate per year:
+
+```{r}
+new_measles %>% 
+  group_by(year) %>% 
+  summarize(mean_rate = mean(rate))
+```
+
+This long table of numbers is kind of boring... Let's create a plot! First, we will need to save the mean rates in a new object:
+
+```{r}
+mean_rates_per_year <- new_measles %>% 
+  group_by(year) %>% 
+  summarize(mean_rate = mean(rate))
+```
+
+## Some Plots
+
+We then use the function `ggplot` to create a plot. We need to tell this function a few things:
+
+1. What data set to use
+2. What aesthetics to use (`aes`)
+3. What kind of plot we want
+
+This is done in the following way:
+
+```{r}
+ggplot(data = mean_rates_per_year,
+       aes(x = year, y = mean_rate)) + 
+  geom_point()
+```
+
+We could also have done this using a line instead of points:
+
+```{r}
+ggplot(mean_rates_per_year,
+       aes(x = year, y = mean_rate)) + 
+  geom_line()
+```
+
+Something definitely happens around 1955. Turns out the polio vaccine became widely used in 1954:
+
+```{r}
+ggplot(data = mean_rates_per_year,
+       aes(x = year, y = mean_rate)) + 
+  geom_line() + 
+  geom_vline(xintercept = 1963)
+```
+
+**THIS IS THE END OF WHAT WILL BE IN DISCUSSION 1 AND ON HOMEWORK 1** 
+
+If we use the original data set, we can create the same plot, but with one line for each state:
+
+```{r}
+ggplot(data = new_measles, 
+       aes(x = year, y = rate, color = state)) + 
+  geom_line() +
+  geom_vline(xintercept = 1963)
+```
+
+Not very useful. A much better version:
+
+```{r}
+ggplot(new_measles,
+       aes(x = year, y = state, fill = rate)) +
+  geom_tile(color = "grey") +
+  scale_fill_continuous(trans = "sqrt") + 
+  geom_vline(xintercept = 1963, color = "red")
+```
+
+# Other Examples
+
+This section is simply to peak interest in using `R` -- hence the showcase of some cool things we can do. See `cool_stuff.Rmd`.
+
+
+## Take-aways
+
+* import data using `read_csv``
+* extract single column using `$`
+* create new variable using `mutate` and simple (or complicated, if you'd like) math
+* calculate values per state/year using `group_by` and `summarize`
+* filter data using `filter`
+* create plots using `ggplot`
+    * need to specify data, aesthetics, and type of plot (`geom_*`)

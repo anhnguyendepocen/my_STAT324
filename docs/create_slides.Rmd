@@ -1,0 +1,7 @@
+file <- commandArgs(trailingOnly = T)[[1]]
+
+my_moon_reader <- function(...) xaringan::moon_reader(..., self_contained = TRUE)
+
+rmarkdown::render(file, "my_moon_reader")
+pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
+rmarkdown::render(file)
