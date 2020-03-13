@@ -1,4 +1,4 @@
-file <- commandArgs(trailingOnly = T)[[1]]
+file <- commandArgs(trailingOnly = TRUE)[[1]]
 
 my_moon_reader <- function(...) xaringan::moon_reader(..., self_contained = TRUE)
 

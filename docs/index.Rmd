@@ -25,7 +25,7 @@ include_slides <- function(title, file, create = TRUE){
   if(create)
     create_pdf(file)
   
-  paste0("**", title, "**: [html](", file, ")")#, [pdf](", stringr::str_replace(file, ".html", ".pdf)"))
+  paste0("**", title, "**: [html](", file, "), [pdf](", stringr::str_replace(file, ".html", ".pdf)"))
 }
 
 files <- list.files(pattern = "*_slides.Rmd", full.names = T, recursive = T)
