@@ -1,0 +1,50 @@
+
+R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> file <- commandArgs(trailingOnly = TRUE)[[1]]
+> 
+> print(file)
+[1] "lec15_slides.Rmd"
+> 
+> my_moon_reader <- function(...) xaringan::moon_reader(..., css = c('../css/uwmadison.css', 'default-fonts', '../css/extra-classes.css'),
++                                                       lib_dir = 'libs',
++                                                       nature = list(
++                                                         titleSlideClass = c('center', 'top', '.title-slide'),
++                                                         highlightStyle = 'github',
++                                                         highlightLines = TRUE,
++                                                         countIncrementalSlides = FALSE,
++                                                         ratio = '16:10',
++                                                         navigation = list(scroll = FALSE)
++                                                       ),
++                                                       self_contained = TRUE)
+> 
+> rmarkdown::render(file, "my_moon_reader")
+/usr/local/bin/pandoc +RTS -K512m -RTS lec15_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec15_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmpaor0Tw/rmarkdown-str180a9605a6ee3.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmpaor0Tw/xaringan180a938e50d54.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmpaor0Tw/xaringan180a968728e6e.js --variable title-slide=true --variable math=true 
+[WARNING] This document format requires a nonempty <title> element.
+  Please specify either 'title' or 'pagetitle' in the metadata,
+  e.g. by using --metadata pagetitle="..." on the command line.
+  Falling back to 'lec15_slides.utf8'
+
+Output created: lec15_slides.html
+> pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
+> #rmarkdown::render(file)
+> 
+> proc.time()
+   user  system elapsed 
+  3.664   0.683  10.312 

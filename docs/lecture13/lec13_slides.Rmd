@@ -13,7 +13,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      ration: '16:10'
+      ratio: '16:10'
       navigation:
         scroll: false
 ---

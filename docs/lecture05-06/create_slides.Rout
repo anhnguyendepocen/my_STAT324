@@ -17,9 +17,24 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> file <- commandArgs(trailingOnly = T)[[1]]
+[Previously saved workspace restored]
+
+> file <- commandArgs(trailingOnly = TRUE)[[1]]
 > 
-> my_moon_reader <- function(...) xaringan::moon_reader(..., self_contained = TRUE)
+> print(file)
+[1] "lec05-06_slides.Rmd"
+> 
+> my_moon_reader <- function(...) xaringan::moon_reader(..., css = c('../css/uwmadison.css', 'default-fonts', '../css/extra-classes.css'),
++                                                       lib_dir = 'libs',
++                                                       nature = list(
++                                                         titleSlideClass = c('center', 'top', '.title-slide'),
++                                                         highlightStyle = 'github',
++                                                         highlightLines = TRUE,
++                                                         countIncrementalSlides = FALSE,
++                                                         ratio = '16:10',
++                                                         navigation = list(scroll = FALSE)
++                                                       ),
++                                                       self_contained = TRUE)
 > 
 > rmarkdown::render(file, "my_moon_reader")
 
@@ -280,264 +295,13 @@ List of 5
 
 output file: lec05-06_slides.knit.md
 
-/usr/local/bin/pandoc +RTS -K512m -RTS lec05-06_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec05-06_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, middle, inverse, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpcWBvhc/rmarkdown-str16eebf6bb49c.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpcWBvhc/xaringan16eeb71f4d319.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpcWBvhc/xaringan16eeb741e4f7d.js --variable title-slide=true --variable math=true 
+/usr/local/bin/pandoc +RTS -K512m -RTS lec05-06_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec05-06_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpaT5WT4/rmarkdown-str1823b22a8f45f.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpaT5WT4/xaringan1823b6c528f3.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpaT5WT4/xaringan1823b7464d0c0.js --variable title-slide=true --variable math=true 
 
 Output created: lec05-06_slides.html
 There were 13 warnings (use warnings() to see them)
 > pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
-> rmarkdown::render(file)
-
-
-processing file: lec05-06_slides.Rmd
-  |                                                                              |                                                                      |   0%  |                                                                              |.                                                                     |   2%
-  ordinary text without R code
-
-  |                                                                              |...                                                                   |   4%
-label: unnamed-chunk-1 (with options) 
-List of 1
- $ include: logi FALSE
-
-  |                                                                              |....                                                                  |   6%
-  ordinary text without R code
-
-  |                                                                              |.....                                                                 |   8%
-label: unnamed-chunk-2 (with options) 
-List of 1
- $ echo: logi FALSE
-
-  |                                                                              |.......                                                               |  10%
-  ordinary text without R code
-
-  |                                                                              |........                                                              |  12%
-label: unnamed-chunk-3 (with options) 
-List of 2
- $ eval: logi FALSE
- $ echo: logi FALSE
-
-  |                                                                              |..........                                                            |  14%
-  ordinary text without R code
-
-  |                                                                              |...........                                                           |  16%
-label: unnamed-chunk-4 (with options) 
-List of 1
- $ echo: logi FALSE
-
-  |                                                                              |............                                                          |  18%
-  ordinary text without R code
-
-  |                                                                              |..............                                                        |  20%
-label: unnamed-chunk-5 (with options) 
-List of 1
- $ echo: logi FALSE
-
-  |                                                                              |...............                                                       |  22%
-  ordinary text without R code
-
-  |                                                                              |................                                                      |  24%
-label: unnamed-chunk-6 (with options) 
-List of 1
- $ echo: symbol F
-
-  |                                                                              |..................                                                    |  25%
-  ordinary text without R code
-
-  |                                                                              |...................                                                   |  27%
-label: unnamed-chunk-7 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |.....................                                                 |  29%
-  ordinary text without R code
-
-  |                                                                              |......................                                                |  31%
-label: unnamed-chunk-8 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |.......................                                               |  33%
-  ordinary text without R code
-
-  |                                                                              |.........................                                             |  35%
-label: unnamed-chunk-9 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |..........................                                            |  37%
-  ordinary text without R code
-
-  |                                                                              |...........................                                           |  39%
-label: unnamed-chunk-10 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |.............................                                         |  41%
-  ordinary text without R code
-
-  |                                                                              |..............................                                        |  43%
-label: unnamed-chunk-11 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |................................                                      |  45%
-  ordinary text without R code
-
-  |                                                                              |.................................                                     |  47%
-label: unnamed-chunk-12 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |..................................                                    |  49%
-   inline R code fragments
-
-  |                                                                              |....................................                                  |  51%
-label: unnamed-chunk-13 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |.....................................                                 |  53%
-  ordinary text without R code
-
-  |                                                                              |......................................                                |  55%
-label: unnamed-chunk-14 (with options) 
-List of 3
- $ fig.width : num 5
- $ fig.height: num 5
- $ out.width : num 400
-
-  |                                                                              |........................................                              |  57%
-  ordinary text without R code
-
-  |                                                                              |.........................................                             |  59%
-label: unnamed-chunk-15 (with options) 
-List of 4
- $ out.width : chr "100%"
- $ out.height: chr "62.5%"
- $ fig.height: num 5
- $ fig.width : num 8
-
-  |                                                                              |...........................................                           |  61%
-  ordinary text without R code
-
-  |                                                                              |............................................                          |  63%
-label: unnamed-chunk-16 (with options) 
-List of 4
- $ out.width : num 500
- $ fig.width : num 4
- $ fig.height: num 3
- $ fig.align : chr "center"
-
-  |                                                                              |.............................................                         |  65%
-   inline R code fragments
-
-  |                                                                              |...............................................                       |  67%
-label: unnamed-chunk-17 (with options) 
-List of 3
- $ out.width : num 450
- $ fig.width : num 4
- $ fig.height: num 3
-
-  |                                                                              |................................................                      |  69%
-  ordinary text without R code
-
-  |                                                                              |.................................................                     |  71%
-label: unnamed-chunk-18 (with options) 
-List of 1
- $ echo: symbol T
-
-  |                                                                              |...................................................                   |  73%
-  ordinary text without R code
-
-  |                                                                              |....................................................                  |  75%
-label: unnamed-chunk-19 (with options) 
-List of 3
- $ out.width : num 450
- $ fig.width : num 4
- $ fig.height: num 3
-
-  |                                                                              |......................................................                |  76%
-  ordinary text without R code
-
-  |                                                                              |.......................................................               |  78%
-label: unnamed-chunk-20 (with options) 
-List of 1
- $ echo: symbol T
-
-  |                                                                              |........................................................              |  80%
-  ordinary text without R code
-
-  |                                                                              |..........................................................            |  82%
-label: unnamed-chunk-21 (with options) 
-List of 1
- $ echo: symbol T
-
-  |                                                                              |...........................................................           |  84%
-  ordinary text without R code
-
-  |                                                                              |............................................................          |  86%
-label: unnamed-chunk-22 (with options) 
-List of 4
- $ out.width : num 450
- $ fig.width : num 4
- $ fig.height: num 4
- $ fig.align : chr "center"
-
-  |                                                                              |..............................................................        |  88%
-  ordinary text without R code
-
-  |                                                                              |...............................................................       |  90%
-label: unnamed-chunk-23 (with options) 
-List of 1
- $ echo: symbol T
-
-  |                                                                              |.................................................................     |  92%
-  ordinary text without R code
-
-  |                                                                              |..................................................................    |  94%
-label: unnamed-chunk-24 (with options) 
-List of 5
- $ echo      : logi FALSE
- $ fig.width : num 6
- $ fig.height: num 2.5
- $ out.width : chr "800px"
- $ out.height: chr "333px"
-
-  |                                                                              |...................................................................   |  96%
-  ordinary text without R code
-
-  |                                                                              |..................................................................... |  98%
-label: unnamed-chunk-25 (with options) 
-List of 5
- $ echo      : logi FALSE
- $ fig.width : num 6
- $ fig.height: num 3
- $ out.width : chr "800px"
- $ out.height: chr "400px"
-
-  |                                                                              |......................................................................| 100%
-  ordinary text without R code
-
-
-output file: lec05-06_slides.knit.md
-
-/usr/local/bin/pandoc +RTS -K512m -RTS lec05-06_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec05-06_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpcWBvhc/rmarkdown-str16eeb3585b452.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpcWBvhc/xaringan16eeb16cfd080.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpcWBvhc/xaringan16eeb27bfa49b.js --variable title-slide=true --variable math=true 
-
-Output created: lec05-06_slides.html
-There were 12 warnings (use warnings() to see them)
+> #rmarkdown::render(file)
 > 
 > proc.time()
    user  system elapsed 
-287.469   7.764 385.693 
+288.386   6.260 403.944 
