@@ -231,7 +231,7 @@ List of 5
 
 output file: lec14_slides.knit.md
 
-/usr/local/bin/pandoc +RTS -K512m -RTS lec14_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec14_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpAqWw8Z/rmarkdown-str1806278417b35.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpAqWw8Z/xaringan180626959151e.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpAqWw8Z/xaringan1806259958cf4.js --variable title-slide=true --variable math=true 
+/usr/local/bin/pandoc +RTS -K512m -RTS lec14_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec14_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmphZL13Q/rmarkdown-str86d874e1ba93.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmphZL13Q/xaringan86d87d22b8c7.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmphZL13Q/xaringan86d83aa45e2c.js --variable title-slide=true --variable math=true 
 
 Output created: lec14_slides.html
 > pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
@@ -239,4 +239,4 @@ Output created: lec14_slides.html
 > 
 > proc.time()
    user  system elapsed 
- 73.926   2.370 116.301 
+ 72.868   1.800 101.901 
