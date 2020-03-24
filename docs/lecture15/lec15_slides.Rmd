@@ -383,7 +383,7 @@ movies_orig <- read_csv('https://raw.githubusercontent.com/idc9/stor390/master/d
 movies <- movies_orig %>% 
   mutate(decade = as.numeric(str_sub(thtr_rel_year, start = 3, end = 3))*10)
 
-DT::datatable(movies, options = list(pageLength = 4, scrollX = TRUE))
+DT::datatable(movies, options = list(pageLength = 3, scrollX = TRUE))
 ```
 
 
@@ -642,4 +642,95 @@ If we cannot assume equal variances,
 * $\widehat{\text{SD}}(V) = \sqrt{s_1^2/n_1 + s_2^2/n_2}$
 
 * if $H_0$ is true, $T \sim t_{\nu}$ where $$\nu = \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} \right)^2}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}$$
+]
+
+---
+layout: true
+
+# Two Independent Sample T Confidence Interval
+
+---
+
+As always, simply performing a test does not give us a lot of information. It simply answers the question "is this one value plausibly the true value?", where we would much rather ask "what values could be the true value?" 
+
+Fortunately, we can construct confidence intervals for the difference in means from the two sample t-test. 
+
+1. Find the distribution of $T = \frac{V - v_0}{\widehat{\text{SD}}(V)}$ **assuming** the null hypothesis is true.
+
+2. Find cut-offs (i.e. quantiles) in said distribution such that we have $\alpha$ outside the cut-offs.
+
+3. Create the confidence interval as $V_\text{obs} \pm t_{\text{df}, \alpha/2} \widehat{\text{SD}}(V)$.
+
+---
+
+**Example: Fiber vs Carbon**
+
+We already established that the variances are not equal, and found $\nu = 15$. So, we can find a $90\%$ CI as follows:
+
+.pull-left[
+```{r}
+rebars %>% 
+  group_by(type) %>% 
+  summarize(mean = mean(strength),
+            s = sd(strength),
+            n = n())
+```
+
+```{r}
+quantile(T_15, 1-0.1/2)
+```
+
+]
+
+.pull-right[
+.small[
+$$
+\begin{aligned}
+  V_\text{obs} &\pm t_{15, 0.1/2}\widehat{\text{SD}}(V) \\
+  &= \bar{X}_\text{fiber} - \bar{X}_\text{carbon} \pm t_{15, 0.1/2} \sqrt{\frac{s^2_\text{fiber}}{n_\text{fiber}} + \frac{s^2_\text{carbon}}{n_\text{carbon}}} \\ 
+  &= 33.15 - 43.53 \pm 1.75 \sqrt{2.63^2/8 + 5.06^2/11} \\
+  &= -10.38 \pm 3.13
+\end{aligned}
+$$
+]
+
+So the $90\%$ CI for the difference in means is $[-13.51, -7.25]$.
+]
+
+---
+
+**Example: IMDB Movies**
+
+We saw that we can reasonably assume equal variances, and found the pooled variance. We can now find a $99\%$ CI.
+
+.pull-left[
+```{r}
+movies %>% 
+  filter(decade %in% c(90, 10)) %>% 
+  group_by(decade) %>% 
+  summarize(means = mean(critics_score),
+            s = sd(critics_score),
+            n = n())
+
+((102-1)*27.1^2 + (161-1)*28.8^2)/(102 + 161 - 2)
+```
+]
+
+.pull-right[
+```{r}
+quantile(T_261, 1 - 0.01/2)
+```
+
+.small[
+$$
+\begin{aligned}
+  V_\text{obs} &\pm t_{261, 0.01/2}\widehat{\text{SD}}(V) \\
+  &= \bar{X}_\text{10} - \bar{X}_\text{90} \pm t_{261, 0.01/2} \sqrt{s_p^2 \left(\frac{1}{n_\text{10}} + \frac{1}{n_\text{90}}\right)} \\ 
+  &= 62.4 - 52.9 \pm 2.59 \sqrt{792.31\cdot (1/102 + 1/161)} \\
+  &= 9.5 \pm 9.23
+\end{aligned}
+$$
+]
+
+So the $99\%$ CI for the difference in means is $[0.27, 18.73]$.
 ]
