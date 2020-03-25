@@ -694,7 +694,7 @@ $$
 $$
 ]
 
-So the $90\%$ CI for the difference in means is $[-13.51, -7.25]$.
+So the 90% CI for the difference in means is [-13.51, -7.25].
 ]
 
 ---
@@ -732,5 +732,5 @@ $$
 $$
 ]
 
-So the $99\%$ CI for the difference in means is $[0.27, 18.73]$.
+So the 99% CI for the difference in means is [0.27, 18.73].
 ]
