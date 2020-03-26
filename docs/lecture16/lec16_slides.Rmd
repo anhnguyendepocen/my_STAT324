@@ -1,0 +1,545 @@
+---
+title: "Lecture 16: Two Sample Hypothesis Tests"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# Two Independent Samples Hypothesis Test
+
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE,
+                      dpi = 300, fig.height = 4, out.height = "400px",
+                      fig.align = "center")
+
+library(tidyverse)
+library(distributions3)
+theme_set(theme_bw())
+```
+
+
+
+**Last time**
+
+Two sample T-tests. Objective: test the hypothesis $H_0: \mu_1 - \mu_2 = v_0$ against an alternative. (We only considered $v_0 = 0$, but could be any number. We only considered $H_A: \mu_1 - \mu_2 \neq v_0$, but could be any of the three $>, <, \neq$.)
+
+Assumptions: 
+  
+  * the two samples are independent of each other
+  
+  * the observations in each sample are independent
+  
+  * and the averages $\bar{X}_1$ and $\bar{X}_2$ are normally distributed.
+
+Test statistic: $T = \frac{V - v_0}{\widehat{\text{SD}}(V)}$ which follows a $t$-distribution **IF** the null hypothesis is true.
+
+---
+
+**Last time**
+
+Two scenarios determines how we calculate $\widehat{\text{SD}}(V)$, and the degrees of freedom for the $t$-distribution:
+
+.pull-left[
+If $0.5 < \frac{s_1}{s_2} < 2$, we assume equal variances $\sigma_1^2 = \sigma_2^2$. In this case, 
+
+* $\widehat{\text{SD}}(V) = s_p \sqrt{1/n_1 + 1/n_2}$, where $$s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}$$
+
+* if $H_0$ is true, $T \sim t_{n_1 + n_2 - 2}$. 
+]
+
+.pull-right[
+If we cannot assume equal variances,
+
+* $\widehat{\text{SD}}(V) = \sqrt{s_1^2/n_1 + s_2^2/n_2}$
+
+* if $H_0$ is true, $T \sim t_{\nu}$ where $$\nu = \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} \right)^2}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}$$
+]
+
+
+---
+
+**Example: Should we be drinking Turkish wine?** 
+
+We all know that France, but what if I told you that Turkish wine is almost as good, at a fraction of the price?!
+
+Some data from [Kaggle](https://www.kaggle.com/zynicide/wine-reviews). Here are top 15 countries in terms of mean point scores:
+
+```{r echo = FALSE}
+wine <- read_csv(here::here("csv_data/wine-reviews/winemag-data_first150k.csv")) %>% 
+  select(-1)
+
+wine %>% 
+  filter(!is.na(country)) %>% 
+  group_by(country) %>% 
+  summarize(mean_points = mean(points, na.rm = T)) %>% 
+  mutate(country = forcats::fct_reorder(country, mean_points)) %>% 
+  top_n(15, wt = mean_points) %>% 
+  ggplot(aes(y = country, x = mean_points, fill = country %in% c("France", "Turkey"))) + 
+    guides(fill = "none") +
+    scale_x_continuous(expand = c(0, 0), limits = c(0,100)) +
+    coord_cartesian(xlim = c(80, 100)) + # zoom in
+    scale_fill_manual("", values = c("grey65", "red")) +
+    geom_bar(stat = "identity") +
+    theme_bw()
+```
+
+---
+
+Let's look at some summaries for the top 15:
+
+.pull-left[
+```{r wine_summaries, eval = F}
+wine %>% 
+  filter(!is.na(country)) %>% 
+  group_by(country) %>% 
+  summarize(Points = mean(points, na.rm = T),
+            Price = mean(price, na.rm = T),
+            n = n()) %>% 
+  top_n(15, Points) %>% 
+  mutate_at(.vars = vars(Points, Price),
+            round, digits = 2) %>%
+  arrange(desc(Points)) %>% 
+  DT::datatable(options = list(pageLength = 10, digits = 2, dom = "tip"), 
+                class = "cell-border stripe")
+```
+
+England: only 9 observations. 
+
+Austria: basically same score as France.
+
+Morocco: only 12 observations.
+
+Turkey: cheaper with good $n$
+]
+
+.pull-right[
+```{r ref.label='wine_summaries', echo = F}
+```
+]
+
+---
+
+Before you start any sort of analysis, always a good idea to take a look at the data.
+
+.pull-left[
+```{r wine_plots, eval = FALSE}
+wine_subset <- wine %>% filter(country %in% c('France', 'Turkey'))
+
+ggplot(wine_subset,
+       aes(x = country, y = points, fill = country)) + 
+  scale_fill_viridis_d() + guides(fill = "none") +
+  geom_boxplot(alpha = 0.5) 
+
+ggplot(wine_subset,
+       aes(x = points, fill = country)) + 
+  scale_fill_viridis_d() + guides(fill = "none") +
+  geom_histogram(aes(y = after_stat(density)),
+                 position = "identity", alpha = 0.5,
+                 bins = 20) 
+```
+
+From these plots:
+
+* though means are close, when compared to spreads, could be a difference
+
+* variance do NOT look equal
+
+]
+
+.pull-right[
+```{r echo = F, ref.label="wine_plots", fig.height = 2.5, out.height = "250px", out.width = "400px", fig.width = 4}
+```
+]
+
+---
+
+Want to test $H_0: \mu_\text{France} = \mu_\text{Turkey}$ against the alternative $H_A: \mu_\text{France} \neq \mu_\text{Turkey}$. We'll use $\alpha = 0.05$. 
+
+We want to do this using a two sample $t$-test. First, need to check assumptions:
+
+--
+
+* independent groups
+
+--
+
+* independent observations
+
+--
+
+* are averages normally distributed?
+--
+ both $n$'s are greater than $30$, so CLT.
+
+--
+
+Next, need to know if we can assume equal variances. So, find standard deviations for the two groups.
+
+.pull-left[
+```{r wine_sds, eval = F}
+wine_subset %>% 
+  group_by(country) %>% 
+  summarize(means = mean(points),
+            s = sd(points),
+            n = n())
+```
+]
+
+.pull-right[
+```{r ref.label="wine_sds", echo = F}
+```
+]
+
+Since $s_\text{France}/s_\text{Turkey} > 2$, variances cannot be assumed equal. 
+
+Good time to pause and double check with plots: this matches what we saw. Nice!
+
+---
+
+So, we cannot assume equal variances. Hence, we calculate $\widehat{\text{SD}}(V) = \sqrt{\frac{s_\text{France}^2}{n_\text{France}} + \frac{s_\text{Turkey}^2}{n_\text{Turkey}}}$, and we then know that **IF** the null hypothesis is true, then $T \sim t_\nu$ where 
+
+$$\nu = \frac{\left(\frac{s_\text{France}^2}{n_\text{France}} + \frac{s_\text{Turkey}^2}{n_\text{Turkey}} \right)^2}{\frac{(s_\text{France}^2/n_\text{France})^2}{n_\text{France}-1} + \frac{(s_\text{Turkey}^2/n_\text{Turkey})^2}{n_\text{Turkey}-1}}$$
+
+So, let us calculate the two.
+
+.pull-left[
+```{r wine_df, eval = F}
+wine_subset %>% 
+  group_by(country) %>% 
+  summarize(s2 = var(points),
+            n = n()) %>% print %>% 
+  summarize(sd_V = sqrt(sum( s2 / n )),
+            df = sum( s2 / n )^2 / (sum( (s2 / n)^2 / (n - 1) )))
+```
+]
+
+.pull-right[
+```{r echo = F, ref.label='wine_df'}
+```
+]
+
+---
+
+So, we can find $T_\text{obs}$ (I use more digits than previously presented)
+
+```{r}
+T_obs <- (88.92587 - 88.09612 - 0)/0.2195276; T_obs
+```
+
+--
+
+and compare it to the $t$-distribution with $52$ degrees of freedom:
+
+```{r echo = FALSE, out.height = "375px", fig.height = 3.75}
+plot_pdf(StudentsT(df = 52), 
+         limits = c(-Inf, T_obs*1.05)) + 
+  geom_vline(xintercept = T_obs, linetype = "dashed", color = "red")
+```
+
+---
+
+Conclusion using quantiles:
+
+1. find values such that there's $\alpha/2 = 0.025$ to the left and right, respectively: 
+    ```{r}
+    T_52 <- StudentsT(df = 52)
+    quantile(T_52, c(0.025, 0.975))
+    ```
+  these are our cut-offs for when the observed value of the test statistic $T_\text{obs}$ is far from $0$
+--
+
+2. check if our value is outside this interval
+    * since we found that $T_\text{obs} = `r T_obs`$, it is outside the cut-offs
+    
+--
+
+3. since $T_\text{obs}$ is outside the cut-offs, it *is* far from $0$
+
+--
+
+4. since $T_\text{obs}$ is far from $0$, $\bar{X}_\text{France} - \bar{X}_\text{Turkey}$ *is* far from $0$, i.e. $\bar{X}_\text{France}$ *is* far from $\bar{X}_\text{Turkey}$
+
+--
+
+5. since $\bar{X}_\text{France}$ is far from $\bar{X}_\text{Turkey}$, we no longer believe that $\mu_\text{France} = \mu_\text{Turkey}$.
+
+
+---
+
+```{r echo = FALSE, fig.width = 6, fig.height = 3.3, out.width = "900px", out.height = "500px"}
+plot_pdf(StudentsT(df = 52), 
+         limits = c(-1, 1)*T_obs*1.05) + 
+  geom_vline(data = data.frame(),
+             linetype = "dashed", aes(xintercept = quantile(T_52, c(0.025, 0.975)),
+                                      color = rep("cut-offs", 2))) +
+  geom_vline(data = data.frame(),
+             linetype = "dashed", aes(xintercept = T_obs, color = "T")) +
+  scale_color_manual("", values = c("red", "black"), labels = c("cut-offs", expression(T[obs]))) +
+  theme(legend.position = "bottom")
+```
+
+
+---
+
+Conclusion using the p-value:
+
+1. find the probability of being further from zero:
+    ```{r}
+    2*(1 - cdf(T_52, T_obs))
+    ```
+--
+
+2. since the probability of being further away from zero is less than $\alpha = 0.05$, it *is* small
+
+--
+
+3. since the probability of being further away from zero is small, $T_\text{obs}$ *is* far from zero.
+
+--
+
+4. since $T_\text{obs}$ is far from $0$, $\bar{X}_\text{France} - \bar{X}_\text{Turkey}$ *is* far from $0$, i.e. $\bar{X}_\text{France}$ *is* far from $\bar{X}_\text{Turkey}$
+
+5. since $\bar{X}_\text{France}$ is far from $\bar{X}_\text{Turkey}$, we no longer believe that $\mu_\text{France} = \mu_\text{Turkey}$.
+
+
+---
+
+```{r  echo = FALSE, fig.width = 6, fig.height = 3.3, out.width = "900px", out.height = "500px"}
+plot_pdf(StudentsT(df = 52), 
+         limits = c(-1,1)*T_obs*1.05) +
+  geom_auc(to = -abs(T_obs)) +
+  geom_auc(from = abs(T_obs)) +
+  geom_vline(xintercept = c(-1,1)*T_obs,
+             linetype = "dashed", color = "red") 
+```
+
+---
+
+We can also calculate a $95\%$ confidence interval:
+
+```{r}
+wine_subset %>% 
+  group_by(country) %>% 
+  summarize(means = mean(points),
+            s = sd(points),
+            n = n())
+```
+
+$$\begin{aligned}
+\hat{V} \pm t_{52, 0.05/2} \widehat{\text{SD}}(V) &= (88.92587 - 88.09615) \pm 2.006647 \sqrt{\frac{3.199695^2}{21098} + \frac{1.575046^2}{52}} \\
+&= 0.82972 \pm 0.4405144
+\end{aligned}$$
+
+So, we are $95\%$ confident that the true difference in mean points for wines from France vs wines from Turkey is in the interval [`r paste(round(0.82972 + c(-1,1)*0.4405144, digits = 2), collapse = ", ")`]. 
+
+---
+
+Using `t.test` to double check our results:
+
+
+```{r}
+t.test(data = wine_subset, 
+       points ~ country, var.equal = FALSE)
+```
+
+
+---
+
+**Revisit: Corona Virus data**
+
+Previously, we considered the death rates in Italy and China. Back then, we didn't have the tools to actually test the hypothesis that they are the same.
+
+Let's consider the hypothesis $H_0: \pi_\text{Italy} = \pi_\text{China}$, and test it against $H_A:\pi_\text{Italy} \neq \pi_\text{China}$ using $\alpha = 0.01$.
+
+Most recent data:
+
+```{r echo = F}
+corona <- read_csv(here::here("csv_data/corona_virus.csv")) %>% 
+  mutate(date = lubridate::mdy(date)) %>% 
+  filter(!is.na(recovered), !is.na(deaths), !is.na(confirmed)) %>% 
+  filter(date == max(date))
+
+corona_subset <- corona %>% 
+  filter(`Country/Region` %in% c('Italy', 'China')) %>% 
+  group_by(Country = `Country/Region`) %>% 
+  summarize_at(vars(deaths, confirmed, recovered),
+               sum) %>% 
+  mutate(p_hat = deaths/confirmed)
+```
+
+```{r}
+corona_subset
+```
+
+---
+
+We will reject null if $P_\text{Italy}$ is far from $P_\text{China}$. So, we will consider $P_\text{Italy} - P_\text{China}$. 
+
+To be able to say if they are "far from each other", we want to find the probability that they are further from each other. So, we need the distribution of some quantity we know. 
+
+Remember, we also do this assuming $H_0$ is true. 
+
+Remember, $P_\text{Italy}$ and $P_\text{China}$ are proportions, so approximately normally distributed if the $n$'s are large enough. 
+
+So, if the $n$'s are large enough, the difference will be normally distributed with mean $0$. But what is the variance?
+
+--
+
+If $H_0$ is true, then $\pi_\text{Italy} = \pi_\text{China}$. Let's call this common proportion $\pi_0$. So,
+
+$$\begin{aligned}
+\text{Var}(P_\text{Italy}) &= \frac{\pi_\text{Italy} (1 - \pi_\text{Italy})}{n_\text{Italy}} = \frac{\pi_0 (1 - \pi_0)}{n_\text{Italy}} \\
+\text{Var}(P_\text{China}) &= \frac{\pi_\text{China} (1 - \pi_\text{China})}{n_\text{China}} = \frac{\pi_0 (1 - \pi_0)}{n_\text{China}}.
+\end{aligned}$$
+
+---
+
+Therefore, assuming the two groups are independent,
+
+$$\text{Var}(P_\text{Italy} - P_\text{China}) = \text{Var}(P_\text{Italy}) + \text{Var}(P_\text{China}) = \pi_0 (1-\pi_0)\left(\frac{1}{n_\text{Italy}} + \frac{1}{n_\text{China}}\right).$$
+
+So, if the null hypothesis is true,
+
+$$P_\text{Italy} - P_\text{China} \sim N\left(0, \pi_0(1-\pi_0)\left(\frac{1}{n_\text{Italy}} + \frac{1}{n_\text{China}}\right)\right),$$
+
+or equivalently,
+
+$$Z = \frac{P_\text{Italy} - P_\text{China}}{\sqrt{\pi_0(1-\pi_0)\left(\frac{1}{n_\text{Italy}} + \frac{1}{n_\text{China}}\right)}} \sim N\left(0, 1\right).$$
+
+Notice how this is of the form $\frac{V - v_0}{\widehat{\text{SD}}(V)}$ **IF** the null hypothesis is true.
+
+---
+
+There are a few questions we need to answer:
+
+1. how big do $n_\text{Italy}, n_\text{China}$ have to be?
+
+2. how should we estimate $\pi_0$?
+
+--
+
+To answer the first question: we need the sample sizes big enough that $P_\text{Italy}$ and $P_\text{China}$ are approximately normally distributed when the null hypothesis is true. Previously, we said that if $\pi_\text{Italy}n_\text{Italy} > 5$ and $(1 - \pi_\text{Italy})n_\text{Italy} > 5$, then all is well. (Same for $n_\text{China}$.)
+
+Will use same rule of thumb here. But remember, when $H_0$ is true, $\pi_\text{Italy} = \pi_\text{China} = \pi_0$. So, we need 
+
+$$\pi_0 n_\text{Italy} > 5 \quad \text{ and } (1 - \pi_0)n_\text{Italy} > 5$$
+
+and
+
+$$\pi_0n_\text{Italy} > 5 \quad \text{ and } (1 - \pi_0)n_\text{Italy} > 5$$
+
+---
+
+What should we use to estimate $\pi_0$? Well, if the null hypothesis is true, the two groups are basically the same (in terms of the true proportion, at least). So, to estimate $\pi_0$, we will treat the two groups as one big group:
+
+$$P_0 = \frac{1}{n}\sum_{i=1}^{n} X_i = \frac{n_\text{Italy} P_\text{Italy} + n_\text{China} P_\text{China}}{n_\text{Italy} + n_\text{China}}$$
+
+---
+
+So, first we will find our observed value of $P_0$:
+
+```{r}
+corona_subset %>% summarize(p_0 = sum(p_hat*confirmed)/(sum(confirmed)))
+```
+
+Next, we check if the two sample sizes are big enough:
+
+```{r}
+corona_subset %>% 
+  mutate(p_0 = sum(p_hat*confirmed)/(sum(confirmed)),
+         check_n1 = confirmed*p_0,
+         check_n2 = confirmed*(1-p_0))
+```
+
+```{r include =F}
+z_obs <- ((0.09858911 - 0.04088689)/sqrt(0.06778108*(1-0.06778108)*(1/69176 + 1/79243)))
+```
+
+---
+
+Finally, calculate the observed value of our test statistic:
+
+$$Z_\text{obs} = \frac{0.09858911 - 0.04088689}{\sqrt{0.06778108\cdot (1-0.06778108)\left(\frac{1}{69176} + \frac{1}{79243}\right)}} = `r z_obs`$$
+
+We compare this to the standard normal.
+
+---
+
+Conclusion using quantiles: is our observed value "far from 0"? Find cut-offs such that only $\alpha/2 = 0.005$ is further from 0 on each side:
+
+```{r}
+quantile(Normal(), c(0.005, 0.995))
+```
+
+Since we observed `r z_obs`, we observe something far from $0$. 
+
+So, $P_\text{Italy}$ is far from $P_\text{China}$. 
+
+So, we reject the idea that $\pi_\text{Italy} = \pi_\text{China}$. 
+
+```{r echo = F, out.height = "200px", out.width = "600px", fig.height = 2, fig.width = 6}
+plot_pdf(Normal(), limits = c(-1,1)*1.05*z_obs) + 
+  geom_vline(xintercept = quantile(Normal(), c(0.005, 0.995)),
+             linetype = "dashed", color = "red") + 
+  geom_vline(xintercept = z_obs, linetype = "dashed", color = "black")
+```
+
+
+---
+
+As always, we are probably more interested in a confidence interval than a hypothesis test. Fortunately, we can "easily" create that. However, we need to take a step back. 
+
+We would like to simply take our test statistic, $\frac{P_\text{Italy} - P_\text{China}}{\sqrt{\pi_0(1-\pi_0)\left(\frac{1}{n_\text{Italy}} + \frac{1}{n_\text{China}}\right)}}$, and rearrange it. However, this only follows a normal distribution **IF** the null hypothesis is true. 
+
+Therefore, we need to be a bit more general, and instead use $\frac{P_\text{Italy} - P_\text{China}}{\sqrt{\left(\frac{P_\text{Italy}(1-P_\text{Italy})}{n_\text{Italy}} + \frac{P_\text{China}(1-P_\text{China})}{n_\text{China}}\right)}}$. We can then construct a $(1-\alpha)\%$ CI as
+
+
+$$P_\text{Italy} - P_\text{China} \pm z_{\alpha/2} \sqrt{\left(\frac{P_\text{Italy}(1-P_\text{Italy})}{n_\text{Italy}} + \frac{P_\text{China}(1-P_\text{China})}{n_\text{China}}\right)}.$$
+
+Notice, this is of the form $V \pm z_{\alpha/2} \widehat{\text{SD}}(V)$. 
+
+We use $Z$ instead of $T$ here, since $V \sim N$, and we only do not have to estimate the standard deviation separate from estimating the means. 
+
+---
+
+Calculations:
+
+```{r}
+corona_subset %>% print %>% 
+  summarize(LL = p_hat[2] - p_hat[1] - 2.576*sqrt(sum(p_hat*(1-p_hat)/confirmed)),
+            UL = p_hat[2] - p_hat[1] + 2.576*sqrt(sum(p_hat*(1-p_hat)/confirmed)))
+```
+
+---
+
+We can do this in `R` using the function `prop.test`:
+
+```{r}
+prop.test(x = c(6820, 3240), n = c(69176, 79243), correct = FALSE, conf.level = 0.99)
+```
+
+Important things to know about `prop.test`:
+
+.pull-left[
+* it uses $Z^2$ as the test statistic instead of $Z$
+    - notice how $\sqrt{1946.2} = `r sqrt(1946.2)` \approx `r z_obs`$
+]
+.pull-right[
+* you need to specify `correct = FALSE`
+] 
