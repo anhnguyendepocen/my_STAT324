@@ -626,7 +626,7 @@ So, $\text{p-value} = P(Z < `r -abs(z_obs)`) + P(Z > `r abs(z_obs)`) = 2\cdot P(
 
 ```{r echo = FALSE}
 plot_pdf(Normal(), 
-         limits = 1.02*c(-1,1)*abs(z_obs)) + 
+         limits = 1.02*c(-1,1)*max(abs(z_obs), 3)) + 
   geom_auc(to = -abs(z_obs)) +
   geom_auc(from = abs(z_obs)) +
   geom_vline(xintercept = c(-1,1)*z_obs,
@@ -662,7 +662,7 @@ corona_virus %>%
          date == "2020-03-04") %>% 
   group_by(`Country/Region`) %>% 
   summarize_at(.vars = vars(confirmed, deaths, recovered),
-               .funs = sum) %>% 
+               .funs = sum, na.rm = T) %>% 
   mutate(P = deaths/confirmed,
          LL = P - quantile(Normal(), 0.95)*sqrt(P*(1-P)/confirmed),
          UL = P + quantile(Normal(), 0.95)*sqrt(P*(1-P)/confirmed))
