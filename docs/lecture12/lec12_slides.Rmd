@@ -6,7 +6,6 @@ institute: "University of Wisconsin--Madison<br><br>"
 date: "Spring 2020"
 output:
   xaringan::moon_reader:
-    self_contained: true
     css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
     lib_dir: libs
     nature:
@@ -502,10 +501,10 @@ Using this data, we can estimate the risk of dying:
 
 ```{r}
 corona_virus %>% 
-  filter(date == max(date)) %>% 
-  summarize_at(.vars = vars(Confirmed, Deaths, Recovered),
-               .funs = sum) %>% 
-  mutate(P = Deaths/Confirmed)
+  filter(date == "2020-03-09") %>% 
+  summarize_at(.vars = vars(confirmed, deaths, recovered),
+               .funs = sum, na.rm = T) %>% 
+  mutate(P = deaths/confirmed)
 ```
 
 
@@ -531,27 +530,27 @@ First, they estimate the risk in Mainland China and Italy:
 
 ```{r}
 corona_virus %>% 
-  filter(`Country/Region` %in% c("Italy", "Mainland China"),
-         date == max(date)) %>% 
+  filter(`Country/Region` %in% c("Italy", "China"),
+         date == "2020-03-04") %>% 
   group_by(`Country/Region`) %>% 
-  summarize_at(vars(Confirmed, Deaths, Recovered),
-               sum) %>% 
-  mutate(P = Deaths/Confirmed)
+  summarize_at(vars(confirmed, deaths, recovered),
+               sum, na.rm = T) %>% 
+  mutate(P = deaths/confirmed)
 ```
 
 ```{r echo = FALSE}
 ps <- corona_virus %>% 
-  filter(`Country/Region` %in% c("Italy", "Mainland China"),
-         date == max(date)) %>% 
+  filter(`Country/Region` %in% c("Italy", "China"),
+         date == "2020-03-04") %>% 
   group_by(`Country/Region`) %>% 
-  summarize_at(vars(Confirmed, Deaths, Recovered),
-               sum) %>% 
-  mutate(P = Deaths/Confirmed)
+  summarize_at(vars(confirmed, deaths, recovered),
+               sum, na.rm = T) %>% 
+  mutate(P = deaths/confirmed)
 
-p_china <- round(filter(ps, `Country/Region` == 'Mainland China')$P, digits = 4)
+p_china <- round(filter(ps, `Country/Region` == 'China')$P, digits = 4)
 p_italy <- round(filter(ps, `Country/Region` == 'Italy')$P, digits = 4)
 
-n_italy <- filter(ps, `Country/Region` == 'Italy')$Confirmed
+n_italy <- filter(ps, `Country/Region` == 'Italy')$confirmed
 ```
 
 ---
@@ -606,10 +605,15 @@ So, to test the null hypothesis $H_0: \pi_{\text{Italy}} = `r p_china`$ vs. $H_A
 
 --
 
+```{r include = FALSE}
+z_obs <- round((p_italy - p_china)/sqrt(p_china*(1-p_china)/n_italy), digits = 4)
+```
+
+
 First, we find $Z_{\text{obs}}$:
 
 $$
-  Z_{\text{obs}} = \frac{\hat{p} - `r p_china`}{\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}} = \frac{`r p_italy` - `r p_china`}{\sqrt{\frac{`r p_china`(1-`r p_china`)}{`r n_italy`}}} \approx `r (z_obs <- round((p_italy - p_china)/sqrt(p_china*(1-p_china)/n_italy), digits = 4))`
+  Z_{\text{obs}} = \frac{\hat{p} - `r p_china`}{\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}} = \frac{`r p_italy` - `r p_china`}{\sqrt{\frac{`r p_china`(1-`r p_china`)}{`r n_italy`}}} \approx `r z_obs`
 $$
 
 Then we want to find $P(\text{more extreme} | H_0 \text{ true})$. What is more extreme in this case? 
@@ -621,7 +625,7 @@ Then we want to find $P(\text{more extreme} | H_0 \text{ true})$. What is more e
 So, $\text{p-value} = P(Z < `r -abs(z_obs)`) + P(Z > `r abs(z_obs)`) = 2\cdot P(Z < `r -abs(z_obs)`)$.
 
 ```{r echo = FALSE}
-plot_pdf(Normal(),
+plot_pdf(Normal(), 
          limits = 1.02*c(-1,1)*abs(z_obs)) + 
   geom_auc(to = -abs(z_obs)) +
   geom_auc(from = abs(z_obs)) +
@@ -654,14 +658,14 @@ $90\%$ CIs for the risk in Mainland China and Italy:
 
 ```{r}
 corona_virus %>%
-  filter(`Country/Region` %in% c("Italy", "Mainland China"),
-         date == max(date)) %>% 
+  filter(`Country/Region` %in% c("Italy", "China"),
+         date == "2020-03-04") %>% 
   group_by(`Country/Region`) %>% 
-  summarize_at(.vars = vars(Confirmed, Deaths, Recovered),
+  summarize_at(.vars = vars(confirmed, deaths, recovered),
                .funs = sum) %>% 
-  mutate(P = Deaths/Confirmed,
-         LL = P - quantile(Normal(), 0.95)*sqrt(P*(1-P)/Confirmed),
-         UL = P + quantile(Normal(), 0.95)*sqrt(P*(1-P)/Confirmed))
+  mutate(P = deaths/confirmed,
+         LL = P - quantile(Normal(), 0.95)*sqrt(P*(1-P)/confirmed),
+         UL = P + quantile(Normal(), 0.95)*sqrt(P*(1-P)/confirmed))
 ```
 
 ---
@@ -690,9 +694,9 @@ A map:
 world_map <- map_data("world")
 
 for_map <- corona_virus %>% 
-  filter(date == max(date)) %>% 
+  filter(date == "2020-03-04") %>% 
   group_by(region = `Country/Region`) %>% 
-  summarize_at(vars(Confirmed, Deaths, Recovered), sum) %>% 
+  summarize_at(vars(confirmed, deaths, recovered), sum) %>% 
   ungroup() %>% 
   mutate(region = case_when(region == "Mainland China" ~ "China",
                             region == "US" ~ "USA", 
@@ -708,8 +712,8 @@ ggplot() +
   geom_map(data = left_join(world_map, for_map),
            map = world_map,
            aes(x = long, y = lat, map_id = region,
-               fill = log(Confirmed + 1))) +
-  scale_fill_gradient2(limits = c(0, log(max(for_map$Confirmed)+1)),
+               fill = log(confirmed + 1))) +
+  scale_fill_gradient2(limits = c(0, log(max(for_map$confirmed)+1)),
                        low = "white", high = "red") +
   coord_fixed() +
   labs(x = "", y = "") +
