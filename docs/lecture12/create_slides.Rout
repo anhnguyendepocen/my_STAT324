@@ -36,7 +36,9 @@ Type 'q()' to quit R.
 +                                                       ),
 +                                                       self_contained = TRUE)
 > 
-> rmarkdown::render(file, "my_moon_reader")
+> #rmarkdown::render(file, "my_moon_reader")
+> #pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
+> rmarkdown::render(file)
 
 
 processing file: lec12_slides.Rmd
@@ -343,14 +345,12 @@ usage: cp [-R [-H | -L | -P]] [-fi | -n] [-apvXc] source_file target_file
 
 output file: lec12_slides.knit.md
 
-/usr/local/bin/pandoc +RTS -K512m -RTS lec12_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec12_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpzrTtyT/rmarkdown-str13606527028ad.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpzrTtyT/xaringan136067e9f4569.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpzrTtyT/xaringan136069738307.js --variable title-slide=true --variable math=true 
+/usr/local/bin/pandoc +RTS -K512m -RTS lec12_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec12_slides.html --email-obfuscation none -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpgHtlUN/rmarkdown-str137c670c2da3d.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpgHtlUN/xaringan137c62340fbf5.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpgHtlUN/xaringan137c63aa8d909.js --variable title-slide=true --variable math=true 
 
 Output created: lec12_slides.html
 Warning message:
 Ignoring unknown aesthetics: x, y 
-> pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
-> #rmarkdown::render(file)
 > 
 > proc.time()
    user  system elapsed 
-288.809   4.717 376.956 
+ 15.595   1.297  22.342 

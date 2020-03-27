@@ -423,7 +423,7 @@ or equivalently, when
 
 This is **EXACTLY** the `\(95\%\)` confidence interval we would calculate for `\(\mu\)`!!
 
-&lt;img src="./images/wow.gif" width="480px" height="252px" style="display: block; margin: auto;" /&gt;
+&lt;img src="/Users/ralphtrane/Documents/UW-Madison/STAT324/Spring2020/Lectures/lecture12/images/wow.gif" width="480px" height="252px" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -530,8 +530,8 @@ corona_virus &lt;- read_csv(here::here("csv_data/corona_virus.csv")) %&gt;%
 corona_virus %&gt;% group_by(`Country/Region`, `Province/State`) %&gt;% tail(20) %&gt;% DT::datatable(options = list(pageLength = 5, scrollX = T))
 ```
 
-<div id="htmlwidget-5bbfd67888652445d435" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5bbfd67888652445d435">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis"],[17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822],[-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998],["2020-03-06","2020-03-07","2020-03-08","2020-03-09","2020-03-10","2020-03-11","2020-03-12","2020-03-13","2020-03-14","2020-03-15","2020-03-16","2020-03-17","2020-03-18","2020-03-19","2020-03-20","2020-03-21","2020-03-22","2020-03-23","2020-03-24","2020-03-25"],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Province/State<\/th>\n      <th>Country/Region<\/th>\n      <th>Lat<\/th>\n      <th>Long<\/th>\n      <th>date<\/th>\n      <th>confirmed<\/th>\n      <th>deaths<\/th>\n      <th>recovered<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[3,4,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1d3d67bf5bbfd6788865" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d3d67bf5bbfd6788865">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis","Saint Kitts and Nevis"],[17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822,17.357822],[-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998,-62.782998],["2020-03-06","2020-03-07","2020-03-08","2020-03-09","2020-03-10","2020-03-11","2020-03-12","2020-03-13","2020-03-14","2020-03-15","2020-03-16","2020-03-17","2020-03-18","2020-03-19","2020-03-20","2020-03-21","2020-03-22","2020-03-23","2020-03-24","2020-03-25"],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Province/State<\/th>\n      <th>Country/Region<\/th>\n      <th>Lat<\/th>\n      <th>Long<\/th>\n      <th>date<\/th>\n      <th>confirmed<\/th>\n      <th>deaths<\/th>\n      <th>recovered<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[3,4,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 ]
 
 ---
@@ -798,7 +798,7 @@ An animation:
 "highlightStyle": "github",
 "highlightLines": true,
 "countIncrementalSlides": false,
-"ratio": "16:10",
+"ration": "16:10",
 "navigation": {
 "scroll": false
 }
