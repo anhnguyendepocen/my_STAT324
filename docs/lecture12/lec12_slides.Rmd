@@ -406,7 +406,7 @@ $$\bar{X}-t_{n-1, 0.025}\frac{s}{\sqrt{n}} < \mu_0 < \bar{X} + t_{n-1,0.025}\fra
 This is **EXACTLY** the $95\%$ confidence interval we would calculate for $\mu$!!
 
 ```{r echo = FALSE, out.width = "480px", out.height = "252px"}
-knitr::include_graphics(here::here("Lectures/lecture12/images/wow.gif"))
+knitr::include_graphics("./images/wow.gif")
 ```
 
 ---
