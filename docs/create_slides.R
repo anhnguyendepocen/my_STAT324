@@ -14,6 +14,6 @@ my_moon_reader <- function(...) xaringan::moon_reader(..., css = c('../css/uwmad
                                                       ),
                                                       self_contained = TRUE)
 
-#rmarkdown::render(file, "my_moon_reader")
-#pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
+rmarkdown::render(file, "my_moon_reader")
+pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
 rmarkdown::render(file)

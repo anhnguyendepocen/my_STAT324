@@ -442,7 +442,7 @@ $$\pi_0 n_\text{Italy} > 5 \quad \text{ and } (1 - \pi_0)n_\text{Italy} > 5$$
 
 and
 
-$$\pi_0n_\text{Italy} > 5 \quad \text{ and } (1 - \pi_0)n_\text{Italy} > 5$$
+$$\pi_0n_\text{China} > 5 \quad \text{ and } (1 - \pi_0)n_\text{China} > 5$$
 
 ---
 
