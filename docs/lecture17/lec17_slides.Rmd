@@ -592,3 +592,4 @@ change_max <- crickets %>%
 bind_rows(original, remove_outliers, change_max) %>% 
   knitr::kable(format = "html")
 ```
+
