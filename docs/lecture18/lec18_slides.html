@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 18: Paired T-test</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ralph Trane" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding-0.9/datatables.js"></script>
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core-1.10.19/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="../css/uwmadison.css" type="text/css" />
+    <link rel="stylesheet" href="../css/extra-classes.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, top, .title-slide, title-slide
+
+# Lecture 18: Paired T-test
+## STAT 324
+### Ralph Trane
+### University of Wisconsin–Madison<br><br>
+### Spring 2020
+
+---
+
+layout: true
+
+# Paired T-test
+
+---
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+
+Musculoskeletal disorders of the neck and shoulders are common in office workers because of repetitive tasks. Long periods of upper-arm elevation above 30 degrees have been shown to be related to disorders. It was thought that varying working conditions over the course of the day could alleviate some of these problems. Eight office workers were randomly selected. They were observed for one work day under the standard conditions, and the percentage of time that their dominant upper-arm was below 30 degrees was recorded. The next day, these same individuals had their work diversified, and again were observed.
+
+Question: does more diversified work increase the percent of time a worker's upper-arm is below 30 degrees?
+
+--
+
+.pull-left[
+
+```r
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+
+work_data &lt;- tibble(participant = rep(1:8, times = 2),
+                    work_condition = factor(rep(c("Diverse", "Standard"), each = 8),
+                                            levels = c("Standard", "Diverse")),
+                    time = c(78, 91, 79, 65, 67, 72, 71, 96,
+                             81, 87, 86, 59, 66, 70, 73, 92)) %&gt;% arrange(participant)
+
+DT::datatable(work_data, 
+              options = list(dom = "t", paging = FALSE, scrollY = "40vh"),
+              rownames = FALSE)
+```
+]
+
+.pull-right[
+<div id="htmlwidget-89e66acdba4f16f9f99e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-89e66acdba4f16f9f99e">{"x":{"filter":"none","data":[[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8],["Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard"],[78,81,91,87,79,86,65,59,67,66,72,70,71,73,96,92]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>participant<\/th>\n      <th>work_condition<\/th>\n      <th>time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"40vh","columnDefs":[{"className":"dt-right","targets":[0,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+]
+
+---
+
+In our familiar statistical jargon: we want to test the hypothesis `\(H_0: \mu_\text{diverse} - \mu_\text{standard} = 0\)` against the alternative `\(H_A: \mu_\text{diverse} - \mu_\text{standard} &lt; 0\)`. (Null: no difference. Alternative: diversified *decreases* time upper-arm below 30 degrees.)
+
+First step in any analysis: pretty plots!
+
+---
+
+.pull-left[
+
+```r
+ggplot(work_data,
+       aes(x = work_condition, y = time)) + 
+  geom_boxplot() +
+  geom_point()
+```
+
+&lt;img src="lec18_slides_files/figure-html/unnamed-chunk-4-1.png" width="100%" height="400px" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+From this plot: seems to be little to no difference. Comparing medians suggests that more diverse conditions lowers the time measured. But overall, not convincing.
+]
+
+---
+ 
+Problem: this is not the entire story. We have another variable, `participant`. Here are the observations connected by participant.
+
+
+```r
+ggplot(data = work_data,
+       aes(x = work_condition, y = time)) + 
+  geom_point() +
+  geom_line(aes(group = participant))
+```
+
+&lt;img src="lec18_slides_files/figure-html/work_data_by_participant-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+
+Notice how some go up some, go down, some stay the same. Overall, it seems that there's little difference between the two groups.
+
+---
+
+How do we test the hypothesis? One "obvious" (= the one we've spend the most time on) choice would be a two sample t-test. 
+
+.pull-left[
+Assumptions to check: 
+
+* independent groups
+
+* independent observations
+
+* normal averages
+
+]
+
+.pull-right[
+&lt;img src="lec18_slides_files/figure-html/unnamed-chunk-5-1.png" width="80%" height="400px" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+Groups not independent! 
+
+Notice how, in general, lines that start low end low, lines that start high end high. 
+
+Dependence between the groups!
+
+
+---
+
+
+So how do we deal with this scenario? Many ways to do so, but by far the simplest is the paired t-test.
+
+The "trick" is to realize that we are really interested in the *difference* from one day to the next. So, why not look at differences? 
+
+<div id="htmlwidget-87cdbc9c24861a4e7d6d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-87cdbc9c24861a4e7d6d">{"x":{"filter":"none","data":[[1,2,3,4,5,6,7,8],[78,91,79,65,67,72,71,96],[81,87,86,59,66,70,73,92],[-3,4,-7,6,1,2,-2,4]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>participant<\/th>\n      <th>Diverse<\/th>\n      <th>Standard<\/th>\n      <th>Difference<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"40vh","columnDefs":[{"className":"dt-right","targets":[0,1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+Now we have one observations per individual. Let's call the corresponding random variable `\(D_i\)`, and let's say that the true expected difference (i.e. true expected value of `\(D_i\)`) is `\(\mu_D\)`. 
+
+---
+
+So, `\(D_i = X_{\text{Diverse},i} - X_{\text{Standard}, i}\)`. 
+
+Notice that
+
+`\(\mu_D = E(D_i) = E(X_{\text{Diverse}, i} - X_{\text{Standard}, i})=\)`
+--
+ `\(E(X_{\text{Diverse}, i}) - E(X_{\text{Standard}, i})=\)`
+--
+ `\(\mu_\text{Diverse} - \mu_\text{Standard}\)`.
+
+
+So, testing `\(H_0: \mu_\text{Diverse} - \mu_\text{Standard} = 0\)` against `\(H_A: \mu_\text{Diverse} - \mu_\text{Standard} &lt; 0\)` is the same as testing `\(H_0: \mu_D = 0\)` against `\(H_A: \mu_D &lt; 0\)`. 
+
+So, we are actually back in a one-sample setting, and can therefore use a one-sample t-test! 
+
+---
+
+First, we'll setup the data. That is, we have to calculate the differences for each individual.
+
+
+```r
+work_data_differences &lt;- work_data %&gt;% 
+  group_by(participant) %&gt;% 
+  summarize(d = diff(time))
+
+work_data_differences
+```
+
+```
+## # A tibble: 8 x 2
+##   participant     d
+## *       &lt;int&gt; &lt;dbl&gt;
+## 1           1     3
+## 2           2    -4
+## 3           3     7
+## 4           4    -6
+## 5           5    -1
+## 6           6    -2
+## 7           7     2
+## 8           8    -4
+```
+
+Next, we'll see if we can do a one-sample t-test on these new observations!
+
+---
+
+Check assumptions:
+
+* independence?
+
+* normal average?
+--
+
+    * small sample size, so no CLT. Have to check if data is reasonably normal
+
+---
+
+QQ-plot to check if the *differences* are reasonably normal:
+
+
+```r
+ggplot(work_data_differences,
+       aes(sample = d)) + 
+  geom_qq() + 
+  geom_qq_line()
+```
+
+&lt;img src="lec18_slides_files/figure-html/unnamed-chunk-8-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+Looks okay. So, we can move ahead with our one-sample t-test.
+
+---
+
+.pull-left[
+
+By hand:
+
+
+```r
+work_data_differences %&gt;% 
+  summarize(average = mean(d),
+            s = sd(d),
+            n = n(),
+            T_obs = average/(s/sqrt(n)),
+            p_value = cdf(StudentsT(df = n-1), T_obs))
+```
+
+```
+## # A tibble: 1 x 5
+##   average     s     n  T_obs p_value
+##     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+## 1  -0.625  4.34     8 -0.407   0.348
+```
+]
+
+.pull-right[
+Using built-in function:
+
+
+```r
+t.test(work_data_differences$d, 
+       alternative = "less")
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  work_data_differences$d
+## t = -0.40728, df = 7, p-value = 0.348
+## alternative hypothesis: true mean is less than 0
+## 95 percent confidence interval:
+##      -Inf 2.282367
+## sample estimates:
+## mean of x 
+##    -0.625
+```
+
+]
+
+
+---
+ 
+Note: It matters if you do `\(X_{\text{Diverse}, i} - X_{\text{Standard},i}\)` or `\(X_{\text{Standard}, i} - X_{\text{Diverse},i}\)` ...
+
+--
+
+... BUT the difference is only a sign. If you want to specify direction in `R`:
+    
+.pull-left[
+
+```r
+tmp &lt;- work_data %&gt;% 
+  mutate(work_condition = 
+           factor(work_condition,
+                  levels = c("Standard", "Diverse"))) %&gt;% 
+  group_by(participant) %&gt;% 
+  arrange(work_condition) %&gt;% 
+  summarize(d = diff(time))
+
+t.test(tmp$d, alternative = "less")
+```
+]
+
+.pull-right[
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  tmp$d
+## t = 0.40728, df = 7, p-value = 0.652
+## alternative hypothesis: true mean is less than 0
+## 95 percent confidence interval:
+##      -Inf 3.532367
+## sample estimates:
+## mean of x 
+##     0.625
+```
+]
+
+Notice that you now are testing against the reverse hypothesis: `\(H_A: \mu_\text{Standard} - \mu_\text{Diverse} &lt; 0\)`. 
+
+---
+    
+If you want same result as before, you need to flip to greater, instead of less:
+
+
+```r
+t.test(tmp$d, alternative = "greater")
+```
+
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  tmp$d
+## t = 0.40728, df = 7, p-value = 0.348
+## alternative hypothesis: true mean is greater than 0
+## 95 percent confidence interval:
+##  -2.282367       Inf
+## sample estimates:
+## mean of x 
+##     0.625
+```
+
+
+---
+
+Sometimes, you might get data in a slightly different format:
+
+
+
+
+```r
+work_data1 %&gt;% DT::datatable(options = list(dom = "t", paging = FALSE, scrollY = "20vt"))
+```
+
+<div id="htmlwidget-425a89568bbd8c16d998" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-425a89568bbd8c16d998">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8"],[1,2,3,4,5,6,7,8],[78,91,79,65,67,72,71,96],[81,87,86,59,66,70,73,92]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>participant<\/th>\n      <th>Diverse<\/th>\n      <th>Standard<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"20vt","columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+We can then use the built-in function right away:
+
+
+```r
+t.test(x = work_data1$Standard, y = work_data1$Diverse,
+       paired = TRUE, alternative = "less")
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  work_data1$Standard and work_data1$Diverse
+## t = -0.40728, df = 7, p-value = 0.348
+## alternative hypothesis: true difference in means is less than 0
+## 95 percent confidence interval:
+##      -Inf 2.282367
+## sample estimates:
+## mean of the differences 
+##                  -0.625
+```
+
+---
+
+**Summary: Paired t-test**
+
+When two samples are dependent, but there exists a *natural* pairing of observations. 
+
+Paired t-test is simply a one-sample t-test using the *differences* as the observations, i.e. for each "subject", `\(D_i = X_\text{1,i} - X_\text{2,i}\)`. 
+
+Assuming that `\(D_1, D_2, ..., D_n\)` are independent observations, and that `\(\bar{D} \sim N\)`, we can test `\(H_0: \mu_D = \mu_0\)` against any of the three alternatives using `\(T = \frac{\bar{D} - \mu_0}{\widehat{\text{SD}}(\bar{D})} = \frac{\bar{D} - \mu_0}{S_D/\sqrt{n}}\)`. 
+
+**IF** the null hypothesis is true, `\(T \sim t_{n-1}\)`, and p-values are obtained as 
+
+* `\(P(T_{n-1} &gt; T_\text{obs})\)` if `\(H_A: \mu_D &gt; \mu_0\)`,
+* `\(P(T_{n-1} &lt; T_\text{obs})\)` if `\(H_A: \mu_D &lt; \mu_0\)`,
+* `\(2\cdot P(T_{n-1} &gt; |T_\text{obs}|)\)` if `\(H_A: \mu_D \ne \mu_0\)`.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:10",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

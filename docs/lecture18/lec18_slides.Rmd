@@ -1,0 +1,309 @@
+---
+title: "Lecture 18: Paired T-test"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# Paired T-test
+
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE,
+                      dpi = 300, fig.height = 4, out.height = "400px",
+                      fig.align = "center")
+```
+
+```{css echo = FALSE}
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+
+Musculoskeletal disorders of the neck and shoulders are common in office workers because of repetitive tasks. Long periods of upper-arm elevation above 30 degrees have been shown to be related to disorders. It was thought that varying working conditions over the course of the day could alleviate some of these problems. Eight office workers were randomly selected. They were observed for one work day under the standard conditions, and the percentage of time that their dominant upper-arm was below 30 degrees was recorded. The next day, these same individuals had their work diversified, and again were observed.
+
+Question: does more diversified work increase the percent of time a worker's upper-arm is below 30 degrees?
+
+--
+
+.pull-left[
+```{r work_data_table, eval = F}
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+
+work_data <- tibble(participant = rep(1:8, times = 2),
+                    work_condition = factor(rep(c("Diverse", "Standard"), each = 8),
+                                            levels = c("Standard", "Diverse")),
+                    time = c(78, 91, 79, 65, 67, 72, 71, 96,
+                             81, 87, 86, 59, 66, 70, 73, 92)) %>% arrange(participant)
+
+DT::datatable(work_data, 
+              options = list(dom = "t", paging = FALSE, scrollY = "40vh"),
+              rownames = FALSE)
+```
+]
+
+.pull-right[
+```{r ref.label="work_data_table", echo = FALSE}
+```
+]
+
+---
+
+In our familiar statistical jargon: we want to test the hypothesis $H_0: \mu_\text{diverse} - \mu_\text{standard} = 0$ against the alternative $H_A: \mu_\text{diverse} - \mu_\text{standard} < 0$. (Null: no difference. Alternative: diversified *decreases* time upper-arm below 30 degrees.)
+
+First step in any analysis: pretty plots!
+
+---
+
+.pull-left[
+```{r fig.width = 3, fig.height = 3, out.width = "100%"}
+ggplot(work_data,
+       aes(x = work_condition, y = time)) + 
+  geom_boxplot() +
+  geom_point()
+```
+]
+
+.pull-right[
+
+From this plot: seems to be little to no difference. Comparing medians suggests that more diverse conditions lowers the time measured. But overall, not convincing.
+]
+
+---
+ 
+Problem: this is not the entire story. We have another variable, `participant`. Here are the observations connected by participant.
+
+```{r work_data_by_participant}
+ggplot(data = work_data,
+       aes(x = work_condition, y = time)) + 
+  geom_point() +
+  geom_line(aes(group = participant))
+```
+
+
+Notice how some go up some, go down, some stay the same. Overall, it seems that there's little difference between the two groups.
+
+---
+
+How do we test the hypothesis? One "obvious" (= the one we've spend the most time on) choice would be a two sample t-test. 
+
+.pull-left[
+Assumptions to check: 
+
+* independent groups
+
+* independent observations
+
+* normal averages
+
+]
+
+.pull-right[
+```{r ref.label="work_data_by_participant", echo = F, fig.height = 3, fig.width = 3, out.width = "80%"}
+```
+]
+
+--
+
+Groups not independent! 
+
+Notice how, in general, lines that start low end low, lines that start high end high. 
+
+Dependence between the groups!
+
+
+---
+
+
+So how do we deal with this scenario? Many ways to do so, but by far the simplest is the paired t-test.
+
+The "trick" is to realize that we are really interested in the *difference* from one day to the next. So, why not look at differences? 
+
+```{r echo = FALSE}
+work_data %>% 
+  pivot_wider(names_from = work_condition, values_from = time) %>% 
+  mutate(Difference = Diverse - Standard) %>% 
+  DT::datatable(options = list(dom = "t", paging = FALSE, scrollY = "40vh"),
+              rownames = FALSE)
+```
+
+Now we have one observations per individual. Let's call the corresponding random variable $D_i$, and let's say that the true expected difference (i.e. true expected value of $D_i$) is $\mu_D$. 
+
+---
+
+So, $D_i = X_{\text{Diverse},i} - X_{\text{Standard}, i}$. 
+
+Notice that
+
+$\mu_D = E(D_i) = E(X_{\text{Diverse}, i} - X_{\text{Standard}, i})=$
+--
+ $E(X_{\text{Diverse}, i}) - E(X_{\text{Standard}, i})=$
+--
+ $\mu_\text{Diverse} - \mu_\text{Standard}$.
+
+
+So, testing $H_0: \mu_\text{Diverse} - \mu_\text{Standard} = 0$ against $H_A: \mu_\text{Diverse} - \mu_\text{Standard} < 0$ is the same as testing $H_0: \mu_D = 0$ against $H_A: \mu_D < 0$. 
+
+So, we are actually back in a one-sample setting, and can therefore use a one-sample t-test! 
+
+---
+
+First, we'll setup the data. That is, we have to calculate the differences for each individual.
+
+```{r}
+work_data_differences <- work_data %>% 
+  group_by(participant) %>% 
+  summarize(d = diff(time))
+
+work_data_differences
+```
+
+Next, we'll see if we can do a one-sample t-test on these new observations!
+
+---
+
+Check assumptions:
+
+* independence?
+
+* normal average?
+--
+
+    * small sample size, so no CLT. Have to check if data is reasonably normal
+
+---
+
+QQ-plot to check if the *differences* are reasonably normal:
+
+```{r}
+ggplot(work_data_differences,
+       aes(sample = d)) + 
+  geom_qq() + 
+  geom_qq_line()
+```
+
+Looks okay. So, we can move ahead with our one-sample t-test.
+
+---
+
+.pull-left[
+
+By hand:
+
+```{r}
+work_data_differences %>% 
+  summarize(average = mean(d),
+            s = sd(d),
+            n = n(),
+            T_obs = average/(s/sqrt(n)),
+            p_value = cdf(StudentsT(df = n-1), T_obs))
+```
+]
+
+.pull-right[
+Using built-in function:
+
+```{r out.width = "400px"}
+t.test(work_data_differences$d, 
+       alternative = "less")
+```
+
+]
+
+
+---
+ 
+Note: It matters if you do $X_{\text{Diverse}, i} - X_{\text{Standard},i}$ or $X_{\text{Standard}, i} - X_{\text{Diverse},i}$ ...
+
+--
+
+... BUT the difference is only a sign. If you want to specify direction in `R`:
+    
+.pull-left[
+```{r t_test_ex, eval = F}
+tmp <- work_data %>% 
+  mutate(work_condition = 
+           factor(work_condition,
+                  levels = c("Standard", "Diverse"))) %>% 
+  group_by(participant) %>% 
+  arrange(work_condition) %>% 
+  summarize(d = diff(time))
+
+t.test(tmp$d, alternative = "less")
+```
+]
+
+.pull-right[
+```{r ref.label="t_test_ex", echo = F}
+```
+]
+
+Notice that you now are testing against the reverse hypothesis: $H_A: \mu_\text{Standard} - \mu_\text{Diverse} < 0$. 
+
+---
+    
+If you want same result as before, you need to flip to greater, instead of less:
+
+```{r t_test_ex2, eval = F}
+t.test(tmp$d, alternative = "greater")
+```
+
+```{r ref.label="t_test_ex2", echo = F}
+```
+
+
+---
+
+Sometimes, you might get data in a slightly different format:
+
+```{r echo = FALSE}
+work_data1 <- work_data %>% 
+  pivot_wider(names_from = work_condition, values_from = time)
+```
+
+```{r}
+work_data1 %>% DT::datatable(options = list(dom = "t", paging = FALSE, scrollY = "20vt"))
+```
+
+---
+
+We can then use the built-in function right away:
+
+```{r}
+t.test(x = work_data1$Standard, y = work_data1$Diverse,
+       paired = TRUE, alternative = "less")
+```
+
+---
+
+**Summary: Paired t-test**
+
+When two samples are dependent, but there exists a *natural* pairing of observations. 
+
+Paired t-test is simply a one-sample t-test using the *differences* as the observations, i.e. for each "subject", $D_i = X_\text{1,i} - X_\text{2,i}$. 
+
+Assuming that $D_1, D_2, ..., D_n$ are independent observations, and that $\bar{D} \sim N$, we can test $H_0: \mu_D = \mu_0$ against any of the three alternatives using $T = \frac{\bar{D} - \mu_0}{\widehat{\text{SD}}(\bar{D})} = \frac{\bar{D} - \mu_0}{S_D/\sqrt{n}}$. 
+
+**IF** the null hypothesis is true, $T \sim t_{n-1}$, and p-values are obtained as 
+
+* $P(T_{n-1} > T_\text{obs})$ if $H_A: \mu_D > \mu_0$,
+* $P(T_{n-1} < T_\text{obs})$ if $H_A: \mu_D < \mu_0$,
+* $2\cdot P(T_{n-1} > |T_\text{obs}|)$ if $H_A: \mu_D \ne \mu_0$.
