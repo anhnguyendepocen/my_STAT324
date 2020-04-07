@@ -295,7 +295,7 @@ Similarly can be done for the two other alternative hypotheses.
 
 ---
 
-The Type II error rate is a bit more tricky: $P(\text{type II}) = P(\text{fail to reject } H_0\ |\ H_0 \text{ true})$. 
+The Type II error rate is a bit more tricky: $P(\text{type II}) = P(\text{fail to reject } H_0\ |\ H_A \text{ true})$. 
 
 --
 
