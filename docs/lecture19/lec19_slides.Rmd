@@ -1,0 +1,984 @@
+---
+title: "Lecture 19: Multiple Independent Populations"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# Multiple Independent Populations
+
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, comment = "",
+                      dpi = 300, fig.height = 4, out.height = "400px",
+                      fig.align = "center")
+```
+
+```{css echo = FALSE}
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+Four new formulations of rat poison are being tested, call them 1, 2, 3, and 4. All of the poisons work by thinning the blood, so the response of interest is the time it takes for the blood to coagulate. A longer blood coagulation time indicates a more effective poison. Twenty-four rats were randomly selected, and then randomized to the four poisons. They were fed the poison, and then after a specified length of time, their blood was drawn and the time to blood coagulation was measured. 
+
+.pull-left[
+```{r ratpoisontable, eval = F}
+library(tidyverse); theme_set(theme_bw())
+
+rat_poison <- tibble(treatment = rep(1:4, c(4, 6, 6, 8)),
+                     coagulation_time = c(62, 60, 63, 59,
+                                          63, 67, 71, 64, 65, 66,
+                                          68, 66, 71, 67, 68, 68,
+                                          56, 62, 60, 61, 63, 64, 63, 59))
+
+DT::datatable(rat_poison, 
+              options = list(paging = FALSE,
+                             scrollY = "40vh",
+                             dom = "t"),
+              rownames = FALSE)
+```
+]
+
+.pull-right[
+```{r ref.label="ratpoisontable", echo = FALSE}
+```
+]
+
+---
+
+Fundamental research question: are there any differences between the four different kinds of poison? 
+
+We can formulate this as a hypothesis test in terms of means:
+
+$H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4$ vs. $H_A: \text{at least one mean differs from one other mean}$.
+
+--
+
+Notes: 
+
+* alternative is not "all means are different", but rather "not all are the same". Very different statements!
+* rejecting the null would tell us nothing about which mean(s) is(are) different, or in which direction any potential difference is
+
+---
+
+.pull-left[
+```{r rat_poison_plot, eval = FALSE}
+ggplot(data = rat_poison,
+       aes(x = treatment, 
+           y = coagulation_time)) + 
+  geom_jitter(width = 0.1)
+```
+
+]
+
+.pull-right[
+```{r ref.label='rat_poison_plot', echo = FALSE, out.width="100%", fig.width = 5, fig.height = 6.5, out.height = "100%"}
+```
+]
+
+
+---
+
+.pull-left[
+```{r rat_poison_plot2, eval = FALSE}
+ggplot(data = rat_poison,
+       aes(x = treatment, 
+           y = coagulation_time)) + 
+  geom_boxplot(aes(group = treatment))
+```
+]
+
+.pull-right[
+```{r ref.label='rat_poison_plot2', echo = FALSE, out.width="100%", fig.width = 5, fig.height = 6.5, out.height = "100%"}
+```
+]
+
+---
+
+Most naive approach: use multiple t-tests. 
+
+```{r echo = FALSE}
+many_tests <- expand_grid(A = 1:4, B = 1:4) %>% 
+  filter(B > A) %>% 
+  mutate(t_tests = map2(A,B, 
+                        ~t.test(data = filter(rat_poison, treatment %in% c(.x,.y)),
+                               coagulation_time ~ treatment)),
+         estimate = map(t_tests, "estimate") %>% 
+           map(~setNames(.x, nm = c("Mean A", "Mean B")) %>% 
+                 as.list() %>% as_tibble() %>% 
+                 mutate(`Estimated Difference` = `Mean A` - `Mean B`)),
+         CI = map(t_tests, "conf.int"),
+         p_value = map_dbl(t_tests, "p.value")) %>% 
+  select(-t_tests) %>% 
+  unnest_wider(col = CI) %>% 
+  rename(`95% LL` = `...1`, `95% UL` = `...2`) %>% 
+  unnest_wider(estimate) %>% 
+  mutate(across(6:8, round, digits = 3))
+         
+
+DT::datatable(many_tests, options = list(dom = "t"),
+              rownames = FALSE)
+```
+
+---
+
+Is this a good test? We used $\alpha = 0.05$, so we would like $P(\text{Type I}) = P(\text{reject } H_0 | H_0 \text{ true}) = 0.05$. 
+--
+
+Let's investigate through simulations! 
+
+```{r cache = TRUE}
+library(distributions3)
+X <- Normal()
+
+set.seed(120953)
+simulations <- tibble(i = 1:2000) %>% 
+  mutate(A = map(i, ~random(X, 20)),
+         B = map(i, ~random(X, 20)),
+         C = map(i, ~random(X, 20)),
+         D = map(i, ~random(X, 20)),
+         test_AB = map2_dbl(A, B, ~t.test(x = .x, y = .y)$p.value),
+         test_AC = map2_dbl(A, C, ~t.test(x = .x, y = .y)$p.value),
+         test_AD = map2_dbl(A, D, ~t.test(x = .x, y = .y)$p.value),
+         test_BC = map2_dbl(B, C, ~t.test(x = .x, y = .y)$p.value),
+         test_BD = map2_dbl(B, D, ~t.test(x = .x, y = .y)$p.value),
+         test_CD = map2_dbl(C, D, ~t.test(x = .x, y = .y)$p.value),
+         reject = pmap_lgl(.l = list(test_AB, test_AC, test_AD, test_BC, test_BD, test_CD),
+                           .f = ~any(c(..1, ..2, ..3, ..4, ..5, ..6) < 0.05)))
+
+```
+
+---
+
+12 of the simulated data sets.
+
+```{r echo = FALSE, fig.height = 6}
+simulations %>% 
+  group_by(reject) %>% 
+  sample_n(6) %>% 
+  select(Experiment = i, A:D) %>% 
+  unnest(cols = A:D) %>% 
+  pivot_longer(cols = A:D, names_to = "group") %>% 
+  ggplot(aes(x = group, y = value, color = group)) + 
+    geom_jitter(width = 0.1) +
+    labs(x = "") +
+    facet_wrap(Experiment~reject, scales = "free_x", labeller = label_both, nrow = 4)
+```
+
+---
+ 
+Question: what proportion of experiments were rejected? If this is a good test, it should be close to $5%$. 
+
+.pull-left[
+```{r simulations_many_tests_results, eval = FALSE}
+simulations %>% 
+  count(reject) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  DT::datatable(options = list(dom = "t"),
+                rownames = FALSE)
+```
+]
+
+.pull-right[
+```{r ref.label="simulations_many_tests_results", echo = FALSE}
+```
+]
+
+--
+
+This is no surprise. In the following, I'll use this notation:
+
+$$\begin{aligned}
+H_0^1: \mu_A = \mu_B \\
+H_0^2: \mu_A = \mu_C \\
+H_0^3: \mu_A = \mu_D \\ 
+H_0^4: \mu_B = \mu_C \\
+H_0^5: \mu_B = \mu_C \\ 
+H_0^6: \mu_C = \mu_D
+\end{aligned}$$
+
+---
+
+We are really interested in testing $H_0: \mu_A = \mu_B = \mu_C = \mu_D$. Remember, the data is simulated such that $\mu_A = \mu_B = \mu_C = \mu_D = 0$. So, what is the probability of rejecting $H_0$, when we know it is true, if we use the multiple t-tests approach? Easier to calculate the probability of NOT rejecting $H_0$. 
+
+Let's pretend all the tests are independent:
+
+$$\begin{aligned}
+P(\text{no type I error}\ |\ H_0 \text{ true}) &= P(\text{not rejecting } H_0^1 \text{ AND not rejecting } H_0^2 \\ &\qquad... \text{AND not rejecting } H_0^6\ |\ H_0 \text{ true}) \\
+(\text{because independent})&=P(\text{not rejecting } H_0^1 | H_0\text{ true})\cdots P(\text{not rejecting } H_0^6 | H_0\text{ true}) \\
+                            &= 0.95 \cdot 0.95 \cdots 0.95 = 0.95^6 = `r round(0.95^6, digits = 5)`
+\end{aligned}$$
+
+--
+
+So, what's the probability of making *at least one* type I error? 
+
+$$\begin{aligned}
+  P(\text{at least one type I error}\ |\ H_0 \text{ true}) &= 1 - P(\text{no type I error}\ |\ H_0 \text{ true}) \\
+    &= 1 - `r round(0.95^6, digits = 5)` = `r 1 - round(0.95^6, digits = 5)`.
+\end{aligned}$$
+
+---
+
+I.e., pairwise tests is not a good idea. But we still want to test for a difference between means. How would we do that?
+
+--
+
+Since we are considering means, it is natural to look at group averages. (Same argument as for t-tests.)
+
+--
+
+Recall when we first discussed hypothesis tests: we argued that it wasn't enough to compare the average to the hypothesized value. We had to take the variation of the data into account. Similar situation here: not enough simply to compare the averages. 
+
+When moving to two sample tests, we sort of compared the *variation* between groups ($\bar{X} - \bar{Y}$) to a measure of variation within groups ( $\text{Var}(\bar{X} - \bar{Y}) = \text{Var}(\bar{X}) + \text{Var}(\bar{Y})$ ). 
+
+This idea of variation *between* groups compared to variation *within* groups is the foundation of Analysis of Variance (ANOVA).
+
+---
+
+Which of the following figures seems to be most indicative of a differences between means?
+
+```{r echo = FALSE}
+tmp1 <- tibble(group = LETTERS[1:3],
+               observations = list(c(-0.5, -0.2, 0.2, 0.5))) %>% 
+  unnest(cols = observations) %>% 
+  mutate(observations = observations + case_when(group == "A" ~ 2,
+                                                 group == "B" ~ 4,
+                                                 group == "C" ~ 3),
+         dataset = 1)
+
+tmp2 <- tibble(group = LETTERS[1:3],
+               observations = list(c(-0.5, -0.2, 0.2, 0.5)*3)) %>% 
+  unnest(cols = observations) %>% 
+  mutate(observations = observations + case_when(group == "A" ~ 2,
+                                                 group == "B" ~ 4,
+                                                 group == "C" ~ 3),
+         dataset = 2)
+
+
+ggplot(data = bind_rows(tmp1, tmp2),
+       aes(x = group, y = observations)) +
+  geom_jitter(width = 0.1, height = 0) + 
+  facet_grid(~dataset) +
+  stat_summary(fun = mean, geom = "point", color = "red")
+```
+
+--
+
+Although the groups have the same averages, data set 1 seems to provide more evidence suggesting differing means than data set 2.
+
+---
+
+Basically, we compare the variation *between* groups to the variation *within* groups. The between groups variation can be thought of as the SD of group means, while the within groups variation pools together the variation in each of the groups - it is actually an exact generalization of the pooled variance we already know from the two-sample t-test with equal variance.
+
+This is all ANOVA is - comparing variation *between* groups to variation *within* groups. If variation between groups is large compared to variation within groups, then we reject the null of no difference, and vice versa.
+
+To build the test statistic we will use to formally test the null hypothesis $H_0: \text{all means are equal}$, we need to do a tiny bit of math...
+
+---
+
+The first building block is the following realization: 
+
+$$
+  \text{observation} = \text{overall mean} + \text{group mean - overall mean} + \text{observation - group mean}
+$$
+
+```{r echo = FALSE}
+ggplot(rat_poison,
+       aes(x = treatment, y = coagulation_time)) +
+  geom_hline(data = rat_poison %>% summarize(mean = mean(coagulation_time)),
+             aes(yintercept = mean, color = "overall mean")) +
+  geom_jitter(width = 0.15, height = 0) +
+  geom_point(data = rat_poison %>% 
+               group_by(treatment) %>% 
+               summarize(mean = mean(coagulation_time)),
+             aes(y = mean, color = "treatment means")) + 
+  scale_color_discrete("") + 
+  theme(legend.position = "top")
+```
+
+---
+
+For example:
+
+```{r echo = FALSE}
+pos_adjust <- runif(n = nrow(rat_poison), min = -0.075, max = 0.075)
+
+ggplot(rat_poison %>% 
+         mutate(example = row_number() == 6,
+                overall_mean = mean(coagulation_time)) %>% 
+         group_by(treatment) %>% 
+         mutate(group_mean = mean(coagulation_time)),
+       aes(x = treatment, y = coagulation_time)) +
+  geom_hline(data = rat_poison %>% summarize(mean = mean(coagulation_time)),
+             aes(yintercept = mean, color = "overall mean")) +
+  geom_point(aes(x = treatment + pos_adjust, alpha = if_else(example, 1, 0.1))) +
+  geom_segment(aes(x = treatment, xend = treatment,
+                   y = overall_mean, yend = group_mean,
+                   alpha = as.numeric(example))) +
+  geom_segment(aes(x = treatment + pos_adjust, xend = treatment + pos_adjust,
+                   y = coagulation_time, yend = group_mean,
+                   alpha = if_else(example, 1, 0.2))) +
+  geom_point(data = rat_poison %>% 
+               group_by(treatment) %>% 
+               summarize(mean = mean(coagulation_time)),
+             aes(y = mean, color = "treatment means")) + 
+  guides(alpha = "none") +
+  theme(legend.position = "top")
+```
+
+---
+
+Some (very heavy) notation:
+
+* $t =$ number of groups (here, 4).
+--
+
+* $i =$ index of group (here, $i = 1,2,3,4$).
+--
+
+* $n_i=$ number of observations in group $i$ (here, $n_1 = 4, n_2 = 6, n_3 = 6, n_4 = 8$).
+--
+
+* $N =$ total number of observations (i.e. $N = \sum_{i=1}^t n_i$. Here, $N = 4+6+6+8 = 24$).
+--
+
+* $y_{ij}=$ observation $j$ from group $i$ (here, $y_{11} = 62, y_{12} = 60$, etc.).
+--
+
+* $\bar{y}_{i\cdot}=$ average of observations in group $i$ (i.e. $\bar{y}_{i\cdot}=\frac{1}{n_i} \sum_{j=1}^{n_i} y_{ij}$. Here, $\bar{y}_{1\cdot} = 61, \bar{y}_{2\cdot} = 66, \bar{y}_{3\cdot} = 68, \bar{y}_{4\cdot} = 61$).
+--
+
+* $\bar{y}_{\cdot \cdot} =$ overall (or grand) mean (i.e. $\bar{y}_{\cdot \cdot} = \frac{1}{N}\sum_{i=1}^t \sum_{j=1}^{n_i} y_{ij}$. Here, $\bar{y}_{\cdot \cdot} = 64$).
+
+--
+
+So, the observation we just made can be written as
+
+$$y_{ij} = \bar{y}_{\cdot \cdot} + (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$
+
+(Side note: nothing magical here. If you actually do the math above, you'll see that everything on the right hand side cancels out except $y_{ij}$, so it really just says $y_{ij} = y_{ij}$.)
+
+
+---
+
+From 
+
+$$y_{ij} = \bar{y}_{\cdot \cdot} + (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$
+
+it only takes a small step to get 
+
+$$y_{ij} - \bar{y}_{\cdot \cdot} = (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$
+
+(Pause: we are slowly getting somewhere now. Look at the right hand side: the first parenthesis is deviation from group mean to overall mean. If there's big variation between groups, this will be large. The second parenthesis is deviation from observation to group mean. If there's big variation within groups, this will be large.)
+
+--
+
+Since the above holds for any observation $y_{ij}$, it also holds if you sum up them all up:
+
+$$\sum_{i=1}^t \sum_{j = 1}^{n_i} (y_{ij} - \bar{y}_{\cdot \cdot}) = \sum_{i=1}^t \sum_{j = 1}^{n_i}(\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + \sum_{i=1}^t \sum_{j = 1}^{n_i}(y_{ij} - \bar{y}_{i\cdot})$$
+
+(Pause: again, no magic here. If $a=b$ and $c=d$, then $a+c = b+d$.)
+
+---
+
+Now we are adding all the variations between group means and the overall mean (first parenthesis on the right) to all the variations within groups (second parenthesis). Sadly, it turns out that this is not super interesting:
+
+.pull-left[
+```{r anova_sums_1, eval = FALSE}
+rat_poison %>% 
+  mutate(overall_mean = mean(coagulation_time)) %>% 
+  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+
+rat_poison %>% 
+  mutate(overall_mean = mean(coagulation_time)) %>% 
+  summarize(sum_of_diffs = sum(coagulation_time - overall_mean))
+```
+]
+
+.pull-right[
+```{r ref.label="anova_sums_1", echo = FALSE}
+```
+]
+
+---
+
+Now we are adding all the variations between group means and the overall mean (first parenthesis on the right) to all the variations within groups (second parenthesis). Sadly, it turns out that this is not super interesting:
+
+```{r}
+rat_poison %>% 
+  mutate(overall_mean = mean(coagulation_time)) %>% 
+  group_by(treatment, overall_mean) %>% 
+  summarize(group_mean = mean(coagulation_time)) %>% 
+  mutate(diffs = group_mean - overall_mean)
+```
+
+---
+
+Now we are adding all the variations between group means and the overall mean (first parenthesis on the right) to all the variations within groups (second parenthesis). Sadly, it turns out that this is not super interesting:
+
+.pull-left[
+```{r anova_sums_3, eval = FALSE}
+rat_poison %>% 
+  group_by(treatment) %>% 
+  mutate(group_mean = mean(coagulation_time)) %>% 
+  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+
+rat_poison %>% 
+  group_by(treatment) %>% 
+  mutate(group_mean = mean(coagulation_time)) %>% 
+  summarize(sum_of_diffs = sum(coagulation_time - group_mean))
+```
+]
+
+.pull-right[
+```{r ref.label="anova_sums_3", echo = FALSE}
+```
+]
+
+--
+
+So everything sums to 0! Not very useful.
+
+---
+
+Fortunately, a tiny bit of mathematical magic happens if we sum the squared deviations. It turns out that the equality still holds:
+
+$$\sum_{i=1}^t \sum_{j = 1}^{n_i} (y_{ij} - \bar{y}_{\cdot \cdot})^2 = \sum_{i=1}^t \sum_{j = 1}^{n_i}(\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot})^2 + \sum_{i=1}^t \sum_{j = 1}^{n_i}(y_{ij} - \bar{y}_{i\cdot})^2$$
+
+Now, this is only going to be 0 if all observations are exactly the same (let's just pretend that never happens, cause... it doesn't). 
+
+What this really is, is a decomposition of variability: 
+
+$$
+\text{total variation} = \text{variation due to groups (treatment)} + \text{variation due to error (random noise)}
+$$
+
+More accurately, these are *Sum of Squares*, and are refered to as SSTot (Sum of Squares Total), SSTrt (Sum of Squares Treatment), and SSE (Sum of Squares Error). 
+
+---
+
+Remember the pooled variance when we considered two-sample t-tests? Let's revisit this. Let's denote observations from group 1 as $y_{11}, y_{12}, ..., y_{n_11}$ and observations from group 2 as $y_{21}, y_{22}, ..., y_{n_22}$.
+--
+ We can then write the pooled variance in the following way:
+
+$$\begin{aligned}
+  s_\text{pooled}^2 &= \frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2} \\
+                    &= \frac{(n_1 - 1) \frac{1}{n_1-1}\sum_{j=1}^{n_1} (y_{1j} - \bar{y}_{1\cdot})^2 + (n_2 - 1) \frac{1}{n_2-1}\sum_{j=1}^{n_2} (y_{2j} - \bar{y}_{2\cdot})^2}{n_1 + n_2 - 2} \\
+                    &= \frac{\sum_{i=1}^2 \sum_{j=1}^{n_1} (y_{ij} - \bar{y}_{i\cdot})^2}{n_1 + n_2 - 2} \\
+                    &= \frac{SSE}{N - t}
+\end{aligned}$$
+
+--
+
+So, the pooled variance can be written in terms of the SSE! This can naturally be expanded to more than two groups.
+
+--
+
+For two populations, we said that the pooled variance is a good estimate for an overall variance $\sigma^2$ *if the populations in fact have the same variance*. Same is true for a general number of populations: if all populations have same variance, $SSE/(N-t)$ is a good estimate for the overall variance. 
+
+---
+
+Back to ANOVA: we have seen how total variability (SSTot) can be decompositioned into variability due to different treatments (SSTrt), and variability due to random noise (SSE). But these Sum of Squares aren't *really* measures of variability. (What happens to SSTot if we increase the number of observations? What happens to SSTrt if we increase number of treatments?
+--
+ Both increase!)
+
+--
+
+Already saw that $SSE/(N-t)$ can be thought of as a pooled variance. 
+
+--
+
+What is $\frac{SSTot}{N-1}$? 
+
+--
+
+$$\frac{SSTot}{N-1} = \frac{\sum_{i = 1}^t \sum_{j=1}^{n_j} (y_{ij} - \bar{y}_{\cdot\cdot})^2}{N-1} = s^2$$
+
+is simply the sample variance of *all* the data (each observation subtracted the overall mean, squared, summed, divided by size minus 1). 
+
+--
+
+What about SSTrt? If we think of SSTrt as "variation between treatments" it would be natural to divide by number of treatment groups minus 1. 
+
+--
+
+We call these ratios *Mean Squares*, and will denote them by MSTot, MSTrt, and MSE. The denominators are called *degrees of freedom*. 
+
+---
+
+Pause for a summary:
+
+```{r echo = FALSE}
+anova_table <- tibble(Source = c("Treatment<br>(between)", "Error<br>(within)", "Total"),
+       SS = paste0("SS", c("Trt", "E", "Tot")),
+       df = c("t-1", "N-t", "N-1"),
+       MS = paste0("MS", c("Trt", "E", "Tot"), "=", SS, "/(", df, ")"),
+       hidden = c(0,0,1))
+
+anova_table %>% 
+  DT::datatable(options = list(dom = "t", ordering = FALSE,
+                               columnDefs = list(
+                                 list(visible = FALSE, targets = ncol(anova_table) - 1) # -1 since rownames = FALSE
+                               )), 
+                rownames = FALSE,
+                class = "cell-border") %>% 
+  DT::formatStyle(columns = 1:5, valueColumns = "hidden", backgroundColor = "white",
+                  `border-top` = DT::styleEqual(1, "solid 1px"))
+```
+
+Things to remember: for SS and df, columns sum up. I.e. SSTot = SSTrt + SSE, and $df_\text{Tot} = df_\text{Trt} + df_\text{E}$.
+
+---
+
+We now have some reasonable measures for *between* and *within* treatment variations:
+
+$$\begin{aligned}
+\text{MSTrt} &= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2}{t-1} \\
+\text{MSE} &= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{i\cdot})^2}{N-t}
+\end{aligned}$$
+
+--
+
+The point of all of this: is *between* large compared to *within*? 
+--
+ A reasonable thing to look at: $F = \frac{\text{MSTrt}}{\text{MSE}}$. This will be our test statistic for testing the hypothesis $H_0: \text{all means are equal}$ against the alternative $H_A: \text{at least one mean differs from another}$.
+
+--
+
+So, in the spirit of general hypothesis tests, we need to determine what "more extreme" means in this scenario. Questions:
+
+1. What values can $F$ possibly take? 
+
+2. What does a large value of $F$ tell us about the null?
+
+3. What does a small value of $F$ tell us about the null?
+
+---
+
+1. What values can $F$ possibly take? 
+--
+
+    * $F$ is always positive.
+
+--
+
+2. What does a large value of $F$ tell us about the null?
+
+--
+
+    * $F$ large $\Rightarrow$ 
+    * MSTrt >> MSE $\Rightarrow$ 
+    * variations between groups >> variations within groups $\Rightarrow$ 
+    * evidence against the null.
+    
+--
+
+3. What does a small value of $F$ tell us about the null?
+
+--
+
+    * $F$ small $\Rightarrow$ 
+    * MSTrt << MSE $\Rightarrow$ 
+    * variations between groups << variations within groups $\Rightarrow$ 
+    * evidence "for" the null.
+
+--
+
+I.e. "more extreme" will here **always** be "greater than".
+
+So, p-value = $P(\text{more extreme than } F_\text{obs}\ |\ H_0 \text{ true}) = P(F > F_\text{obs}\ |\ H_0 \text{ true})$. 
+
+---
+
+All we need now is the distribution of $F$ *assuming* the null hypothesis is true. 
+
+--
+
+Turns out, **if the data are normal** and **all groups have same variance**, then $F \sim F_{\text{df}_\text{Trt},\text{df}_\text{E}}$ ( $F$-distribution with numerator df of $\text{df}_\text{Trt}$ and denominator df of $\text{df}_\text{E}$; in `distributions3`, this is `FisherF(df1, df2)`).
+
+```{r echo = FALSE}
+library(distributions3)
+F1 <- FisherF(df1 = 1, df2 = 3)
+F2 <- FisherF(df1 = 2, df2 = 8)
+F3 <- FisherF(df1 = 4, df2 = 17)
+limitss <- c(0,5)
+
+ggplot() + 
+  geom_pdf(d = F1, limits = limitss,
+           aes(color = "F1")) + 
+  geom_pdf(d = F2, limits = limitss,
+           aes(color = "F2")) +
+  geom_pdf(d = F3, limits = limitss,
+           aes(color = "F3")) +
+  coord_cartesian(ylim = c(0, 1)) +
+  scale_color_discrete("",
+                       labels = c(expression(F["1,3"]), 
+                                  expression(F["2,8"]), 
+                                  expression(F["4,17"])))
+```
+
+
+---
+
+So how do we perform an Analysis of Variance? We fill out the ANOVA table, one step at a time:
+
+```{r echo = FALSE}
+anova_table <- tibble(Source = c("Treatment<br>(between)", "Error<br>(within)", "Total"),
+       SS = paste0("SS", c("Trt", "E", "Tot")),
+       df = c("t-1", "N-t", "N-1"),
+       MS = paste0("MS", c("Trt", "E", "Tot"), "=", SS, "/(", df, ")"),
+       "$$F_\\text{obs}$$" = c("MSTrt/MSE", "", ""),
+       "p-value"= c("$$P(F > F_\\text{obs} | H_0 \\text{ true})$$", "", ""),
+       hidden = c(0,0,1))
+
+anova_table %>% 
+  DT::datatable(options = list(dom = "t", ordering = FALSE,
+                               columnDefs = list(
+                                 list(visible = FALSE, targets = ncol(anova_table) - 1) # -1 since rownames = FALSE
+                               )), 
+                rownames = FALSE,
+                class = "cell-border") %>% 
+  DT::formatStyle(columns = 1:ncol(anova_table), valueColumns = "hidden", backgroundColor = "white",
+                  `border-top` = DT::styleEqual(1, "solid 1px"))
+```
+
+SSTrt = $\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2$:
+
+```{r}
+## overall mean
+(overall_mean <- rat_poison %>% 
+  summarize(ybar_dotdot = mean(coagulation_time)))
+
+## group means
+(group_means <- rat_poison %>% 
+  group_by(treatment) %>% 
+  mutate(ybar_idot = mean(coagulation_time)))
+
+## SSTrt
+(SSTrt <- sum((group_means$ybar_idot - overall_mean$ybar_dotdot)^2))
+```
+
+
+---
+
+SSTot = $\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{\cdot\cdot})^2$:
+
+```{r}
+(SSTot <- rat_poison %>% 
+  mutate(obs_minus_average = coagulation_time - mean(coagulation_time),
+         squares = obs_minus_average^2) %>% print %>% 
+  summarize(SSTot = sum(squares)))
+```
+
+SSE = SSTot - SSTrt = `r (SSE <- SSTot[[1]] - SSTrt)`
+
+---
+
+* Degrees of freedom: 
+
+$\text{df}_\text{Trt} = t - 1 = 4 - 1 = 3$
+
+$\text{df}_\text{E} = N - t = 24 - 4 = 20$
+
+$\text{df}_\text{Total} = N - 1 = 23$
+
+Check: $\text{df}_\text{Total} = \text{df}_\text{Trt} + \text{df}_\text{E}$!
+
+--
+
+* Mean squares:
+
+$\text{MSTrt} = \frac{\text{SSTrt}}{\text{df}_\text{Trt}} = \frac{`r SSTrt`}{3} = `r round(SSTrt/3, digits = 3)`$
+
+$\text{MSE} = \frac{\text{SSE}}{\text{df}_\text{E}} = \frac{`r SSE`}{20} = `r round(SSE/20, digits = 3)`$
+
+--
+
+.pull-left[
+
+* Observed test statistic:
+
+$F_\text{obs} = \frac{MSTrt}{MSE} = \frac{`r round(SSTrt/3, digits = 3)`}{`r round(SSE/20, digits = 3)`} = `r (F_obs <- round(round(SSTrt/3, digits = 3)/round(SSE/20, digits = 3), digits = 2))`$
+]
+
+.pull-right[
+
+* p-value:
+
+```
+F_3_20 <- FisherF(3,20)
+
+cdf(F_3_20, `r F_obs`)
+```
+
+```{r echo = FALSE}
+F_3_20 <- FisherF(3,20)
+
+(p_val <- 1-cdf(F_3_20, F_obs))
+```
+]
+
+---
+
+Filled out ANOVA table:
+
+```{r echo = FALSE}
+anova_table_filled <- anova_table %>% ungroup() %>% 
+  mutate(SS = c(SSTrt, SSE, SSTot),
+         df = c(3, 20, 23)) %>% unnest(SS) %>% 
+  mutate(MS = round(SS/df, digits = 3),
+         `$$F_\\text{obs}$$` = c(round(MS[1]/MS[2], digits = 3), NA_real_, NA_real_),
+         `p-value` = c(p_val, NA_real_, NA_real_)) 
+
+anova_table_filled %>% 
+  DT::datatable(options = list(dom = "t", ordering = FALSE,
+                               columnDefs = list(
+                                 list(visible = FALSE, targets = ncol(anova_table_filled) - 1) # -1 since rownames = FALSE
+                               )), 
+                rownames = FALSE,
+                class = "cell-border") %>% 
+  DT::formatStyle(columns = 1:ncol(anova_table_filled), valueColumns = "hidden", backgroundColor = "white",
+                  `border-top` = DT::styleEqual(1, "solid 1px"))
+```
+
+
+---
+
+As you might have guessed, we can do this easily using `R`. One important note: you HAVE to make sure that the treatment variable is NOT a numeric variable. You can check if it is by simply printing the data (assuming you used `read_csv` to import it):
+
+.pull-left[
+```{r}
+rat_poison %>% head(n = 6)
+```
+
+It's fairly easy to correct:
+
+```{r}
+rat_poison <- rat_poison %>% 
+  mutate(treatment = as.character(treatment))
+```
+
+]
+
+
+.pull-right[
+
+
+We then use `aov` to run the ANOVA, and `summary` to get the ANOVA table:
+
+```{r}
+ANOVA <- aov(data = rat_poison,
+             coagulation_time ~ treatment)
+
+summary(ANOVA)
+```
+
+
+Notice how the syntax is the same familiar syntax from `t.test` and `wilcox.test` (sweet!), and how the numbers match what we found "by hand".
+
+]
+
+---
+
+If we use this technique for all of our simulated experiments, we see that the type I error rate is very close to spot on!
+
+```{r cache = TRUE, echo = FALSE}
+anovas <- simulations %>% 
+  ungroup() %>% 
+  select(i:C) %>%  
+  unnest(col = A:C) %>% 
+  pivot_longer(cols = A:C) %>% 
+  group_by(i) %>% 
+  summarize(anova = list(aov(value ~ name))) %>% 
+  mutate(p_values = map_dbl(anova, ~broom::glance(.x)$p.value))
+
+bind_rows(
+  anovas %>% 
+    count(reject = p_values < 0.05) %>% 
+    mutate(prop = n/sum(n),
+           test = "ANOVA"),
+  simulations %>% 
+    ungroup() %>% 
+    count(reject) %>% 
+    mutate(prop = n/sum(n),
+           test = "Multiple t-tests")
+) %>% 
+  DT::datatable(options = list(dom = "t",
+                               ordering = FALSE), 
+                rownames = FALSE,
+                class = "row-border")
+```
+
+--
+
+
+Some rather convoluted theory shows that this F-test is actually the most powerful test for testing $H_0:\text{all means equal}$ **IF** all assumptions are met. What are the assumptions?
+
+* Each group should be normal
+
+* Equal variance for all groups
+
+--
+
+We could evaluate group by group, but there's an easier way to do this: using *residuals*.
+
+---
+
+We can think of ANOVA as a *model*. It's a formula that aims at describing the data. (Note: the idea of models is very important in statistics, and will be revisited when talking about linear regression, our next and last topic.)
+
+The ANOVA model is based on the decomposition we say earlier:
+
+$$y_{ij} = \bar{y}_{\cdot\cdot} + (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$
+
+We can view this as "observation = overall mean + (treatment deviation from overall mean) + (observation deviation from treatment mean)". 
+
+--
+
+If we were to *predict* (i.e. provide a best guess for) a new observation in a group, we would use the group mean. We adopt this idea that each observation is the group mean plus an error (random noise). This error is what we call the *residual*, i.e. it is what is left over in the observation, once we have accounted for what our model tells us. 
+
+If we use our model to "predict" what the observations we have are, we call the results *fitted values*. So, the residuals are 
+
+$$\text{residual} = \text{observed} - \text{fitted}$$
+
+---
+
+We will use these to check our assumptions. 
+
+```{r}
+rat_poison %>% 
+  group_by(treatment) %>% 
+  mutate(fitted = mean(coagulation_time)) %>% 
+  ungroup() %>% 
+  mutate(residuals = coagulation_time - fitted) %>% 
+  DT::datatable(options = list(dom = "t", scrollY = "30vh"),
+                rownames = FALSE)
+```
+
+---
+
+Looking at a QQ-plot, the residuals look pretty normal.
+
+```{r fig.height = 3, out.height = "300px"}
+rat_poison %>% 
+  group_by(treatment) %>% 
+  mutate(fitted = mean(coagulation_time)) %>% 
+  ungroup() %>% 
+  mutate(residuals = coagulation_time - fitted) %>% 
+  ggplot(aes(sample = residuals)) +
+    geom_qq() + 
+    geom_qq_line()
+```
+
+
+---
+
+To check for "equal variance" graphically, we usually look at "residuals vs. fitted":
+
+.pull-left[
+```{r residuals_vs_fitted, eval = FALSE, fig.height = 5, out.height = "500px", fig.width = 3, out.width = "300px"}
+rat_poison %>% 
+  group_by(treatment) %>% 
+  mutate(fitted = mean(coagulation_time)) %>% 
+  ungroup() %>% 
+  mutate(residuals = coagulation_time - fitted) %>% 
+  ggplot(aes(x = fitted, y = residuals)) + 
+    geom_point() + 
+    labs(title = "Residuals vs. Fitted Values")
+```
+]
+
+.pull-right[
+```{r ref.label="residuals_vs_fitted", echo = FALSE}
+```
+]
+
+---
+
+We look at residuals vs. fitted because often variance increases with means: the standard deviation of the weight of 10 elephants will tend to be larger than SD of the weight of 10 hamsters. A couple of classic problems:
+
+```{r echo = FALSE}
+obss <- rnorm(n = 20)
+
+tmp1 <- tibble(fitted = 1:3) %>% 
+  rowwise(id = fitted) %>% 
+  summarize(Residuals = obss*fitted) %>% 
+  ggplot(aes(x = fitted, y = Residuals)) + 
+    geom_point() +
+    labs(title = "Residuals vs Fitted Values")
+
+tmp2 <- tibble(fitted = 1:3,
+               coefs = c(3,1,3)) %>% 
+  rowwise(id = fitted) %>% 
+  summarize(Residuals = obss*coefs) %>% 
+  ggplot(aes(x = fitted, y = Residuals)) + 
+    geom_point() +
+    labs(title = "Residuals vs Fitted Values")
+
+library(patchwork)
+
+tmp1 + tmp2
+```
+
+---
+
+Back to our data:
+
+```{r ref.label = "residuals_vs_fitted", echo = FALSE}
+```
+
+Although the last group might have slightly less spread, it doesn't seem to bad.
+
+
+---
+
+Numerically, we use our old rule of thumb, and check that "largest SD"/"smallest SD" < 2:
+
+.pull-left[
+```{r sd_ratio, eval = FALSE}
+rat_poison %>% 
+  group_by(treatment) %>% 
+  summarize(s = sd(coagulation_time)) %>% print %>% 
+  summarize(ratio = max(s)/min(s))
+```
+]
+
+.pull-right[
+```{r ref.label="sd_ratio", echo = FALSE}
+```
+]
+
+Looks good!
+
+So using ANOVA to test $H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4$ against $H_A: \text{at least one is different}$ seems valid. Since our p-value was super small (`r format(round(p_val, digits = 6), scientific = FALSE)`), we reject the null hypothesis. 
+
+--
+
+The next natural question is then: which treatments are different?!
+
+---
+layout: true
+
+# Multiple Comparisons Following Significant ANOVA
+
+---
+
+The ANOVA showed us that there probably is a difference somewhere in the data. More often than not, this is only somewhat interesting. We would much rather know where the differences are.

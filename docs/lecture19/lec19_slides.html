@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 19: Multiple Independent Populations</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ralph Trane" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding-0.9/datatables.js"></script>
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core-1.10.19/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="../css/uwmadison.css" type="text/css" />
+    <link rel="stylesheet" href="../css/extra-classes.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, top, .title-slide, title-slide
+
+# Lecture 19: Multiple Independent Populations
+## STAT 324
+### Ralph Trane
+### University of Wisconsin–Madison<br><br>
+### Spring 2020
+
+---
+
+layout: true
+
+# Multiple Independent Populations
+
+---
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+Four new formulations of rat poison are being tested, call them 1, 2, 3, and 4. All of the poisons work by thinning the blood, so the response of interest is the time it takes for the blood to coagulate. A longer blood coagulation time indicates a more effective poison. Twenty-four rats were randomly selected, and then randomized to the four poisons. They were fed the poison, and then after a specified length of time, their blood was drawn and the time to blood coagulation was measured. 
+
+.pull-left[
+
+```r
+library(tidyverse); theme_set(theme_bw())
+
+rat_poison &lt;- tibble(treatment = rep(1:4, c(4, 6, 6, 8)),
+                     coagulation_time = c(62, 60, 63, 59,
+                                          63, 67, 71, 64, 65, 66,
+                                          68, 66, 71, 67, 68, 68,
+                                          56, 62, 60, 61, 63, 64, 63, 59))
+
+DT::datatable(rat_poison, 
+              options = list(paging = FALSE,
+                             scrollY = "40vh",
+                             dom = "t"),
+              rownames = FALSE)
+```
+]
+
+.pull-right[
+<div id="htmlwidget-6a396537b41a2c7dc220" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6a396537b41a2c7dc220">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"scrollY":"40vh","dom":"t","columnDefs":[{"className":"dt-right","targets":[0,1]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+]
+
+---
+
+Fundamental research question: are there any differences between the four different kinds of poison? 
+
+We can formulate this as a hypothesis test in terms of means:
+
+`\(H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4\)` vs. `\(H_A: \text{at least one mean differs from one other mean}\)`.
+
+--
+
+Notes: 
+
+* alternative is not "all means are different", but rather "not all are the same". Very different statements!
+* rejecting the null would tell us nothing about which mean(s) is(are) different, or in which direction any potential difference is
+
+---
+
+.pull-left[
+
+```r
+ggplot(data = rat_poison,
+       aes(x = treatment, 
+           y = coagulation_time)) + 
+  geom_jitter(width = 0.1)
+```
+
+]
+
+.pull-right[
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-4-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+
+.pull-left[
+
+```r
+ggplot(data = rat_poison,
+       aes(x = treatment, 
+           y = coagulation_time)) + 
+  geom_boxplot(aes(group = treatment))
+```
+]
+
+.pull-right[
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-5-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+Most naive approach: use multiple t-tests. 
+
+<div id="htmlwidget-dea1468aea274aa95f5d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dea1468aea274aa95f5d">{"x":{"filter":"none","data":[[1,1,1,2,2,3],[2,3,4,3,4,4],[61,61,61,66,66,68],[66,68,61,68,61,61],[-5,-7,0,-2,5,7],[-8.395,-9.774,-2.968,-5.086,1.72,4.488],[-1.605,-4.226,2.968,1.086,8.28,9.512],[0.009,0.001,1,0.174,0.007,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>A<\/th>\n      <th>B<\/th>\n      <th>Mean A<\/th>\n      <th>Mean B<\/th>\n      <th>Estimated Difference<\/th>\n      <th>95% LL<\/th>\n      <th>95% UL<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[0,1,2,3,4,5,6,7]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+Is this a good test? We used `\(\alpha = 0.05\)`, so we would like `\(P(\text{Type I}) = P(\text{reject } H_0 | H_0 \text{ true}) = 0.05\)`. 
+--
+
+Let's investigate through simulations! 
+
+
+```r
+library(distributions3)
+X &lt;- Normal()
+
+set.seed(120953)
+simulations &lt;- tibble(i = 1:2000) %&gt;% 
+  mutate(A = map(i, ~random(X, 20)),
+         B = map(i, ~random(X, 20)),
+         C = map(i, ~random(X, 20)),
+         D = map(i, ~random(X, 20)),
+         test_AB = map2_dbl(A, B, ~t.test(x = .x, y = .y)$p.value),
+         test_AC = map2_dbl(A, C, ~t.test(x = .x, y = .y)$p.value),
+         test_AD = map2_dbl(A, D, ~t.test(x = .x, y = .y)$p.value),
+         test_BC = map2_dbl(B, C, ~t.test(x = .x, y = .y)$p.value),
+         test_BD = map2_dbl(B, D, ~t.test(x = .x, y = .y)$p.value),
+         test_CD = map2_dbl(C, D, ~t.test(x = .x, y = .y)$p.value),
+         reject = pmap_lgl(.l = list(test_AB, test_AC, test_AD, test_BC, test_BD, test_CD),
+                           .f = ~any(c(..1, ..2, ..3, ..4, ..5, ..6) &lt; 0.05)))
+```
+
+---
+
+12 of the simulated data sets.
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-8-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+ 
+Question: what proportion of experiments were rejected? If this is a good test, it should be close to `\(5%\)`. 
+
+.pull-left[
+
+```r
+simulations %&gt;% 
+  count(reject) %&gt;% 
+  mutate(prop = n/sum(n)) %&gt;% 
+  DT::datatable(options = list(dom = "t"),
+                rownames = FALSE)
+```
+]
+
+.pull-right[
+<div id="htmlwidget-c1c18298b1ff7022f0f7" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c1c18298b1ff7022f0f7">{"x":{"filter":"none","data":[[false,true],[1582,418],[0.791,0.209]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>reject<\/th>\n      <th>n<\/th>\n      <th>prop<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+]
+
+--
+
+This is no surprise. In the following, I'll use this notation:
+
+`$$\begin{aligned}
+H_0^1: \mu_A = \mu_B \\
+H_0^2: \mu_A = \mu_C \\
+H_0^3: \mu_A = \mu_D \\ 
+H_0^4: \mu_B = \mu_C \\
+H_0^5: \mu_B = \mu_C \\ 
+H_0^6: \mu_C = \mu_D
+\end{aligned}$$`
+
+---
+
+We are really interested in testing `\(H_0: \mu_A = \mu_B = \mu_C = \mu_D\)`. Remember, the data is simulated such that `\(\mu_A = \mu_B = \mu_C = \mu_D = 0\)`. So, what is the probability of rejecting `\(H_0\)`, when we know it is true, if we use the multiple t-tests approach? Easier to calculate the probability of NOT rejecting `\(H_0\)`. 
+
+Let's pretend all the tests are independent:
+
+`$$\begin{aligned}
+P(\text{no type I error}\ |\ H_0 \text{ true}) &amp;= P(\text{not rejecting } H_0^1 \text{ AND not rejecting } H_0^2 \\ &amp;\qquad... \text{AND not rejecting } H_0^6\ |\ H_0 \text{ true}) \\
+(\text{because independent})&amp;=P(\text{not rejecting } H_0^1 | H_0\text{ true})\cdots P(\text{not rejecting } H_0^6 | H_0\text{ true}) \\
+                            &amp;= 0.95 \cdot 0.95 \cdots 0.95 = 0.95^6 = 0.73509
+\end{aligned}$$`
+
+--
+
+So, what's the probability of making *at least one* type I error? 
+
+`$$\begin{aligned}
+  P(\text{at least one type I error}\ |\ H_0 \text{ true}) &amp;= 1 - P(\text{no type I error}\ |\ H_0 \text{ true}) \\
+    &amp;= 1 - 0.73509 = 0.26491.
+\end{aligned}$$`
+
+---
+
+I.e., pairwise tests is not a good idea. But we still want to test for a difference between means. How would we do that?
+
+--
+
+Since we are considering means, it is natural to look at group averages. (Same argument as for t-tests.)
+
+--
+
+Recall when we first discussed hypothesis tests: we argued that it wasn't enough to compare the average to the hypothesized value. We had to take the variation of the data into account. Similar situation here: not enough simply to compare the averages. 
+
+When moving to two sample tests, we sort of compared the *variation* between groups ($\bar{X} - \bar{Y}$) to a measure of variation within groups ( `\(\text{Var}(\bar{X} - \bar{Y}) = \text{Var}(\bar{X}) + \text{Var}(\bar{Y})\)` ). 
+
+This idea of variation *between* groups compared to variation *within* groups is the foundation of Analysis of Variance (ANOVA).
+
+---
+
+Which of the following figures seems to be most indicative of a differences between means?
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-10-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+--
+
+Although the groups have the same averages, data set 1 seems to provide more evidence suggesting differing means than data set 2.
+
+---
+
+Basically, we compare the variation *between* groups to the variation *within* groups. The between groups variation can be thought of as the SD of group means, while the within groups variation pools together the variation in each of the groups - it is actually an exact generalization of the pooled variance we already know from the two-sample t-test with equal variance.
+
+This is all ANOVA is - comparing variation *between* groups to variation *within* groups. If variation between groups is large compared to variation within groups, then we reject the null of no difference, and vice versa.
+
+To build the test statistic we will use to formally test the null hypothesis `\(H_0: \text{all means are equal}\)`, we need to do a tiny bit of math...
+
+---
+
+The first building block is the following realization: 
+
+$$
+  \text{observation} = \text{overall mean} + \text{group mean - overall mean} + \text{observation - group mean}
+$$
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-11-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+For example:
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-12-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+Some (very heavy) notation:
+
+* `\(t =\)` number of groups (here, 4).
+--
+
+* `\(i =\)` index of group (here, `\(i = 1,2,3,4\)`).
+--
+
+* `\(n_i=\)` number of observations in group `\(i\)` (here, `\(n_1 = 4, n_2 = 6, n_3 = 6, n_4 = 8\)`).
+--
+
+* `\(N =\)` total number of observations (i.e. `\(N = \sum_{i=1}^t n_i\)`. Here, `\(N = 4+6+6+8 = 24\)`).
+--
+
+* `\(y_{ij}=\)` observation `\(j\)` from group `\(i\)` (here, `\(y_{11} = 62, y_{12} = 60\)`, etc.).
+--
+
+* `\(\bar{y}_{i\cdot}=\)` average of observations in group `\(i\)` (i.e. `\(\bar{y}_{i\cdot}=\frac{1}{n_i} \sum_{j=1}^{n_i} y_{ij}\)`. Here, `\(\bar{y}_{1\cdot} = 61, \bar{y}_{2\cdot} = 66, \bar{y}_{3\cdot} = 68, \bar{y}_{4\cdot} = 61\)`).
+--
+
+* `\(\bar{y}_{\cdot \cdot} =\)` overall (or grand) mean (i.e. `\(\bar{y}_{\cdot \cdot} = \frac{1}{N}\sum_{i=1}^t \sum_{j=1}^{n_i} y_{ij}\)`. Here, `\(\bar{y}_{\cdot \cdot} = 64\)`).
+
+--
+
+So, the observation we just made can be written as
+
+`$$y_{ij} = \bar{y}_{\cdot \cdot} + (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$`
+
+(Side note: nothing magical here. If you actually do the math above, you'll see that everything on the right hand side cancels out except `\(y_{ij}\)`, so it really just says `\(y_{ij} = y_{ij}\)`.)
+
+
+---
+
+From 
+
+`$$y_{ij} = \bar{y}_{\cdot \cdot} + (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$`
+
+it only takes a small step to get 
+
+`$$y_{ij} - \bar{y}_{\cdot \cdot} = (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$`
+
+(Pause: we are slowly getting somewhere now. Look at the right hand side: the first parenthesis is deviation from group mean to overall mean. If there's big variation between groups, this will be large. The second parenthesis is deviation from observation to group mean. If there's big variation within groups, this will be large.)
+
+--
+
+Since the above holds for any observation `\(y_{ij}\)`, it also holds if you sum up them all up:
+
+`$$\sum_{i=1}^t \sum_{j = 1}^{n_i} (y_{ij} - \bar{y}_{\cdot \cdot}) = \sum_{i=1}^t \sum_{j = 1}^{n_i}(\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + \sum_{i=1}^t \sum_{j = 1}^{n_i}(y_{ij} - \bar{y}_{i\cdot})$$`
+
+(Pause: again, no magic here. If `\(a=b\)` and `\(c=d\)`, then `\(a+c = b+d\)`.)
+
+---
+
+Now we are adding all the variations between group means and the overall mean (first parenthesis on the right) to all the variations within groups (second parenthesis). Sadly, it turns out that this is not super interesting:
+
+.pull-left[
+
+```r
+rat_poison %&gt;% 
+  mutate(overall_mean = mean(coagulation_time)) %&gt;% 
+  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+
+rat_poison %&gt;% 
+  mutate(overall_mean = mean(coagulation_time)) %&gt;% 
+  summarize(sum_of_diffs = sum(coagulation_time - overall_mean))
+```
+]
+
+.pull-right[
+<div id="htmlwidget-60cad8134a52064c678a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-60cad8134a52064c678a">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>overall_mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+```
+# A tibble: 1 x 1
+  sum_of_diffs
+         &lt;dbl&gt;
+1            0
+```
+]
+
+---
+
+Now we are adding all the variations between group means and the overall mean (first parenthesis on the right) to all the variations within groups (second parenthesis). Sadly, it turns out that this is not super interesting:
+
+
+```r
+rat_poison %&gt;% 
+  mutate(overall_mean = mean(coagulation_time)) %&gt;% 
+  group_by(treatment, overall_mean) %&gt;% 
+  summarize(group_mean = mean(coagulation_time)) %&gt;% 
+  mutate(diffs = group_mean - overall_mean)
+```
+
+```
+# A tibble: 4 x 4
+# Groups:   treatment [4]
+  treatment overall_mean group_mean diffs
+      &lt;int&gt;        &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+1         1           64         61    -3
+2         2           64         66     2
+3         3           64         68     4
+4         4           64         61    -3
+```
+
+---
+
+Now we are adding all the variations between group means and the overall mean (first parenthesis on the right) to all the variations within groups (second parenthesis). Sadly, it turns out that this is not super interesting:
+
+.pull-left[
+
+```r
+rat_poison %&gt;% 
+  group_by(treatment) %&gt;% 
+  mutate(group_mean = mean(coagulation_time)) %&gt;% 
+  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+
+rat_poison %&gt;% 
+  group_by(treatment) %&gt;% 
+  mutate(group_mean = mean(coagulation_time)) %&gt;% 
+  summarize(sum_of_diffs = sum(coagulation_time - group_mean))
+```
+]
+
+.pull-right[
+<div id="htmlwidget-526c5148d074603cd587" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-526c5148d074603cd587">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[61,61,61,61,66,66,66,66,66,66,68,68,68,68,68,68,61,61,61,61,61,61,61,61]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>group_mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+```
+# A tibble: 4 x 2
+  treatment sum_of_diffs
+*     &lt;int&gt;        &lt;dbl&gt;
+1         1            0
+2         2            0
+3         3            0
+4         4            0
+```
+]
+
+--
+
+So everything sums to 0! Not very useful.
+
+---
+
+Fortunately, a tiny bit of mathematical magic happens if we sum the squared deviations. It turns out that the equality still holds:
+
+`$$\sum_{i=1}^t \sum_{j = 1}^{n_i} (y_{ij} - \bar{y}_{\cdot \cdot})^2 = \sum_{i=1}^t \sum_{j = 1}^{n_i}(\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot})^2 + \sum_{i=1}^t \sum_{j = 1}^{n_i}(y_{ij} - \bar{y}_{i\cdot})^2$$`
+
+Now, this is only going to be 0 if all observations are exactly the same (let's just pretend that never happens, cause... it doesn't). 
+
+What this really is, is a decomposition of variability: 
+
+$$
+\text{total variation} = \text{variation due to groups (treatment)} + \text{variation due to error (random noise)}
+$$
+
+More accurately, these are *Sum of Squares*, and are refered to as SSTot (Sum of Squares Total), SSTrt (Sum of Squares Treatment), and SSE (Sum of Squares Error). 
+
+---
+
+Remember the pooled variance when we considered two-sample t-tests? Let's revisit this. Let's denote observations from group 1 as `\(y_{11}, y_{12}, ..., y_{n_11}\)` and observations from group 2 as `\(y_{21}, y_{22}, ..., y_{n_22}\)`.
+--
+ We can then write the pooled variance in the following way:
+
+`$$\begin{aligned}
+  s_\text{pooled}^2 &amp;= \frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2} \\
+                    &amp;= \frac{(n_1 - 1) \frac{1}{n_1-1}\sum_{j=1}^{n_1} (y_{1j} - \bar{y}_{1\cdot})^2 + (n_2 - 1) \frac{1}{n_2-1}\sum_{j=1}^{n_2} (y_{2j} - \bar{y}_{2\cdot})^2}{n_1 + n_2 - 2} \\
+                    &amp;= \frac{\sum_{i=1}^2 \sum_{j=1}^{n_1} (y_{ij} - \bar{y}_{i\cdot})^2}{n_1 + n_2 - 2} \\
+                    &amp;= \frac{SSE}{N - t}
+\end{aligned}$$`
+
+--
+
+So, the pooled variance can be written in terms of the SSE! This can naturally be expanded to more than two groups.
+
+--
+
+For two populations, we said that the pooled variance is a good estimate for an overall variance `\(\sigma^2\)` *if the populations in fact have the same variance*. Same is true for a general number of populations: if all populations have same variance, `\(SSE/(N-t)\)` is a good estimate for the overall variance. 
+
+---
+
+Back to ANOVA: we have seen how total variability (SSTot) can be decompositioned into variability due to different treatments (SSTrt), and variability due to random noise (SSE). But these Sum of Squares aren't *really* measures of variability. (What happens to SSTot if we increase the number of observations? What happens to SSTrt if we increase number of treatments?
+--
+ Both increase!)
+
+--
+
+Already saw that `\(SSE/(N-t)\)` can be thought of as a pooled variance. 
+
+--
+
+What is `\(\frac{SSTot}{N-1}\)`? 
+
+--
+
+`$$\frac{SSTot}{N-1} = \frac{\sum_{i = 1}^t \sum_{j=1}^{n_j} (y_{ij} - \bar{y}_{\cdot\cdot})^2}{N-1} = s^2$$`
+
+is simply the sample variance of *all* the data (each observation subtracted the overall mean, squared, summed, divided by size minus 1). 
+
+--
+
+What about SSTrt? If we think of SSTrt as "variation between treatments" it would be natural to divide by number of treatment groups minus 1. 
+
+--
+
+We call these ratios *Mean Squares*, and will denote them by MSTot, MSTrt, and MSE. The denominators are called *degrees of freedom*. 
+
+---
+
+Pause for a summary:
+
+<div id="htmlwidget-79f97672aaa0ec5d10ae" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-79f97672aaa0ec5d10ae">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],["SSTrt","SSE","SSTot"],["t-1","N-t","N-1"],["MSTrt=SSTrt/(t-1)","MSE=SSE/(N-t)","MSTot=SSTot/(N-1)"],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":4},{"className":"dt-right","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+
+Things to remember: for SS and df, columns sum up. I.e. SSTot = SSTrt + SSE, and `\(df_\text{Tot} = df_\text{Trt} + df_\text{E}\)`.
+
+---
+
+We now have some reasonable measures for *between* and *within* treatment variations:
+
+`$$\begin{aligned}
+\text{MSTrt} &amp;= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2}{t-1} \\
+\text{MSE} &amp;= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{i\cdot})^2}{N-t}
+\end{aligned}$$`
+
+--
+
+The point of all of this: is *between* large compared to *within*? 
+--
+ A reasonable thing to look at: `\(F = \frac{\text{MSTrt}}{\text{MSE}}\)`. This will be our test statistic for testing the hypothesis `\(H_0: \text{all means are equal}\)` against the alternative `\(H_A: \text{at least one mean differs from another}\)`.
+
+--
+
+So, in the spirit of general hypothesis tests, we need to determine what "more extreme" means in this scenario. Questions:
+
+1. What values can `\(F\)` possibly take? 
+
+2. What does a large value of `\(F\)` tell us about the null?
+
+3. What does a small value of `\(F\)` tell us about the null?
+
+---
+
+1. What values can `\(F\)` possibly take? 
+--
+
+    * `\(F\)` is always positive.
+
+--
+
+2. What does a large value of `\(F\)` tell us about the null?
+
+--
+
+    * `\(F\)` large `\(\Rightarrow\)` 
+    * MSTrt &gt;&gt; MSE `\(\Rightarrow\)` 
+    * variations between groups &gt;&gt; variations within groups `\(\Rightarrow\)` 
+    * evidence against the null.
+    
+--
+
+3. What does a small value of `\(F\)` tell us about the null?
+
+--
+
+    * `\(F\)` small `\(\Rightarrow\)` 
+    * MSTrt &lt;&lt; MSE `\(\Rightarrow\)` 
+    * variations between groups &lt;&lt; variations within groups `\(\Rightarrow\)` 
+    * evidence "for" the null.
+
+--
+
+I.e. "more extreme" will here **always** be "greater than".
+
+So, p-value = `\(P(\text{more extreme than } F_\text{obs}\ |\ H_0 \text{ true}) = P(F &gt; F_\text{obs}\ |\ H_0 \text{ true})\)`. 
+
+---
+
+All we need now is the distribution of `\(F\)` *assuming* the null hypothesis is true. 
+
+--
+
+Turns out, **if the data are normal** and **all groups have same variance**, then `\(F \sim F_{\text{df}_\text{Trt},\text{df}_\text{E}}\)` ( `\(F\)`-distribution with numerator df of `\(\text{df}_\text{Trt}\)` and denominator df of `\(\text{df}_\text{E}\)`; in `distributions3`, this is `FisherF(df1, df2)`).
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-17-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+So how do we perform an Analysis of Variance? We fill out the ANOVA table, one step at a time:
+
+<div id="htmlwidget-47806396f83d6a69a4e5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-47806396f83d6a69a4e5">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],["SSTrt","SSE","SSTot"],["t-1","N-t","N-1"],["MSTrt=SSTrt/(t-1)","MSE=SSE/(N-t)","MSTot=SSTot/(N-1)"],["MSTrt/MSE","",""],["$$P(F &gt; F_\\text{obs} | H_0 \\text{ true})$$","",""],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>$$F_\\text{obs}$$<\/th>\n      <th>p-value<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":6},{"className":"dt-right","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[6]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 5).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+
+SSTrt = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2\)`:
+
+
+```r
+## overall mean
+(overall_mean &lt;- rat_poison %&gt;% 
+  summarize(ybar_dotdot = mean(coagulation_time)))
+```
+
+```
+# A tibble: 1 x 1
+  ybar_dotdot
+        &lt;dbl&gt;
+1          64
+```
+
+```r
+## group means
+(group_means &lt;- rat_poison %&gt;% 
+  group_by(treatment) %&gt;% 
+  mutate(ybar_idot = mean(coagulation_time)))
+```
+
+```
+# A tibble: 24 x 3
+# Groups:   treatment [4]
+   treatment coagulation_time ybar_idot
+       &lt;int&gt;            &lt;dbl&gt;     &lt;dbl&gt;
+ 1         1               62        61
+ 2         1               60        61
+ 3         1               63        61
+ 4         1               59        61
+ 5         2               63        66
+ 6         2               67        66
+ 7         2               71        66
+ 8         2               64        66
+ 9         2               65        66
+10         2               66        66
+# … with 14 more rows
+```
+
+```r
+## SSTrt
+(SSTrt &lt;- sum((group_means$ybar_idot - overall_mean$ybar_dotdot)^2))
+```
+
+```
+[1] 228
+```
+
+
+---
+
+SSTot = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{\cdot\cdot})^2\)`:
+
+
+```r
+(SSTot &lt;- rat_poison %&gt;% 
+  mutate(obs_minus_average = coagulation_time - mean(coagulation_time),
+         squares = obs_minus_average^2) %&gt;% print %&gt;% 
+  summarize(SSTot = sum(squares)))
+```
+
+```
+# A tibble: 24 x 4
+   treatment coagulation_time obs_minus_average squares
+       &lt;int&gt;            &lt;dbl&gt;             &lt;dbl&gt;   &lt;dbl&gt;
+ 1         1               62                -2       4
+ 2         1               60                -4      16
+ 3         1               63                -1       1
+ 4         1               59                -5      25
+ 5         2               63                -1       1
+ 6         2               67                 3       9
+ 7         2               71                 7      49
+ 8         2               64                 0       0
+ 9         2               65                 1       1
+10         2               66                 2       4
+# … with 14 more rows
+```
+
+```
+# A tibble: 1 x 1
+  SSTot
+  &lt;dbl&gt;
+1   340
+```
+
+SSE = SSTot - SSTrt = 112
+
+---
+
+* Degrees of freedom: 
+
+`\(\text{df}_\text{Trt} = t - 1 = 4 - 1 = 3\)`
+
+`\(\text{df}_\text{E} = N - t = 24 - 4 = 20\)`
+
+`\(\text{df}_\text{Total} = N - 1 = 23\)`
+
+Check: `\(\text{df}_\text{Total} = \text{df}_\text{Trt} + \text{df}_\text{E}\)`!
+
+--
+
+* Mean squares:
+
+`\(\text{MSTrt} = \frac{\text{SSTrt}}{\text{df}_\text{Trt}} = \frac{228}{3} = 76\)`
+
+`\(\text{MSE} = \frac{\text{SSE}}{\text{df}_\text{E}} = \frac{112}{20} = 5.6\)`
+
+--
+
+.pull-left[
+
+* Observed test statistic:
+
+`\(F_\text{obs} = \frac{MSTrt}{MSE} = \frac{76}{5.6} = 13.57\)`
+]
+
+.pull-right[
+
+* p-value:
+
+```
+F_3_20 &lt;- FisherF(3,20)
+
+cdf(F_3_20, 13.57)
+```
+
+
+```
+[1] 4.66169e-05
+```
+]
+
+---
+
+Filled out ANOVA table:
+
+<div id="htmlwidget-50896632c37c00eddca4" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-50896632c37c00eddca4">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],[228,112,340],[3,20,23],[76,5.6,14.783],[13.571,null,null],[4.6616900822416e-05,null,null],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>$$F_\\text{obs}$$<\/th>\n      <th>p-value<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":6},{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[6]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 5).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+
+
+---
+
+As you might have guessed, we can do this easily using `R`. One important note: you HAVE to make sure that the treatment variable is NOT a numeric variable. You can check if it is by simply printing the data (assuming you used `read_csv` to import it):
+
+.pull-left[
+
+```r
+rat_poison %&gt;% head(n = 6)
+```
+
+```
+# A tibble: 6 x 2
+  treatment coagulation_time
+      &lt;int&gt;            &lt;dbl&gt;
+1         1               62
+2         1               60
+3         1               63
+4         1               59
+5         2               63
+6         2               67
+```
+
+It's fairly easy to correct:
+
+
+```r
+rat_poison &lt;- rat_poison %&gt;% 
+  mutate(treatment = as.character(treatment))
+```
+
+]
+
+
+.pull-right[
+
+
+We then use `aov` to run the ANOVA, and `summary` to get the ANOVA table:
+
+
+```r
+ANOVA &lt;- aov(data = rat_poison,
+             coagulation_time ~ treatment)
+
+summary(ANOVA)
+```
+
+```
+            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+treatment    3    228    76.0   13.57 4.66e-05 ***
+Residuals   20    112     5.6                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+
+Notice how the syntax is the same familiar syntax from `t.test` and `wilcox.test` (sweet!), and how the numbers match what we found "by hand".
+
+]
+
+---
+
+If we use this technique for all of our simulated experiments, we see that the type I error rate is very close to spot on!
+
+<div id="htmlwidget-ad6979f4308a1339927e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad6979f4308a1339927e">{"x":{"filter":"none","data":[[false,true,false,true],[1884,116,1582,418],[0.942,0.058,0.791,0.209],["ANOVA","ANOVA","Multiple t-tests","Multiple t-tests"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>reject<\/th>\n      <th>n<\/th>\n      <th>prop<\/th>\n      <th>test<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+
+Some rather convoluted theory shows that this F-test is actually the most powerful test for testing `\(H_0:\text{all means equal}\)` **IF** all assumptions are met. What are the assumptions?
+
+* Each group should be normal
+
+* Equal variance for all groups
+
+--
+
+We could evaluate group by group, but there's an easier way to do this: using *residuals*.
+
+---
+
+We can think of ANOVA as a *model*. It's a formula that aims at describing the data. (Note: the idea of models is very important in statistics, and will be revisited when talking about linear regression, our next and last topic.)
+
+The ANOVA model is based on the decomposition we say earlier:
+
+`$$y_{ij} = \bar{y}_{\cdot\cdot} + (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot}) + (y_{ij} - \bar{y}_{i\cdot})$$`
+
+We can view this as "observation = overall mean + (treatment deviation from overall mean) + (observation deviation from treatment mean)". 
+
+--
+
+If we were to *predict* (i.e. provide a best guess for) a new observation in a group, we would use the group mean. We adopt this idea that each observation is the group mean plus an error (random noise). This error is what we call the *residual*, i.e. it is what is left over in the observation, once we have accounted for what our model tells us. 
+
+If we use our model to "predict" what the observations we have are, we call the results *fitted values*. So, the residuals are 
+
+`$$\text{residual} = \text{observed} - \text{fitted}$$`
+
+---
+
+We will use these to check our assumptions. 
+
+
+```r
+rat_poison %&gt;% 
+  group_by(treatment) %&gt;% 
+  mutate(fitted = mean(coagulation_time)) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(residuals = coagulation_time - fitted) %&gt;% 
+  DT::datatable(options = list(dom = "t", scrollY = "30vh"),
+                rownames = FALSE)
+```
+
+<div id="htmlwidget-a1d4cf0e5597ae7fcbb8" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a1d4cf0e5597ae7fcbb8">{"x":{"filter":"none","data":[["1","1","1","1","2","2","2","2","2","2","3","3","3","3","3","3","4","4","4","4","4","4","4","4"],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[61,61,61,61,66,66,66,66,66,66,68,68,68,68,68,68,61,61,61,61,61,61,61,61],[1,-1,2,-2,-3,1,5,-2,-1,0,0,-2,3,-1,0,0,-5,1,-1,0,2,3,2,-2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>fitted<\/th>\n      <th>residuals<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","columnDefs":[{"className":"dt-right","targets":[1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+Looking at a QQ-plot, the residuals look pretty normal.
+
+
+```r
+rat_poison %&gt;% 
+  group_by(treatment) %&gt;% 
+  mutate(fitted = mean(coagulation_time)) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(residuals = coagulation_time - fitted) %&gt;% 
+  ggplot(aes(sample = residuals)) +
+    geom_qq() + 
+    geom_qq_line()
+```
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-28-1.png" height="300px" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+To check for "equal variance" graphically, we usually look at "residuals vs. fitted":
+
+.pull-left[
+
+```r
+rat_poison %&gt;% 
+  group_by(treatment) %&gt;% 
+  mutate(fitted = mean(coagulation_time)) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(residuals = coagulation_time - fitted) %&gt;% 
+  ggplot(aes(x = fitted, y = residuals)) + 
+    geom_point() + 
+    labs(title = "Residuals vs. Fitted Values")
+```
+]
+
+.pull-right[
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-29-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+We look at residuals vs. fitted because often variance increases with means: the standard deviation of the weight of 10 elephants will tend to be larger than SD of the weight of 10 hamsters. A couple of classic problems:
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-30-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+Back to our data:
+
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-31-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+Although the last group might have slightly less spread, it doesn't seem to bad.
+
+
+---
+
+Numerically, we use our old rule of thumb, and check that "largest SD"/"smallest SD" &lt; 2:
+
+.pull-left[
+
+```r
+rat_poison %&gt;% 
+  group_by(treatment) %&gt;% 
+  summarize(s = sd(coagulation_time)) %&gt;% print %&gt;% 
+  summarize(ratio = max(s)/min(s))
+```
+]
+
+.pull-right[
+
+```
+# A tibble: 4 x 2
+  treatment     s
+* &lt;chr&gt;     &lt;dbl&gt;
+1 1          1.83
+2 2          2.83
+3 3          1.67
+4 4          2.62
+```
+
+```
+# A tibble: 1 x 1
+  ratio
+  &lt;dbl&gt;
+1  1.69
+```
+]
+
+Looks good!
+
+So using ANOVA to test `\(H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4\)` against `\(H_A: \text{at least one is different}\)` seems valid. Since our p-value was super small (0.000047), we reject the null hypothesis. 
+
+--
+
+The next natural question is then: which treatments are different?!
+
+---
+layout: true
+
+# Multiple Comparisons Following Significant ANOVA
+
+---
+
+The ANOVA showed us that there probably is a difference somewhere in the data. More often than not, this is only somewhat interesting. We would much rather know where the differences are.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:10",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
