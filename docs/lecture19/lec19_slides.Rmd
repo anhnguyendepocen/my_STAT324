@@ -138,6 +138,8 @@ DT::datatable(many_tests, options = list(dom = "t"),
               rownames = FALSE)
 ```
 
+Here, we would reject that $\mu_A = \mu_B$, which would lead us to reject $H_0$.
+
 ---
 
 Is this a good test? We used $\alpha = 0.05$, so we would like $P(\text{Type I}) = P(\text{reject } H_0 | H_0 \text{ true}) = 0.05$. 
