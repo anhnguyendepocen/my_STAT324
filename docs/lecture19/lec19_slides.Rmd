@@ -455,7 +455,7 @@ Now we are adding all the variations between group means and the overall mean (f
 rat_poison %>% 
   group_by(treatment) %>% 
   mutate(group_mean = mean(coagulation_time)) %>% 
-  DT::datatable(options = list(dom = "t", scrollY = "30vh", paging = FALSE), rownames = FALSE)
+  DT::datatable(options = list(dom = "t", scrollY = "20vh", paging = FALSE), rownames = FALSE)
 
 rat_poison %>% 
   group_by(treatment) %>% 
