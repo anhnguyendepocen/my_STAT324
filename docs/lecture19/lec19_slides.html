@@ -67,8 +67,8 @@ DT::datatable(rat_poison,
 ]
 
 .pull-right[
-<div id="htmlwidget-60ae31bd967e93dc2e21" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-60ae31bd967e93dc2e21">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"scrollY":"40vh","dom":"t","columnDefs":[{"className":"dt-right","targets":[0,1]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ea4070051291eb0867be" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ea4070051291eb0867be">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"scrollY":"40vh","dom":"t","columnDefs":[{"className":"dt-right","targets":[0,1]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ]
 
 ---
@@ -124,8 +124,8 @@ ggplot(data = rat_poison,
 
 Most naive approach: use multiple t-tests. 
 
-<div id="htmlwidget-ea4070051291eb0867be" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ea4070051291eb0867be">{"x":{"filter":"none","data":[[1,1,1,2,2,3],[2,3,4,3,4,4],[61,61,61,66,66,68],[66,68,61,68,61,61],[-5,-7,0,-2,5,7],[-8.395,-9.774,-2.968,-5.086,1.72,4.488],[-1.605,-4.226,2.968,1.086,8.28,9.512],[0.009,0.001,1,0.174,0.007,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>A<\/th>\n      <th>B<\/th>\n      <th>Mean A<\/th>\n      <th>Mean B<\/th>\n      <th>Estimated Difference<\/th>\n      <th>95% LL<\/th>\n      <th>95% UL<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[0,1,2,3,4,5,6,7]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4deb8096b3b3dfeaec1a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4deb8096b3b3dfeaec1a">{"x":{"filter":"none","data":[[1,1,1,2,2,3],[2,3,4,3,4,4],[61,61,61,66,66,68],[66,68,61,68,61,61],[-5,-7,0,-2,5,7],[-8.395,-9.774,-2.968,-5.086,1.72,4.488],[-1.605,-4.226,2.968,1.086,8.28,9.512],[0.009,0.001,1,0.174,0.007,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>A<\/th>\n      <th>B<\/th>\n      <th>Mean A<\/th>\n      <th>Mean B<\/th>\n      <th>Estimated Difference<\/th>\n      <th>95% LL<\/th>\n      <th>95% UL<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"columnDefs":[{"className":"dt-right","targets":[0,1,2,3,4,5,6,7]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 Here, we would reject that `\(\mu_A = \mu_B\)`, which would lead us to reject `\(H_0\)`.
 
@@ -157,11 +157,16 @@ simulations &lt;- tibble(i = 1:2000) %&gt;%
                            .f = ~any(c(..1, ..2, ..3, ..4, ..5, ..6) &lt; 0.05)))
 ```
 
+
+
+
+
+
 ---
 
 12 of the simulated data sets.
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-8-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-10-1.png" height="400px" style="display: block; margin: auto;" /&gt;
 
 ---
  
@@ -173,14 +178,14 @@ Question: what proportion of experiments were rejected? If this is a good test, 
 simulations %&gt;% 
   count(reject) %&gt;% 
   mutate(prop = n/sum(n)) %&gt;% 
-  DT::datatable(options = list(dom = "t"),
+  DT::datatable(options = list(dom = "t", paging = FALSE),
                 rownames = FALSE)
 ```
 ]
 
 .pull-right[
-<div id="htmlwidget-4deb8096b3b3dfeaec1a" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4deb8096b3b3dfeaec1a">{"x":{"filter":"none","data":[[false,true],[1582,418],[0.791,0.209]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>reject<\/th>\n      <th>n<\/th>\n      <th>prop<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c927bfe65ecef6d93a95" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c927bfe65ecef6d93a95">{"x":{"filter":"none","data":[[false,true],[1582,418],[0.791,0.209]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>reject<\/th>\n      <th>n<\/th>\n      <th>prop<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ]
 
 --
@@ -237,7 +242,7 @@ This idea of variation *between* groups compared to variation *within* groups is
 
 Which of the following figures seems to be most indicative of a differences between means?
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-10-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-12-1.png" height="400px" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -259,13 +264,13 @@ $$
   \text{observation} = \text{overall mean} + \text{group mean - overall mean} + \text{observation - group mean}
 $$
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-11-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-13-1.png" height="400px" style="display: block; margin: auto;" /&gt;
 
 ---
 
 For example:
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-12-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-14-1.png" height="400px" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -329,7 +334,7 @@ Now we are adding all the variations between group means and the overall mean (f
 ```r
 rat_poison %&gt;% 
   mutate(overall_mean = mean(coagulation_time)) %&gt;% 
-  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+  DT::datatable(options = list(dom = "t", scrollY = "30vh", paging = FALSE), rownames = FALSE)
 
 rat_poison %&gt;% 
   mutate(overall_mean = mean(coagulation_time)) %&gt;% 
@@ -338,8 +343,8 @@ rat_poison %&gt;%
 ]
 
 .pull-right[
-<div id="htmlwidget-c927bfe65ecef6d93a95" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c927bfe65ecef6d93a95">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>overall_mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-61d4ad59d8a3577a3e66" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-61d4ad59d8a3577a3e66">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>overall_mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","paging":false,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 ```
 # A tibble: 1 x 1
@@ -383,7 +388,7 @@ Now we are adding all the variations between group means and the overall mean (f
 rat_poison %&gt;% 
   group_by(treatment) %&gt;% 
   mutate(group_mean = mean(coagulation_time)) %&gt;% 
-  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+  DT::datatable(options = list(dom = "t", scrollY = "30vh", paging = FALSE), rownames = FALSE)
 
 rat_poison %&gt;% 
   group_by(treatment) %&gt;% 
@@ -393,8 +398,8 @@ rat_poison %&gt;%
 ]
 
 .pull-right[
-<div id="htmlwidget-61d4ad59d8a3577a3e66" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-61d4ad59d8a3577a3e66">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[61,61,61,61,66,66,66,66,66,66,68,68,68,68,68,68,61,61,61,61,61,61,61,61]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>group_mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3553c72f4df6ef602d3e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3553c72f4df6ef602d3e">{"x":{"filter":"none","data":[[1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[61,61,61,61,66,66,66,66,66,66,68,68,68,68,68,68,61,61,61,61,61,61,61,61]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>group_mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","paging":false,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 ```
 # A tibble: 4 x 2
@@ -480,8 +485,8 @@ We call these ratios *Mean Squares*, and will denote them by MSTot, MSTrt, and M
 
 Pause for a summary:
 
-<div id="htmlwidget-3553c72f4df6ef602d3e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3553c72f4df6ef602d3e">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],["SSTrt","SSE","SSTot"],["t-1","N-t","N-1"],["MSTrt=SSTrt/(t-1)","MSE=SSE/(N-t)","MSTot=SSTot/(N-1)"],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":4},{"className":"dt-right","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-8f445d62b10585e23dab" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8f445d62b10585e23dab">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],["SSTrt","SSE","SSTot"],["t-1","N-t","N-1"],["MSTrt=SSTrt/(t-1)","MSE=SSE/(N-t)","MSTot=SSTot/(N-1)"],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":4},{"className":"dt-right","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 
 Things to remember: for SS and df, columns sum up. I.e. SSTot = SSTrt + SSE, and `\(df_\text{Tot} = df_\text{Trt} + df_\text{E}\)`.
 
@@ -491,7 +496,7 @@ We now have some reasonable measures for *between* and *within* treatment variat
 
 `$$\begin{aligned}
 \text{MSTrt} &amp;= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2}{t-1} \\
-\text{MSE} &amp;= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{i\cdot})^2}{N-t}
+\text{MSE} &amp;= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2}{N-t}
 \end{aligned}$$`
 
 --
@@ -516,18 +521,15 @@ So, in the spirit of general hypothesis tests, we need to determine what "more e
 --
 
     * `\(F\)` is always positive.
-
 --
 
 2. What does a large value of `\(F\)` tell us about the null?
-
 --
 
     * `\(F\)` large `\(\Rightarrow\)` 
     * MSTrt &gt;&gt; MSE `\(\Rightarrow\)` 
     * variations between groups &gt;&gt; variations within groups `\(\Rightarrow\)` 
     * evidence against the null.
-    
 --
 
 3. What does a small value of `\(F\)` tell us about the null?
@@ -553,31 +555,21 @@ All we need now is the distribution of `\(F\)` *assuming* the null hypothesis is
 
 Turns out, **if the data are normal** and **all groups have same variance**, then `\(F \sim F_{\text{df}_\text{Trt},\text{df}_\text{E}}\)` ( `\(F\)`-distribution with numerator df of `\(\text{df}_\text{Trt}\)` and denominator df of `\(\text{df}_\text{E}\)`; in `distributions3`, this is `FisherF(df1, df2)`).
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-17-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-19-1.png" height="400px" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 So how do we perform an Analysis of Variance? We fill out the ANOVA table, one step at a time:
 
-<div id="htmlwidget-8f445d62b10585e23dab" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8f445d62b10585e23dab">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],["SSTrt","SSE","SSTot"],["t-1","N-t","N-1"],["MSTrt=SSTrt/(t-1)","MSE=SSE/(N-t)","MSTot=SSTot/(N-1)"],["MSTrt/MSE","",""],["$$P(F &gt; F_\\text{obs} | H_0 \\text{ true})$$","",""],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>$$F_\\text{obs}$$<\/th>\n      <th>p-value<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":6},{"className":"dt-right","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[6]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 5).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-5bf4b923c202ed28dd89" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5bf4b923c202ed28dd89">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],["SSTrt","SSE","SSTot"],["t-1","N-t","N-1"],["MSTrt=SSTrt/(t-1)","MSE=SSE/(N-t)","MSTot=SSTot/(N-1)"],["MSTrt/MSE","",""],["$$P(F &gt; F_\\text{obs} | H_0 \\text{ true})$$","",""],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>$$F_\\text{obs}$$<\/th>\n      <th>p-value<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":6},{"className":"dt-right","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[6]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 5).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+
+---
 
 SSTrt = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2\)`:
 
-
-```r
-## overall mean
-(overall_mean &lt;- rat_poison %&gt;% 
-  summarize(ybar_dotdot = mean(coagulation_time)))
-```
-
-```
-# A tibble: 1 x 1
-  ybar_dotdot
-        &lt;dbl&gt;
-1          64
-```
+.pull-left[
 
 ```r
 ## group means
@@ -603,6 +595,22 @@ SSTrt = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot
 10         2               66        66
 # … with 14 more rows
 ```
+]
+
+.pull-right[
+
+```r
+## overall mean
+(overall_mean &lt;- rat_poison %&gt;% 
+  summarize(ybar_dotdot = mean(coagulation_time)))
+```
+
+```
+# A tibble: 1 x 1
+  ybar_dotdot
+        &lt;dbl&gt;
+1          64
+```
 
 ```r
 ## SSTrt
@@ -612,18 +620,19 @@ SSTrt = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot
 ```
 [1] 228
 ```
-
+]
 
 ---
 
-SSTot = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{\cdot\cdot})^2\)`:
+SSTot = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{\cdot\cdot})^2\)`:
 
+
+.pull-left[
 
 ```r
-(SSTot &lt;- rat_poison %&gt;% 
+rat_poison %&gt;% 
   mutate(obs_minus_average = coagulation_time - mean(coagulation_time),
-         squares = obs_minus_average^2) %&gt;% print %&gt;% 
-  summarize(SSTot = sum(squares)))
+         squares = obs_minus_average^2)
 ```
 
 ```
@@ -642,6 +651,16 @@ SSTot = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{\cdot\cdot})^2
 10         2               66                 2       4
 # … with 14 more rows
 ```
+]
+
+.pull-right[
+
+```r
+(SSTot &lt;- rat_poison %&gt;% 
+  mutate(obs_minus_average = coagulation_time - mean(coagulation_time),
+         squares = obs_minus_average^2) %&gt;% 
+  summarize(SSTot = sum(squares)))
+```
 
 ```
 # A tibble: 1 x 1
@@ -649,6 +668,9 @@ SSTot = `\(\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{\cdot\cdot})^2
   &lt;dbl&gt;
 1   340
 ```
+]
+
+---
 
 SSE = SSTot - SSTrt = 112
 
@@ -701,8 +723,8 @@ cdf(F_3_20, 13.57)
 
 Filled out ANOVA table:
 
-<div id="htmlwidget-5bf4b923c202ed28dd89" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5bf4b923c202ed28dd89">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],[228,112,340],[3,20,23],[76,5.6,14.783],[13.571,null,null],[4.6616900822416e-05,null,null],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>$$F_\\text{obs}$$<\/th>\n      <th>p-value<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":6},{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[6]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 5).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-145679ccf8f0423b77ac" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-145679ccf8f0423b77ac">{"x":{"filter":"none","data":[["Treatment&lt;br&gt;(between)","Error&lt;br&gt;(within)","Total"],[228,112,340],[3,20,23],[76,5.6,14.783],[13.571,null,null],[4.6616900822416e-05,null,null],[0,0,1]],"container":"<table class=\"cell-border\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MS<\/th>\n      <th>$$F_\\text{obs}$$<\/th>\n      <th>p-value<\/th>\n      <th>hidden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"visible":false,"targets":6},{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[6]; $(this.api().cell(row, 0).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 1).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 2).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 3).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 4).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 5).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'background-color':'white','border-top':value == 1 ? \"solid 1px\" : value});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 
 
 ---
@@ -768,8 +790,8 @@ Notice how the syntax is the same familiar syntax from `t.test` and `wilcox.test
 
 If we use this technique for all of our simulated experiments, we see that the type I error rate is very close to spot on!
 
-<div id="htmlwidget-ad6979f4308a1339927e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ad6979f4308a1339927e">{"x":{"filter":"none","data":[[false,true,false,true],[1884,116,1582,418],[0.942,0.058,0.791,0.209],["ANOVA","ANOVA","Multiple t-tests","Multiple t-tests"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>reject<\/th>\n      <th>n<\/th>\n      <th>prop<\/th>\n      <th>test<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-de4d98035ddef4eebabf" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-de4d98035ddef4eebabf">{"x":{"filter":"none","data":[[false,true,false,true],[1884,116,1582,418],[0.942,0.058,0.791,0.209],["ANOVA","ANOVA","Multiple t-tests","Multiple t-tests"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>reject<\/th>\n      <th>n<\/th>\n      <th>prop<\/th>\n      <th>test<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -813,12 +835,13 @@ rat_poison %&gt;%
   mutate(fitted = mean(coagulation_time)) %&gt;% 
   ungroup() %&gt;% 
   mutate(residuals = coagulation_time - fitted) %&gt;% 
-  DT::datatable(options = list(dom = "t", scrollY = "30vh"),
+  DT::datatable(options = list(dom = "t", scrollY = "30vh",
+                               paging = FALSE),
                 rownames = FALSE)
 ```
 
-<div id="htmlwidget-145679ccf8f0423b77ac" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-145679ccf8f0423b77ac">{"x":{"filter":"none","data":[["1","1","1","1","2","2","2","2","2","2","3","3","3","3","3","3","4","4","4","4","4","4","4","4"],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[61,61,61,61,66,66,66,66,66,66,68,68,68,68,68,68,61,61,61,61,61,61,61,61],[1,-1,2,-2,-3,1,5,-2,-1,0,0,-2,3,-1,0,0,-5,1,-1,0,2,3,2,-2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>fitted<\/th>\n      <th>residuals<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","columnDefs":[{"className":"dt-right","targets":[1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4532900a2b299ac8b27d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4532900a2b299ac8b27d">{"x":{"filter":"none","data":[["1","1","1","1","2","2","2","2","2","2","3","3","3","3","3","3","4","4","4","4","4","4","4","4"],[62,60,63,59,63,67,71,64,65,66,68,66,71,67,68,68,56,62,60,61,63,64,63,59],[61,61,61,61,66,66,66,66,66,66,68,68,68,68,68,68,61,61,61,61,61,61,61,61],[1,-1,2,-2,-3,1,5,-2,-1,0,0,-2,3,-1,0,0,-5,1,-1,0,2,3,2,-2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>treatment<\/th>\n      <th>coagulation_time<\/th>\n      <th>fitted<\/th>\n      <th>residuals<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","scrollY":"30vh","paging":false,"columnDefs":[{"className":"dt-right","targets":[1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -836,7 +859,7 @@ rat_poison %&gt;%
     geom_qq_line()
 ```
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-28-1.png" height="300px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-32-1.png" height="300px" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -858,20 +881,20 @@ rat_poison %&gt;%
 ]
 
 .pull-right[
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-29-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-33-1.png" width="300px" height="500px" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
 We look at residuals vs. fitted because often variance increases with means: the standard deviation of the weight of 10 elephants will tend to be larger than SD of the weight of 10 hamsters. A couple of classic problems:
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-30-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-34-1.png" height="400px" style="display: block; margin: auto;" /&gt;
 
 ---
 
 Back to our data:
 
-&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-31-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+&lt;img src="lec19_slides_files/figure-html/unnamed-chunk-35-1.png" height="400px" style="display: block; margin: auto;" /&gt;
 
 Although the last group might have slightly less spread, it doesn't seem to bad.
 
@@ -917,15 +940,6 @@ So using ANOVA to test `\(H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4\)` against `\(H_A: 
 --
 
 The next natural question is then: which treatments are different?!
-
----
-layout: true
-
-# Multiple Comparisons Following Significant ANOVA
-
----
-
-The ANOVA showed us that there probably is a difference somewhere in the data. More often than not, this is only somewhat interesting. We would much rather know where the differences are.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

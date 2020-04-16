@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 20: ANOVA, Post-hoc/Multiple tests</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ralph Trane" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding-0.9/datatables.js"></script>
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core-1.10.19/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="../css/uwmadison.css" type="text/css" />
+    <link rel="stylesheet" href="../css/extra-classes.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, top, .title-slide, title-slide
+
+# Lecture 20: ANOVA, Post-hoc/Multiple tests
+## STAT 324
+### Ralph Trane
+### University of Wisconsin–Madison<br><br>
+### Spring 2020
+
+---
+
+layout: true
+
+# Multiple Comparisons Following Significant ANOVA
+
+---
+
+
+
+
+
+```r
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+
+rat_poison &lt;- tibble(treatment = as.character(rep(1:4, c(4, 6, 6, 8))),
+                     coagulation_time = c(62, 60, 63, 59,
+                                          63, 67, 71, 64, 65, 66,
+                                          68, 66, 71, 67, 68, 68,
+                                          56, 62, 60, 61, 63, 64, 63, 59))
+
+summary(aov(coagulation_time ~ treatment, data = rat_poison))
+```
+
+```
+            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+treatment    3    228    76.0   13.57 4.66e-05 ***
+Residuals   20    112     5.6                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+
+The ANOVA showed us that there seem to be a difference somewhere between the treatment groups. More often than not, this is only somewhat interesting. We would much rather know where the differences are.
+
+---
+
+The first, and arguably simplest, is actually (a slightly modified version of) our first attempt to test this hypothesis: pairwise t-tests/confidence intervals. This approach is called **Fisher's Least Significant Difference (LSD)**. 
+
+--
+
+Recall, for us to be able to perform an ANOVA, we need equal variance of all groups. So, the version of the t-test we will use is a two-sample t-test with equal variance. 
+
+--
+
+Say we want to find out if the means in groups `\(i\)` and `\(i'\)` are different. I.e. we want to test `\(H_0: \mu_i = \mu_{i'}\)` vs. `\(H_A: \mu_i \neq \mu_{i'}\)`. We already established that we are willing to assume `\(\sigma_i = \sigma_{i'}\)`.
+
+--
+
+The test statistic we previously used is `\(T = \frac{\bar{y}_{i\cdot} - \bar{y}_{i'\cdot}}{s_p\sqrt{1/n_i + 1/n_{i'}}}\)`, where `\(s_p\)` is our best guess for `\(\sigma\)`, the common standard deviation of the data from the two populations 
+
+--
+
+Now we have more populations, and we assume they all have same variance. We have a sample from each population. It would be silly not to utilize all the data available. Remember that `\(MSE = SSE/df_\text{E}\)` is pooled variance, i.e. our best guess of `\(\sigma\)`. 
+
+---
+
+So, to check if `\(H_0: \mu_i = \mu_{i'}\)` vs. `\(H_A: \mu_i \neq \mu_{i'}\)`, we will use the test statistic `\(T = \frac{\bar{y}_{i\cdot} - \bar{y}_{i'\cdot}}{\sqrt{MSE(1/n_i + 1/n_{i'})}}\)`.
+
+If the null hypothesis is true, `\(T \sim t_{df_\text{E}}\)`. So, a `\((1-\alpha)\cdot 100\%\)` CI is given by
+
+`$$(\bar{y}_{i\cdot} - \bar{y}_{i'\cdot}) \pm t_{\alpha/2, df_\text{E}} \sqrt{MSE (1/n_i + 1/n_{i'})}.$$`
+
+Example: a `\(95/%\)` confidence interval for the difference between groups 1 and 3 is given by:
+
+`$$\begin{aligned}
+  (\bar{y}_{1\cdot} - \bar{y}_{3\cdot}) \pm t_{0.025, 20} \sqrt{MSE (1/n_1 + 1/n_{3})} &amp;= (61 - 68) \pm 2.086 \sqrt{5.6\cdot (1/4 + 1/6)} \\
+  &amp;= [-10.186, -3.814]
+\end{aligned}$$`
+
+Similarly, we can test the hypothesis: `\(T_\text{obs} = \frac{61 - 68}{\sqrt{5.6(1/4 + 1/6)}} = -4.583\)`, which gives us a p-value = `\(2\cdot P(T &lt; T_\text{obs}\ |\ H_0 \text{ true}) = 1.8\times 10^{-4}\)`.
+
+---
+
+Here's a table with all of the pairwise comparisons.
+
+<div id="htmlwidget-6e7c0496c95166e2511a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6e7c0496c95166e2511a">{"x":{"filter":"none","data":[["1","1","1","2","2","3"],["2","3","4","3","4","4"],[61,61,61,66,66,68],[4,4,4,6,6,6],[66,68,61,68,61,61],[6,6,8,6,8,8],[-5,-7,0,-2,5,7],[-8.186,-10.186,-3.023,-4.85,2.334,4.334],[-1.814,-3.814,3.023,0.85,7.666,9.666],[-3.273,-4.583,0,-1.464,3.912,5.477],[0.004,0,1,0.159,0.001,0]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>group_A<\/th>\n      <th>group_B<\/th>\n      <th>mean_A<\/th>\n      <th>n_A<\/th>\n      <th>mean_B<\/th>\n      <th>n_B<\/th>\n      <th>difference<\/th>\n      <th>CI_lower<\/th>\n      <th>CI_upper<\/th>\n      <th>t_obs<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"dom":"t","scrollX":"75vw","columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+
+---
+
+And a nice plot:
+
+&lt;img src="lec20_slides_files/figure-html/fig.height-1.png" width="100%" height="400px" style="display: block; margin: auto;" /&gt;
+
+If the vertical line (0) intersects a CI, then that difference is not significantly different from 0. 
+
+
+---
+
+We still have the multiple testing problem here: each test we perform has a `\(5\%\)` chance of rejecting the null even if the null is true. So, when performing six tests, we have a `\(1-0.95^6 = 0.2649\)`. 
+
+In general, when performing `\(m\)` tests using `\(\alpha\)` for each of them, there's a `\(1 - (1-\alpha)^m\)` chance we make at least one type I error. Say `\(\alpha = 0.05\)`. Then `\(P(\text{at least one type I error})\)` for different values of `\(m\)`:
+
+.pull-left[
+&lt;img src="lec20_slides_files/figure-html/unnamed-chunk-4-1.png" width="300px" height="300px" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Technically only accurate if all tests are independent, which might not be the case here. If test are dependent, same pattern, but exact probabilities will be somewhat different.
+
+The problem is that we reject too many null hypotheses. Fortunately, there are techniques to adjust when we reject the null hypothesis. We will discuss two popular choices here.
+]
+
+---
+layout: true
+
+# Bonferroni Correction
+
+---
+
+The Bonferroni correction is in my opinion the simplest/most intuitive approach. 
+
+Say we are just testing two hypotheses, `\(H_0^1\)` and `\(H_0^2\)`. We want to make sure that the probability that we falsely reject at least one of them is `\(\alpha\)`.
+
+`$$\begin{aligned}
+P(\text{reject } H_0^1 \text{ OR } \text{reject } H_0^2\ |\ H_0^1, H_0^2\ \text{true}) &amp;\le P(\text{reject } H_0^1\ |\ H_0^1 \text{ true}) + P(\text{reject } H_0^2\ |\ H_0^1, H_0^2 true) \quad \text{(equal if independent)} \\
+\end{aligned}$$`
+
+If we decide to adjust our criteria for when we reject `\(H_0^1\)` and `\(H_0^2\)` such that `$$P(\text{reject } H_0^1\ |\ H_0^1 \text{ true}) = P(\text{reject } H_0^2\ |\ H_0^2 \text{ true}) = \alpha/2,$$` then `$$P(\text{reject } H_0^1 \text{ OR } \text{reject } H_0^2\ |\ H_0^1, H_0^2\ \text{true}) \le \alpha.$$`
+
+--
+
+In general, if we do `\(m\)` tests, the *Bonferroni correction* is to reject only when the p-value is less than `\(\alpha/m\)`. This ensures that `\(P(\text{make at least one type I error}) \le \alpha\)`. (Sometimes people will calculate the *Bonferroni corrected* p-values: this is simply `\(m\)` times the original p-value.)
+
+For confidence intervals, we then use `\(t_{(\alpha/m)/2, df_\text{E}}\)` as the multiplier. 
+
+---
+
+For example, to find a `\(95\%\)` Bonferroni Corrected Confidence Interval, we would use `\(t_{(0.05/6)/2, df_\text{E}} = t_{0.0042, df_\text{E}} = 2.927\)`. So, to get the CI for the difference between treatment 2 and 4:
+
+`$$\begin{aligned}
+  (66 - 61) \pm 2.927 \cdot \sqrt{5.6(1/6 + 1/8)} = [1.259, 8.741]
+\end{aligned}$$`
+
+Table with all Bonferroni corrected CIs:
+
+<div id="htmlwidget-d945331e013ab12a8eb9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d945331e013ab12a8eb9">{"x":{"filter":"none","data":[["1","1","1","2","2","3"],["2","3","4","3","4","4"],[61,61,61,66,66,68],[4,4,4,6,6,6],[66,68,61,68,61,61],[6,6,8,6,8,8],[-5,-7,0,-2,5,7],[-9.471,-11.471,-4.242,-5.999,1.259,3.259],[-0.529,-2.529,4.242,1.999,8.741,10.741],[0.024,0,6,0.954,0.006,0],[0.004,0,1,0.159,0.001,0]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>group_A<\/th>\n      <th>group_B<\/th>\n      <th>mean_A<\/th>\n      <th>n_A<\/th>\n      <th>mean_B<\/th>\n      <th>n_B<\/th>\n      <th>difference<\/th>\n      <th>CI_lower<\/th>\n      <th>CI_upper<\/th>\n      <th>Bonferroni p-value<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"dom":"t","scrollX":"75vw","columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+
+
+---
+
+Plot with both types of CIs:
+
+&lt;img src="lec20_slides_files/figure-html/unnamed-chunk-6-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+Notice how the Bonferroni corrected intervals are wider. This makes sense: the whole point is to reject the null less frequently. Wider intervals are more likely to contain `\(0\)`, which means we will reject less frequently.
+
+
+---
+
+Although we have presented the Bonferroni Correction in the context of post-hoc analyses of an ANOVA, it is a general approach that can be used anytime you have done multiple tests, and want to control the overall (also called **familywise**) type I error rate. You simply replace `\(\alpha\)` with `\(\alpha/m\)`, where `\(m\)` is the number of tests.
+
+Arguably the biggest benefit of the Bonferroni Correction is it's simplicity. Unfortunately, it is very conservative, especially if `\(m\)` is large. I.e. many hypothesis that should be rejected, will not be rejected. Unfortunately, we can never determine which ones were wrongly not rejected...
+
+---
+layout: true
+
+# Tukey's Method 
+
+---
+
+**Tukey's Honest Significant Diffference (HSD)** is another approach to adjusting confidence intervals. It can also be used to find adjusted p-values, but we will only consider CIs.
+
+--
+
+Just like how the Bonferroni method uses a different multiplier for the CIs, so does Tukey's method. However, Tukey's method uses an entirely different distribution. It's rather complicated, so we will not go into details. We will simply show how this is done.
+
+--
+
+Say we want to find a `\(95\%\)` CI for the difference between treatments 2 and 3. The multiplier used in Tukey's method is `$$\frac{Q_{\alpha, t, df_\text{E}}}{\sqrt{2}}.$$`
+
+
+```r
+## NOTE!! If you want to use distributions3 for this, another update is required. 
+## Restart R (Session -&gt; Restart R), and before doing anything else, run this line:
+# devtools::install_github("rmtrane/distributions3")
+
+tukey_dist &lt;- Tukey(nmeans = 4, df = 20, nranges = 1) # note: nranges will always be 1 for our purposes!!
+
+# multipler:
+quantile(tukey_dist, 0.95)/sqrt(2)
+```
+
+```
+[1] 2.798936
+```
+
+---
+
+So the `\(95\%\)` CI is:
+
+$$
+  (66 - 68) \pm 2.799 \cdot \sqrt{5.6(1/6 + 1/6)} = [-5.824,1.824].
+$$
+
+
+```r
+## If you refuse to update distributions3: you can get the numerator by using qtukey
+# qtukey(0.95, 4, 20) 
+```
+
+---
+
+All Tukey Intervals:
+
+<div id="htmlwidget-f7aa780fe8f571af32fc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f7aa780fe8f571af32fc">{"x":{"filter":"none","data":[["Treatment 1 - Treatment 2","Treatment 1 - Treatment 3","Treatment 1 - Treatment 4","Treatment 2 - Treatment 3","Treatment 2 - Treatment 4","Treatment 3 - Treatment 4"],[-5,-7,-0,-2,5,7],[-0.724554411356119,-2.72455441135612,4.0560438216702,1.82407478812373,8.57709441963978,10.5770944196398],[-9.27544558864388,-11.2754455886439,-4.0560438216702,-5.82407478812373,1.42290558036021,3.42290558036021]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>Comparison<\/th>\n      <th>difference<\/th>\n      <th>CI_lower<\/th>\n      <th>CI_upper<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+
+---
+
+Same figure, including new CIs.
+
+&lt;img src="lec20_slides_files/figure-html/unnamed-chunk-10-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+Notice how Tukey intervals are slightly more narrow than Bonferroni intervals. With more comparisons, this difference grows. 
+
+---
+
+Personally, not a fan of Bonferroni. However, you might consider using it if:
+
+1. You are doing a relatively limited number of tests
+2. You are much more worried about type I errors than type II errors
+
+Fisher's LSD is useful when if you don't care about type I errors at all, and simply want the most power. 
+
+Tukey's HSD is my preferred method in the context of ANOVA (although not as powerful as Bonferroni when number of tests is small).
+
+A fourth option is the socalled Benjamini-Hochberg procedure, which you will see on the next homework.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:10",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

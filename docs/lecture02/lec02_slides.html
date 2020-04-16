@@ -53,6 +53,10 @@ a, a > code {
 color: rgb(249, 38, 114);
 text-decoration: none;
 }
+pre {
+max-width: 100%;
+overflow-x: scroll;
+}
 .footnote {
 position: absolute;
 bottom: 3em;
@@ -726,10 +730,7 @@ This is where decisions come into play. Subjective what assumptions you&#39;re w
 "highlightStyle": "github",
 "highlightLines": true,
 "countIncrementalSlides": false,
-"ratio": "16:10",
-"navigation": {
-"scroll": false
-}
+"ration": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

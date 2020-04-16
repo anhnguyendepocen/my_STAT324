@@ -134,7 +134,7 @@ many_tests <- expand_grid(A = 1:4, B = 1:4) %>%
   mutate(across(6:8, round, digits = 3))
          
 
-DT::datatable(many_tests, options = list(dom = "t"),
+DT::datatable(many_tests, options = list(dom = "t", paging = FALSE),
               rownames = FALSE)
 ```
 
@@ -147,7 +147,7 @@ Is this a good test? We used $\alpha = 0.05$, so we would like $P(\text{Type I})
 
 Let's investigate through simulations! 
 
-```{r cache = TRUE}
+```{r cache = TRUE, eval = !file.exists(here::here("Lectures/lecture19/simulations.Rds"))}
 library(distributions3)
 X <- Normal()
 
@@ -165,8 +165,21 @@ simulations <- tibble(i = 1:2000) %>%
          test_CD = map2_dbl(C, D, ~t.test(x = .x, y = .y)$p.value),
          reject = pmap_lgl(.l = list(test_AB, test_AC, test_AD, test_BC, test_BD, test_CD),
                            .f = ~any(c(..1, ..2, ..3, ..4, ..5, ..6) < 0.05)))
-
 ```
+
+```{r eval = !file.exists(here::here("Lectures/lecture19/simulations.Rds")), include = FALSE}
+write_rds(simulations, here::here("Lectures/lecture19/simulations.Rds"))
+file.copy(here::here("Lectures/lecture19/simulations.Rds"),
+          here::here("Lectures/lecture20/simulations.Rds"))
+```
+
+```{r eval = file.exists(here::here("Lectures/lecture19/simulations.Rds")), include = FALSE}
+library(distributions3)
+X <- Normal()
+
+simulations <- read_rds(here::here("Lectures/lecture19/simulations.Rds"))
+```
+
 
 ---
 
@@ -194,7 +207,7 @@ Question: what proportion of experiments were rejected? If this is a good test, 
 simulations %>% 
   count(reject) %>% 
   mutate(prop = n/sum(n)) %>% 
-  DT::datatable(options = list(dom = "t"),
+  DT::datatable(options = list(dom = "t", paging = FALSE),
                 rownames = FALSE)
 ```
 ]
@@ -408,7 +421,7 @@ Now we are adding all the variations between group means and the overall mean (f
 ```{r anova_sums_1, eval = FALSE}
 rat_poison %>% 
   mutate(overall_mean = mean(coagulation_time)) %>% 
-  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+  DT::datatable(options = list(dom = "t", scrollY = "30vh", paging = FALSE), rownames = FALSE)
 
 rat_poison %>% 
   mutate(overall_mean = mean(coagulation_time)) %>% 
@@ -442,7 +455,7 @@ Now we are adding all the variations between group means and the overall mean (f
 rat_poison %>% 
   group_by(treatment) %>% 
   mutate(group_mean = mean(coagulation_time)) %>% 
-  DT::datatable(options = list(dom = "t", scrollY = "30vh"), rownames = FALSE)
+  DT::datatable(options = list(dom = "t", scrollY = "30vh", paging = FALSE), rownames = FALSE)
 
 rat_poison %>% 
   group_by(treatment) %>% 
@@ -555,7 +568,7 @@ We now have some reasonable measures for *between* and *within* treatment variat
 
 $$\begin{aligned}
 \text{MSTrt} &= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2}{t-1} \\
-\text{MSE} &= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{i\cdot})^2}{N-t}
+\text{MSE} &= \frac{\sum_{i=1}^t \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2}{N-t}
 \end{aligned}$$
 
 --
@@ -580,18 +593,15 @@ So, in the spirit of general hypothesis tests, we need to determine what "more e
 --
 
     * $F$ is always positive.
-
 --
 
 2. What does a large value of $F$ tell us about the null?
-
 --
 
     * $F$ large $\Rightarrow$ 
     * MSTrt >> MSE $\Rightarrow$ 
     * variations between groups >> variations within groups $\Rightarrow$ 
     * evidence against the null.
-    
 --
 
 3. What does a small value of $F$ tell us about the null?
@@ -663,33 +673,53 @@ anova_table %>%
                   `border-top` = DT::styleEqual(1, "solid 1px"))
 ```
 
+---
+
 SSTrt = $\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot\cdot})^2$:
 
+.pull-left[
+```{r}
+## group means
+(group_means <- rat_poison %>% 
+  group_by(treatment) %>% 
+  mutate(ybar_idot = mean(coagulation_time)))
+```
+]
+
+.pull-right[
 ```{r}
 ## overall mean
 (overall_mean <- rat_poison %>% 
   summarize(ybar_dotdot = mean(coagulation_time)))
 
-## group means
-(group_means <- rat_poison %>% 
-  group_by(treatment) %>% 
-  mutate(ybar_idot = mean(coagulation_time)))
-
 ## SSTrt
 (SSTrt <- sum((group_means$ybar_idot - overall_mean$ybar_dotdot)^2))
 ```
-
+]
 
 ---
 
-SSTot = $\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{ij} - \bar{y}_{\cdot\cdot})^2$:
+SSTot = $\sum_{i=1}^t \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{\cdot\cdot})^2$:
 
+
+.pull-left[
+```{r}
+rat_poison %>% 
+  mutate(obs_minus_average = coagulation_time - mean(coagulation_time),
+         squares = obs_minus_average^2)
+```
+]
+
+.pull-right[
 ```{r}
 (SSTot <- rat_poison %>% 
   mutate(obs_minus_average = coagulation_time - mean(coagulation_time),
-         squares = obs_minus_average^2) %>% print %>% 
+         squares = obs_minus_average^2) %>% 
   summarize(SSTot = sum(squares)))
 ```
+]
+
+---
 
 SSE = SSTot - SSTrt = `r (SSE <- SSTot[[1]] - SSTrt)`
 
@@ -871,7 +901,8 @@ rat_poison %>%
   mutate(fitted = mean(coagulation_time)) %>% 
   ungroup() %>% 
   mutate(residuals = coagulation_time - fitted) %>% 
-  DT::datatable(options = list(dom = "t", scrollY = "30vh"),
+  DT::datatable(options = list(dom = "t", scrollY = "30vh",
+                               paging = FALSE),
                 rownames = FALSE)
 ```
 
@@ -896,7 +927,7 @@ rat_poison %>%
 To check for "equal variance" graphically, we usually look at "residuals vs. fitted":
 
 .pull-left[
-```{r residuals_vs_fitted, eval = FALSE, fig.height = 5, out.height = "500px", fig.width = 3, out.width = "300px"}
+```{r residuals_vs_fitted, eval = FALSE}
 rat_poison %>% 
   group_by(treatment) %>% 
   mutate(fitted = mean(coagulation_time)) %>% 
@@ -909,7 +940,7 @@ rat_poison %>%
 ]
 
 .pull-right[
-```{r ref.label="residuals_vs_fitted", echo = FALSE}
+```{r ref.label="residuals_vs_fitted", echo = FALSE, fig.height = 5, out.height = "500px", fig.width = 3, out.width = "300px"}
 ```
 ]
 
@@ -976,11 +1007,3 @@ So using ANOVA to test $H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4$ against $H_A: \text{
 
 The next natural question is then: which treatments are different?!
 
----
-layout: true
-
-# Multiple Comparisons Following Significant ANOVA
-
----
-
-The ANOVA showed us that there probably is a difference somewhere in the data. More often than not, this is only somewhat interesting. We would much rather know where the differences are.

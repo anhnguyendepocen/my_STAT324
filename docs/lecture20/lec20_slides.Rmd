@@ -1,0 +1,363 @@
+---
+title: "Lecture 20: ANOVA, Post-hoc/Multiple tests"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# Multiple Comparisons Following Significant ANOVA
+
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, comment = "",
+                      dpi = 300, fig.height = 4, out.height = "400px",
+                      fig.align = "center")
+```
+
+
+```{r}
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+
+rat_poison <- tibble(treatment = as.character(rep(1:4, c(4, 6, 6, 8))),
+                     coagulation_time = c(62, 60, 63, 59,
+                                          63, 67, 71, 64, 65, 66,
+                                          68, 66, 71, 67, 68, 68,
+                                          56, 62, 60, 61, 63, 64, 63, 59))
+
+summary(aov(coagulation_time ~ treatment, data = rat_poison))
+```
+
+
+The ANOVA showed us that there seem to be a difference somewhere between the treatment groups. More often than not, this is only somewhat interesting. We would much rather know where the differences are.
+
+---
+
+The first, and arguably simplest, is actually (a slightly modified version of) our first attempt to test this hypothesis: pairwise t-tests/confidence intervals. This approach is called **Fisher's Least Significant Difference (LSD)**. 
+
+--
+
+Recall, for us to be able to perform an ANOVA, we need equal variance of all groups. So, the version of the t-test we will use is a two-sample t-test with equal variance. 
+
+--
+
+Say we want to find out if the means in groups $i$ and $i'$ are different. I.e. we want to test $H_0: \mu_i = \mu_{i'}$ vs. $H_A: \mu_i \neq \mu_{i'}$. We already established that we are willing to assume $\sigma_i = \sigma_{i'}$.
+
+--
+
+The test statistic we previously used is $T = \frac{\bar{y}_{i\cdot} - \bar{y}_{i'\cdot}}{s_p\sqrt{1/n_i + 1/n_{i'}}}$, where $s_p$ is our best guess for $\sigma$, the common standard deviation of the data from the two populations 
+
+--
+
+Now we have more populations, and we assume they all have same variance. We have a sample from each population. It would be silly not to utilize all the data available. Remember that $MSE = SSE/df_\text{E}$ is pooled variance, i.e. our best guess of $\sigma$. 
+
+---
+
+So, to check if $H_0: \mu_i = \mu_{i'}$ vs. $H_A: \mu_i \neq \mu_{i'}$, we will use the test statistic $T = \frac{\bar{y}_{i\cdot} - \bar{y}_{i'\cdot}}{\sqrt{MSE(1/n_i + 1/n_{i'})}}$.
+
+If the null hypothesis is true, $T \sim t_{df_\text{E}}$. So, a $(1-\alpha)\cdot 100\%$ CI is given by
+
+$$(\bar{y}_{i\cdot} - \bar{y}_{i'\cdot}) \pm t_{\alpha/2, df_\text{E}} \sqrt{MSE (1/n_i + 1/n_{i'})}.$$
+
+Example: a $95/%$ confidence interval for the difference between groups 1 and 3 is given by:
+
+$$\begin{aligned}
+  (\bar{y}_{1\cdot} - \bar{y}_{3\cdot}) \pm t_{0.025, 20} \sqrt{MSE (1/n_1 + 1/n_{3})} &= (61 - 68) \pm `r round(quantile(StudentsT(20), 0.975), digits = 4)` \sqrt{5.6\cdot (1/4 + 1/6)} \\
+  &= [`r paste(round((61 - 68) + c(-1,1)* round(quantile(StudentsT(20), 0.975), digits = 4)*sqrt(5.6*(1/4 + 1/6)), digits = 3),collapse = ", ")`]
+\end{aligned}$$
+
+Similarly, we can test the hypothesis: $T_\text{obs} = \frac{61 - 68}{\sqrt{5.6(1/4 + 1/6)}} = `r round((61-68)/sqrt(5.6*(1/4 + 1/6)), digits = 3)`$, which gives us a p-value = $2\cdot P(T < T_\text{obs}\ |\ H_0 \text{ true}) = `r round(2*cdf(StudentsT(df = 20), round((61-68)/sqrt(5.6*(1/4 + 1/6)), digits = 3)), digits = 5)`$.
+
+---
+
+Here's a table with all of the pairwise comparisons.
+
+```{r echo = FALSE}
+library(broom) # package used to "tidy up" output
+
+ANOVA <- aov(data = rat_poison, coagulation_time ~ treatment)
+
+MSE <- tidy(ANOVA) %>% # broom package needed
+  filter(term == "Residuals") %>% 
+  pull(meansq)
+# Alternatively,
+# MSE <- 5.6
+
+averages <- rat_poison %>% 
+  group_by(treatment) %>% 
+  summarize(y_bar = mean(coagulation_time),
+            n = n())
+
+pairwise_comparisons <- expand_grid(group_A = as.character(1:4), 
+            group_B = as.character(1:4)) %>% 
+  filter(group_A < group_B) %>% 
+  left_join(averages %>% rename(group_A = treatment, mean_A = y_bar, n_A = n)) %>% 
+  left_join(averages %>% rename(group_B = treatment, mean_B = y_bar, n_B = n)) %>% 
+  mutate(difference = mean_A - mean_B,
+         CI_lower = difference - quantile(StudentsT(df = 20), 0.975)*sqrt(MSE*(1/n_A + 1/n_B)),
+         CI_upper = difference + quantile(StudentsT(df = 20), 0.975)*sqrt(MSE*(1/n_A + 1/n_B)),
+         t_obs = difference/sqrt(MSE*(1/n_A + 1/n_B)),
+         p_value = 2*cdf(StudentsT(df = 20), -abs(t_obs))) %>% 
+  mutate(across(is.numeric, round, digits = 3)) 
+
+pairwise_comparisons %>% 
+  DT::datatable(options = list(paging = FALSE, dom = "t",
+                               scrollX = "75vw"),
+                rownames = FALSE,
+                class = "row-border")
+```
+
+
+---
+
+And a nice plot:
+
+```{r echo = FALSE, out.width = "100%", fig.height}
+for_plot <- pairwise_comparisons %>% 
+  mutate(Comparison = forcats::fct_reorder(paste("Treatment", group_A, "-", "Treatment", group_B),
+                                           difference, .desc = TRUE))
+(pairwise_comps_plot <- ggplot(for_plot,
+       aes(y = Comparison,
+           x = difference, xmin = CI_lower, xmax = CI_upper)) +
+  geom_vline(xintercept = 0, color = "red", linetype = "dashed") +
+  geom_errorbar(width = 0.3) + 
+  geom_point() + 
+  labs(y = ""))
+```
+
+If the vertical line (0) intersects a CI, then that difference is not significantly different from 0. 
+
+
+---
+
+We still have the multiple testing problem here: each test we perform has a $5\%$ chance of rejecting the null even if the null is true. So, when performing six tests, we have a $1-0.95^6 = `r round(1-0.95^6, digits = 4)`$. 
+
+In general, when performing $m$ tests using $\alpha$ for each of them, there's a $1 - (1-\alpha)^m$ chance we make at least one type I error. Say $\alpha = 0.05$. Then $P(\text{at least one type I error})$ for different values of $m$:
+
+.pull-left[
+```{r echo = FALSE, out.height = "300px", out.width = "300px"}
+ggplot(data = tibble(m = 1:20, `P(at least one type I error)` = 1-(1-0.05)^m),
+       aes(x = m, y = `P(at least one type I error)`)) + 
+  geom_line() +
+  geom_point() +
+  lims(x = c(0,20), y = c(0,1))
+```
+]
+
+.pull-right[
+Technically only accurate if all tests are independent, which might not be the case here. If test are dependent, same pattern, but exact probabilities will be somewhat different.
+
+The problem is that we reject too many null hypotheses. Fortunately, there are techniques to adjust when we reject the null hypothesis. We will discuss two popular choices here.
+]
+
+---
+layout: true
+
+# Bonferroni Correction
+
+---
+
+The Bonferroni correction is in my opinion the simplest/most intuitive approach. 
+
+Say we are just testing two hypotheses, $H_0^1$ and $H_0^2$. We want to make sure that the probability that we falsely reject at least one of them is $\alpha$.
+
+$$\begin{aligned}
+P(\text{reject } H_0^1 \text{ OR } \text{reject } H_0^2\ |\ H_0^1, H_0^2\ \text{true}) &\le P(\text{reject } H_0^1\ |\ H_0^1 \text{ true}) + P(\text{reject } H_0^2\ |\ H_0^1, H_0^2 true) \quad \text{(equal if independent)} \\
+\end{aligned}$$
+
+If we decide to adjust our criteria for when we reject $H_0^1$ and $H_0^2$ such that $$P(\text{reject } H_0^1\ |\ H_0^1 \text{ true}) = P(\text{reject } H_0^2\ |\ H_0^2 \text{ true}) = \alpha/2,$$ then $$P(\text{reject } H_0^1 \text{ OR } \text{reject } H_0^2\ |\ H_0^1, H_0^2\ \text{true}) \le \alpha.$$
+
+--
+
+In general, if we do $m$ tests, the *Bonferroni correction* is to reject only when the p-value is less than $\alpha/m$. This ensures that $P(\text{make at least one type I error}) \le \alpha$. (Sometimes people will calculate the *Bonferroni corrected* p-values: this is simply $m$ times the original p-value.)
+
+For confidence intervals, we then use $t_{(\alpha/m)/2, df_\text{E}}$ as the multiplier. 
+
+---
+
+For example, to find a $95\%$ Bonferroni Corrected Confidence Interval, we would use $t_{(0.05/6)/2, df_\text{E}} = t_{0.0042, df_\text{E}} = 2.927$. So, to get the CI for the difference between treatment 2 and 4:
+
+$$\begin{aligned}
+  (66 - 61) \pm 2.927 \cdot \sqrt{5.6(1/6 + 1/8)} = [`r paste(round((66 - 61) + c(-1,1)* 2.927 * sqrt(5.6*(1/6 + 1/8)), digits = 3), collapse = ", ")`]
+\end{aligned}$$
+
+Table with all Bonferroni corrected CIs:
+
+```{r echo = FALSE}
+bonferroni_comps <- pairwise_comparisons %>% 
+  mutate(CI_lower = difference - quantile(StudentsT(df = 20), 1-(0.05/6)/2)*sqrt(MSE*(1/n_A + 1/n_B)),
+         CI_upper = difference + quantile(StudentsT(df = 20), 1-(0.05/6)/2)*sqrt(MSE*(1/n_A + 1/n_B)),
+         `Bonferroni p-value` = 6*p_value) %>% 
+  select(group_A:CI_upper, `Bonferroni p-value`, p_value)
+
+bonferroni_comps %>% 
+  mutate(across(is.numeric, round, digits = 3)) %>% 
+  DT::datatable(options = list(paging = FALSE, dom = "t",
+                               scrollX = "75vw"),
+                rownames = FALSE,
+                class = "row-border")
+```
+
+
+
+---
+
+Plot with both types of CIs:
+
+```{r echo = FALSE}
+for_plot %>% 
+  select(Comparison, difference:CI_upper) %>% 
+  mutate(type = "LSD") %>% 
+  bind_rows(
+    bonferroni_comps %>% 
+      mutate(Comparison = forcats::fct_reorder(paste("Treatment", group_A, "-", "Treatment", group_B),
+                                           difference, .desc = TRUE)) %>% 
+      select(Comparison, difference:CI_upper) %>% 
+      mutate(type = "Bonferroni")
+  ) %>%  
+  ggplot(aes(x = difference, y = Comparison,
+             xmin = CI_lower, xmax = CI_upper, color = type)) + 
+    geom_vline(xintercept = 0, color = "red", linetype = "dashed") +
+    geom_errorbar(position = position_dodge(width = 0.75),
+                  width = 0.2) + 
+    geom_point(position = position_dodge(width = 0.75)) +
+    scale_color_manual("", values = c("blue", "black")) +
+    theme(legend.position = "top")
+```
+
+Notice how the Bonferroni corrected intervals are wider. This makes sense: the whole point is to reject the null less frequently. Wider intervals are more likely to contain $0$, which means we will reject less frequently.
+
+
+---
+
+Although we have presented the Bonferroni Correction in the context of post-hoc analyses of an ANOVA, it is a general approach that can be used anytime you have done multiple tests, and want to control the overall (also called **familywise**) type I error rate. You simply replace $\alpha$ with $\alpha/m$, where $m$ is the number of tests.
+
+Arguably the biggest benefit of the Bonferroni Correction is it's simplicity. Unfortunately, it is very conservative, especially if $m$ is large. I.e. many hypothesis that should be rejected, will not be rejected. Unfortunately, we can never determine which ones were wrongly not rejected...
+
+---
+layout: true
+
+# Tukey's Method 
+
+---
+
+**Tukey's Honest Significant Diffference (HSD)** is another approach to adjusting confidence intervals. It can also be used to find adjusted p-values, but we will only consider CIs.
+
+--
+
+Just like how the Bonferroni method uses a different multiplier for the CIs, so does Tukey's method. However, Tukey's method uses an entirely different distribution. It's rather complicated, so we will not go into details. We will simply show how this is done.
+
+--
+
+Say we want to find a $95\%$ CI for the difference between treatments 2 and 3. The multiplier used in Tukey's method is $$\frac{Q_{\alpha, t, df_\text{E}}}{\sqrt{2}}.$$
+
+```{r}
+## NOTE!! If you want to use distributions3 for this, another update is required. 
+## Restart R (Session -> Restart R), and before doing anything else, run this line:
+# devtools::install_github("rmtrane/distributions3")
+
+tukey_dist <- Tukey(nmeans = 4, df = 20, nranges = 1) # note: nranges will always be 1 for our purposes!!
+
+# multipler:
+quantile(tukey_dist, 0.95)/sqrt(2)
+```
+
+---
+
+So the $95\%$ CI is:
+
+$$
+  (66 - 68) \pm 2.799 \cdot \sqrt{5.6(1/6 + 1/6)} = [`r paste(round((66 - 68) + c(-1,1)* 2.799*sqrt(5.6*(1/6 + 1/6)), digits = 3), collapse = ",")`].
+$$
+
+```{r}
+## If you refuse to update distributions3: you can get the numerator by using qtukey
+# qtukey(0.95, 4, 20) 
+```
+
+---
+
+All Tukey Intervals:
+
+```{r echo = FALSE}
+tukeys <- TukeyHSD(ANOVA, "treatment")$treatment
+
+tukeys %>% 
+  as.data.frame() %>% 
+  rownames_to_column("Comparison") %>% 
+  rowwise() %>% 
+  mutate(Comparison = str_split(Comparison, pattern = "-"),
+         Comparison = paste("Treatment", Comparison[2], "-", "Treatment", Comparison[1]),
+         difference = -diff,
+         CI_lower = -lwr,
+         CI_upper = -upr) %>% 
+  select(-c(diff:`p adj`)) %>% 
+  DT::datatable(options = list(dom = "t"),
+                rownames = FALSE,
+                class = "row-border")
+```
+
+
+---
+
+Same figure, including new CIs.
+
+```{r echo = FALSE}
+for_plot %>% 
+  select(Comparison, difference:CI_upper) %>% 
+  mutate(type = "LSD") %>% 
+  bind_rows(
+    bonferroni_comps %>% 
+      mutate(Comparison = forcats::fct_reorder(paste("Treatment", group_A, "-", "Treatment", group_B),
+                                           difference, .desc = TRUE)) %>% 
+      select(Comparison, difference:CI_upper) %>% 
+      mutate(type = "Bonferroni"),
+    tukeys %>% 
+      as.data.frame() %>% 
+      rownames_to_column("Comparison") %>% 
+      rowwise() %>% 
+      mutate(Comparison = str_split(Comparison, pattern = "-"),
+             Comparison = paste("Treatment", Comparison[2], "-", "Treatment", Comparison[1]),
+             difference = -diff,
+             CI_lower = -lwr,
+             CI_upper = -upr,
+             type = "Tukey")
+  ) %>%  
+  ggplot(aes(x = difference, y = Comparison,
+             xmin = CI_lower, xmax = CI_upper, color = type)) + 
+    geom_vline(xintercept = 0, color = "red", linetype = "dashed") +
+    geom_errorbar(position = position_dodge(width = 0.75),
+                  width = 0.2) + 
+    geom_point(position = position_dodge(width = 0.75)) +
+    scale_color_manual("", values = c("blue", "black", "orange")) +
+    theme(legend.position = "top")
+```
+
+Notice how Tukey intervals are slightly more narrow than Bonferroni intervals. With more comparisons, this difference grows. 
+
+---
+
+Personally, not a fan of Bonferroni. However, you might consider using it if:
+
+1. You are doing a relatively limited number of tests
+2. You are much more worried about type I errors than type II errors
+
+Fisher's LSD is useful when if you don't care about type I errors at all, and simply want the most power. 
+
+Tukey's HSD is my preferred method in the context of ANOVA (although not as powerful as Bonferroni when number of tests is small).
+
+A fourth option is the socalled Benjamini-Hochberg procedure, which you will see on the next homework.

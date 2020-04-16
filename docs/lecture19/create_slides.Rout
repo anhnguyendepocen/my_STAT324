@@ -48,10 +48,10 @@ label: unnamed-chunk-1 (with options)
 List of 1
  $ include: logi FALSE
 
-  |                                                                              |...                                                                   |   4%
+  |                                                                              |..                                                                    |   3%
   ordinary text without R code
 
-  |                                                                              |...                                                                   |   5%
+  |                                                                              |...                                                                   |   4%
 label: unnamed-chunk-2 (with options) 
 List of 2
  $ echo  : logi FALSE
@@ -65,10 +65,10 @@ label: ratpoisontable (with options)
 List of 1
  $ eval: symbol F
 
-  |                                                                              |......                                                                |   9%
+  |                                                                              |......                                                                |   8%
   ordinary text without R code
 
-  |                                                                              |.......                                                               |  10%
+  |                                                                              |......                                                                |   9%
 label: unnamed-chunk-3 (with options) 
 List of 2
  $ ref.label: chr "ratpoisontable"
@@ -82,18 +82,18 @@ List of 2
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
-  |                                                                              |........                                                              |  11%
+  |                                                                              |.......                                                               |  10%
   ordinary text without R code
 
-  |                                                                              |.........                                                             |  12%
+  |                                                                              |........                                                              |  11%
 label: rat_poison_plot (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |..........                                                            |  14%
+  |                                                                              |.........                                                             |  12%
   ordinary text without R code
 
-  |                                                                              |..........                                                            |  15%
+  |                                                                              |.........                                                             |  13%
 label: unnamed-chunk-4 (with options) 
 List of 6
  $ ref.label : chr "rat_poison_plot"
@@ -103,18 +103,18 @@ List of 6
  $ fig.height: num 6.5
  $ out.height: chr "100%"
 
-  |                                                                              |...........                                                           |  16%
+  |                                                                              |..........                                                            |  15%
   ordinary text without R code
 
-  |                                                                              |............                                                          |  17%
+  |                                                                              |...........                                                           |  16%
 label: rat_poison_plot2 (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |.............                                                         |  19%
+  |                                                                              |............                                                          |  17%
   ordinary text without R code
 
-  |                                                                              |..............                                                        |  20%
+  |                                                                              |.............                                                         |  18%
 label: unnamed-chunk-5 (with options) 
 List of 6
  $ ref.label : chr "rat_poison_plot2"
@@ -124,10 +124,10 @@ List of 6
  $ fig.height: num 6.5
  $ out.height: chr "100%"
 
-  |                                                                              |...............                                                       |  21%
+  |                                                                              |.............                                                         |  19%
   ordinary text without R code
 
-  |                                                                              |................                                                      |  22%
+  |                                                                              |..............                                                        |  20%
 label: unnamed-chunk-6 (with options) 
 List of 1
  $ echo: logi FALSE
@@ -150,78 +150,97 @@ New names:
 New names:
 * `` -> ...1
 * `` -> ...2
-  |                                                                              |................                                                      |  23%
+  |                                                                              |...............                                                       |  21%
+  ordinary text without R code
+
+  |                                                                              |................                                                      |  22%
+label: unnamed-chunk-7 (with options) 
+List of 2
+ $ cache: logi TRUE
+ $ eval : language !file.exists(here::here("Lectures/lecture19/simulations.Rds"))
+
+  |                                                                              |.................                                                     |  24%
   ordinary text without R code
 
   |                                                                              |.................                                                     |  25%
-label: unnamed-chunk-7 (with options) 
-List of 1
- $ cache: logi TRUE
+label: unnamed-chunk-8 (with options) 
+List of 2
+ $ eval   : language !file.exists(here::here("Lectures/lecture19/simulations.Rds"))
+ $ include: logi FALSE
 
   |                                                                              |..................                                                    |  26%
   ordinary text without R code
 
   |                                                                              |...................                                                   |  27%
-label: unnamed-chunk-8 (with options) 
+label: unnamed-chunk-9 (with options) 
+List of 2
+ $ eval   : language file.exists(here::here("Lectures/lecture19/simulations.Rds"))
+ $ include: logi FALSE
+
+  |                                                                              |....................                                                  |  28%
+  ordinary text without R code
+
+  |                                                                              |....................                                                  |  29%
+label: unnamed-chunk-10 (with options) 
 List of 2
  $ echo      : logi FALSE
  $ fig.height: num 6
 
 Adding missing grouping variables: `reject`
-  |                                                                              |....................                                                  |  28%
+  |                                                                              |.....................                                                 |  30%
   ordinary text without R code
 
-  |                                                                              |.....................                                                 |  30%
+  |                                                                              |......................                                                |  31%
 label: simulations_many_tests_results (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |......................                                                |  31%
+  |                                                                              |.......................                                               |  33%
   ordinary text without R code
 
-  |                                                                              |......................                                                |  32%
-label: unnamed-chunk-9 (with options) 
+  |                                                                              |........................                                              |  34%
+label: unnamed-chunk-11 (with options) 
 List of 2
  $ ref.label: chr "simulations_many_tests_results"
  $ echo     : logi FALSE
 
-  |                                                                              |.......................                                               |  33%
+  |                                                                              |........................                                              |  35%
    inline R code fragments
 
-  |                                                                              |........................                                              |  35%
-label: unnamed-chunk-10 (with options) 
-List of 1
- $ echo: logi FALSE
-
   |                                                                              |.........................                                             |  36%
-  ordinary text without R code
-
-  |                                                                              |..........................                                            |  37%
-label: unnamed-chunk-11 (with options) 
-List of 1
- $ echo: logi FALSE
-
-  |                                                                              |...........................                                           |  38%
-  ordinary text without R code
-
-  |                                                                              |............................                                          |  40%
 label: unnamed-chunk-12 (with options) 
 List of 1
  $ echo: logi FALSE
 
-  |                                                                              |.............................                                         |  41%
+  |                                                                              |..........................                                            |  37%
   ordinary text without R code
 
+  |                                                                              |...........................                                           |  38%
+label: unnamed-chunk-13 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |............................                                          |  39%
+  ordinary text without R code
+
+  |                                                                              |............................                                          |  40%
+label: unnamed-chunk-14 (with options) 
+List of 1
+ $ echo: logi FALSE
+
   |                                                                              |.............................                                         |  42%
+  ordinary text without R code
+
+  |                                                                              |..............................                                        |  43%
 label: anova_sums_1 (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |..............................                                        |  43%
+  |                                                                              |...............................                                       |  44%
   ordinary text without R code
 
-  |                                                                              |...............................                                       |  44%
-label: unnamed-chunk-13 (with options) 
+  |                                                                              |...............................                                       |  45%
+label: unnamed-chunk-15 (with options) 
 List of 2
  $ ref.label: chr "anova_sums_1"
  $ echo     : logi FALSE
@@ -230,7 +249,7 @@ List of 2
   ordinary text without R code
 
   |                                                                              |.................................                                     |  47%
-label: unnamed-chunk-14
+label: unnamed-chunk-16
   |                                                                              |..................................                                    |  48%
   ordinary text without R code
 
@@ -243,7 +262,7 @@ List of 1
   ordinary text without R code
 
   |                                                                              |....................................                                  |  52%
-label: unnamed-chunk-15 (with options) 
+label: unnamed-chunk-17 (with options) 
 List of 2
  $ ref.label: chr "anova_sums_3"
  $ echo     : logi FALSE
@@ -252,130 +271,129 @@ List of 2
   ordinary text without R code
 
   |                                                                              |......................................                                |  54%
-label: unnamed-chunk-16 (with options) 
+label: unnamed-chunk-18 (with options) 
 List of 1
  $ echo: logi FALSE
+
+  |                                                                              |.......................................                               |  55%
+  ordinary text without R code
 
   |                                                                              |.......................................                               |  56%
-  ordinary text without R code
-
-  |                                                                              |........................................                              |  57%
-label: unnamed-chunk-17 (with options) 
+label: unnamed-chunk-19 (with options) 
 List of 1
  $ echo: logi FALSE
 
-
-Attaching package: 'distributions3'
-
-The following objects are masked from 'package:stats':
-
-    Gamma, quantile
-
-The following object is masked from 'package:grDevices':
-
-    pdf
-
-  |                                                                              |.........................................                             |  58%
+  |                                                                              |........................................                              |  57%
   ordinary text without R code
 
-  |                                                                              |.........................................                             |  59%
-label: unnamed-chunk-18 (with options) 
+  |                                                                              |.........................................                             |  58%
+label: unnamed-chunk-20 (with options) 
 List of 1
  $ echo: logi FALSE
 
   |                                                                              |..........................................                            |  60%
   ordinary text without R code
 
+  |                                                                              |..........................................                            |  61%
+label: unnamed-chunk-21
   |                                                                              |...........................................                           |  62%
-label: unnamed-chunk-19
-  |                                                                              |............................................                          |  63%
   ordinary text without R code
 
+  |                                                                              |............................................                          |  63%
+label: unnamed-chunk-22
   |                                                                              |.............................................                         |  64%
-label: unnamed-chunk-20
+  ordinary text without R code
+
   |                                                                              |..............................................                        |  65%
-   inline R code fragments
+label: unnamed-chunk-23
+  |                                                                              |..............................................                        |  66%
+  ordinary text without R code
 
   |                                                                              |...............................................                       |  67%
-label: unnamed-chunk-21 (with options) 
+label: unnamed-chunk-24
+  |                                                                              |................................................                      |  69%
+   inline R code fragments
+
+  |                                                                              |.................................................                     |  70%
+label: unnamed-chunk-25 (with options) 
 List of 1
  $ echo: logi FALSE
 
-  |                                                                              |................................................                      |  68%
+  |                                                                              |..................................................                    |  71%
   ordinary text without R code
 
-  |                                                                              |................................................                      |  69%
-label: unnamed-chunk-22 (with options) 
+  |                                                                              |..................................................                    |  72%
+label: unnamed-chunk-26 (with options) 
 List of 1
  $ echo: logi FALSE
 
 New names:
 * `` -> ...1
 * `` -> ...2
-  |                                                                              |.................................................                     |  70%
-  ordinary text without R code
-
-  |                                                                              |..................................................                    |  72%
-label: unnamed-chunk-23
   |                                                                              |...................................................                   |  73%
   ordinary text without R code
 
   |                                                                              |....................................................                  |  74%
-label: unnamed-chunk-24
+label: unnamed-chunk-27
   |                                                                              |.....................................................                 |  75%
   ordinary text without R code
 
-  |                                                                              |......................................................                |  77%
-label: unnamed-chunk-25
+  |                                                                              |.....................................................                 |  76%
+label: unnamed-chunk-28
   |                                                                              |......................................................                |  78%
   ordinary text without R code
 
   |                                                                              |.......................................................               |  79%
-label: unnamed-chunk-26 (with options) 
-List of 2
- $ cache: logi TRUE
- $ echo : logi FALSE
-
+label: unnamed-chunk-29
   |                                                                              |........................................................              |  80%
   ordinary text without R code
 
   |                                                                              |.........................................................             |  81%
-label: unnamed-chunk-27
-  |                                                                              |..........................................................            |  83%
+label: unnamed-chunk-30 (with options) 
+List of 2
+ $ cache: logi TRUE
+ $ echo : logi FALSE
+
+  |                                                                              |.........................................................             |  82%
   ordinary text without R code
 
+  |                                                                              |..........................................................            |  83%
+label: unnamed-chunk-31
   |                                                                              |...........................................................           |  84%
-label: unnamed-chunk-28 (with options) 
+  ordinary text without R code
+
+  |                                                                              |............................................................          |  85%
+label: unnamed-chunk-32 (with options) 
 List of 2
  $ fig.height: num 3
  $ out.height: chr "300px"
 
-  |                                                                              |............................................................          |  85%
+  |                                                                              |.............................................................         |  87%
   ordinary text without R code
 
-  |                                                                              |............................................................          |  86%
+  |                                                                              |.............................................................         |  88%
 label: residuals_vs_fitted (with options) 
-List of 5
- $ eval      : logi FALSE
+List of 1
+ $ eval: logi FALSE
+
+  |                                                                              |..............................................................        |  89%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  90%
+label: unnamed-chunk-33 (with options) 
+List of 6
+ $ ref.label : chr "residuals_vs_fitted"
+ $ echo      : logi FALSE
  $ fig.height: num 5
  $ out.height: chr "500px"
  $ fig.width : num 3
  $ out.width : chr "300px"
 
-  |                                                                              |.............................................................         |  88%
-  ordinary text without R code
-
-  |                                                                              |..............................................................        |  89%
-label: unnamed-chunk-29 (with options) 
-List of 2
- $ ref.label: chr "residuals_vs_fitted"
- $ echo     : logi FALSE
-
-  |                                                                              |...............................................................       |  90%
-  ordinary text without R code
-
   |                                                                              |................................................................      |  91%
-label: unnamed-chunk-30 (with options) 
+  ordinary text without R code
+
+  |                                                                              |................................................................      |  92%
+label: unnamed-chunk-34 (with options) 
 List of 1
  $ echo: logi FALSE
 
@@ -383,15 +401,15 @@ List of 1
   ordinary text without R code
 
   |                                                                              |..................................................................    |  94%
-label: unnamed-chunk-31 (with options) 
+label: unnamed-chunk-35 (with options) 
 List of 2
  $ ref.label: chr "residuals_vs_fitted"
  $ echo     : logi FALSE
 
-  |                                                                              |...................................................................   |  95%
+  |                                                                              |...................................................................   |  96%
   ordinary text without R code
 
-  |                                                                              |...................................................................   |  96%
+  |                                                                              |....................................................................  |  97%
 label: sd_ratio (with options) 
 List of 1
  $ eval: logi FALSE
@@ -400,7 +418,7 @@ List of 1
   ordinary text without R code
 
   |                                                                              |..................................................................... |  99%
-label: unnamed-chunk-32 (with options) 
+label: unnamed-chunk-36 (with options) 
 List of 2
  $ ref.label: chr "sd_ratio"
  $ echo     : logi FALSE
@@ -411,7 +429,7 @@ List of 2
 
 output file: lec19_slides.knit.md
 
-/usr/local/bin/pandoc +RTS -K512m -RTS lec19_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec19_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpkIC3Ej/rmarkdown-str826344088d85.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpkIC3Ej/xaringan8263306eb3ee.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpkIC3Ej/xaringan826310c3f2a3.js --variable title-slide=true --variable math=true 
+/usr/local/bin/pandoc +RTS -K512m -RTS lec19_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec19_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmp9W7VVl/rmarkdown-strdb2d385a4d40.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmp9W7VVl/xaringandb2d759736a5.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmp9W7VVl/xaringandb2d3d485b9.js --variable title-slide=true --variable math=true 
 
 Output created: lec19_slides.html
 Warning message:
@@ -429,10 +447,10 @@ label: unnamed-chunk-1 (with options)
 List of 1
  $ include: logi FALSE
 
-  |                                                                              |...                                                                   |   4%
+  |                                                                              |..                                                                    |   3%
   ordinary text without R code
 
-  |                                                                              |...                                                                   |   5%
+  |                                                                              |...                                                                   |   4%
 label: unnamed-chunk-2 (with options) 
 List of 2
  $ echo  : logi FALSE
@@ -446,27 +464,27 @@ label: ratpoisontable (with options)
 List of 1
  $ eval: symbol F
 
-  |                                                                              |......                                                                |   9%
+  |                                                                              |......                                                                |   8%
   ordinary text without R code
 
-  |                                                                              |.......                                                               |  10%
+  |                                                                              |......                                                                |   9%
 label: unnamed-chunk-3 (with options) 
 List of 2
  $ ref.label: chr "ratpoisontable"
  $ echo     : logi FALSE
 
-  |                                                                              |........                                                              |  11%
+  |                                                                              |.......                                                               |  10%
   ordinary text without R code
 
-  |                                                                              |.........                                                             |  12%
+  |                                                                              |........                                                              |  11%
 label: rat_poison_plot (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |..........                                                            |  14%
+  |                                                                              |.........                                                             |  12%
   ordinary text without R code
 
-  |                                                                              |..........                                                            |  15%
+  |                                                                              |.........                                                             |  13%
 label: unnamed-chunk-4 (with options) 
 List of 6
  $ ref.label : chr "rat_poison_plot"
@@ -476,18 +494,18 @@ List of 6
  $ fig.height: num 6.5
  $ out.height: chr "100%"
 
-  |                                                                              |...........                                                           |  16%
+  |                                                                              |..........                                                            |  15%
   ordinary text without R code
 
-  |                                                                              |............                                                          |  17%
+  |                                                                              |...........                                                           |  16%
 label: rat_poison_plot2 (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |.............                                                         |  19%
+  |                                                                              |............                                                          |  17%
   ordinary text without R code
 
-  |                                                                              |..............                                                        |  20%
+  |                                                                              |.............                                                         |  18%
 label: unnamed-chunk-5 (with options) 
 List of 6
  $ ref.label : chr "rat_poison_plot2"
@@ -497,10 +515,10 @@ List of 6
  $ fig.height: num 6.5
  $ out.height: chr "100%"
 
-  |                                                                              |...............                                                       |  21%
+  |                                                                              |.............                                                         |  19%
   ordinary text without R code
 
-  |                                                                              |................                                                      |  22%
+  |                                                                              |..............                                                        |  20%
 label: unnamed-chunk-6 (with options) 
 List of 1
  $ echo: logi FALSE
@@ -523,78 +541,97 @@ New names:
 New names:
 * `` -> ...1
 * `` -> ...2
-  |                                                                              |................                                                      |  23%
+  |                                                                              |...............                                                       |  21%
+  ordinary text without R code
+
+  |                                                                              |................                                                      |  22%
+label: unnamed-chunk-7 (with options) 
+List of 2
+ $ cache: logi TRUE
+ $ eval : language !file.exists(here::here("Lectures/lecture19/simulations.Rds"))
+
+  |                                                                              |.................                                                     |  24%
   ordinary text without R code
 
   |                                                                              |.................                                                     |  25%
-label: unnamed-chunk-7 (with options) 
-List of 1
- $ cache: logi TRUE
+label: unnamed-chunk-8 (with options) 
+List of 2
+ $ eval   : language !file.exists(here::here("Lectures/lecture19/simulations.Rds"))
+ $ include: logi FALSE
 
   |                                                                              |..................                                                    |  26%
   ordinary text without R code
 
   |                                                                              |...................                                                   |  27%
-label: unnamed-chunk-8 (with options) 
+label: unnamed-chunk-9 (with options) 
+List of 2
+ $ eval   : language file.exists(here::here("Lectures/lecture19/simulations.Rds"))
+ $ include: logi FALSE
+
+  |                                                                              |....................                                                  |  28%
+  ordinary text without R code
+
+  |                                                                              |....................                                                  |  29%
+label: unnamed-chunk-10 (with options) 
 List of 2
  $ echo      : logi FALSE
  $ fig.height: num 6
 
 Adding missing grouping variables: `reject`
-  |                                                                              |....................                                                  |  28%
+  |                                                                              |.....................                                                 |  30%
   ordinary text without R code
 
-  |                                                                              |.....................                                                 |  30%
+  |                                                                              |......................                                                |  31%
 label: simulations_many_tests_results (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |......................                                                |  31%
+  |                                                                              |.......................                                               |  33%
   ordinary text without R code
 
-  |                                                                              |......................                                                |  32%
-label: unnamed-chunk-9 (with options) 
+  |                                                                              |........................                                              |  34%
+label: unnamed-chunk-11 (with options) 
 List of 2
  $ ref.label: chr "simulations_many_tests_results"
  $ echo     : logi FALSE
 
-  |                                                                              |.......................                                               |  33%
+  |                                                                              |........................                                              |  35%
    inline R code fragments
 
-  |                                                                              |........................                                              |  35%
-label: unnamed-chunk-10 (with options) 
-List of 1
- $ echo: logi FALSE
-
   |                                                                              |.........................                                             |  36%
-  ordinary text without R code
-
-  |                                                                              |..........................                                            |  37%
-label: unnamed-chunk-11 (with options) 
-List of 1
- $ echo: logi FALSE
-
-  |                                                                              |...........................                                           |  38%
-  ordinary text without R code
-
-  |                                                                              |............................                                          |  40%
 label: unnamed-chunk-12 (with options) 
 List of 1
  $ echo: logi FALSE
 
-  |                                                                              |.............................                                         |  41%
+  |                                                                              |..........................                                            |  37%
   ordinary text without R code
 
+  |                                                                              |...........................                                           |  38%
+label: unnamed-chunk-13 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |............................                                          |  39%
+  ordinary text without R code
+
+  |                                                                              |............................                                          |  40%
+label: unnamed-chunk-14 (with options) 
+List of 1
+ $ echo: logi FALSE
+
   |                                                                              |.............................                                         |  42%
+  ordinary text without R code
+
+  |                                                                              |..............................                                        |  43%
 label: anova_sums_1 (with options) 
 List of 1
  $ eval: logi FALSE
 
-  |                                                                              |..............................                                        |  43%
+  |                                                                              |...............................                                       |  44%
   ordinary text without R code
 
-  |                                                                              |...............................                                       |  44%
-label: unnamed-chunk-13 (with options) 
+  |                                                                              |...............................                                       |  45%
+label: unnamed-chunk-15 (with options) 
 List of 2
  $ ref.label: chr "anova_sums_1"
  $ echo     : logi FALSE
@@ -603,7 +640,7 @@ List of 2
   ordinary text without R code
 
   |                                                                              |.................................                                     |  47%
-label: unnamed-chunk-14
+label: unnamed-chunk-16
   |                                                                              |..................................                                    |  48%
   ordinary text without R code
 
@@ -616,7 +653,7 @@ List of 1
   ordinary text without R code
 
   |                                                                              |....................................                                  |  52%
-label: unnamed-chunk-15 (with options) 
+label: unnamed-chunk-17 (with options) 
 List of 2
  $ ref.label: chr "anova_sums_3"
  $ echo     : logi FALSE
@@ -625,119 +662,129 @@ List of 2
   ordinary text without R code
 
   |                                                                              |......................................                                |  54%
-label: unnamed-chunk-16 (with options) 
+label: unnamed-chunk-18 (with options) 
 List of 1
  $ echo: logi FALSE
+
+  |                                                                              |.......................................                               |  55%
+  ordinary text without R code
 
   |                                                                              |.......................................                               |  56%
-  ordinary text without R code
-
-  |                                                                              |........................................                              |  57%
-label: unnamed-chunk-17 (with options) 
+label: unnamed-chunk-19 (with options) 
 List of 1
  $ echo: logi FALSE
 
-  |                                                                              |.........................................                             |  58%
+  |                                                                              |........................................                              |  57%
   ordinary text without R code
 
-  |                                                                              |.........................................                             |  59%
-label: unnamed-chunk-18 (with options) 
+  |                                                                              |.........................................                             |  58%
+label: unnamed-chunk-20 (with options) 
 List of 1
  $ echo: logi FALSE
 
   |                                                                              |..........................................                            |  60%
   ordinary text without R code
 
+  |                                                                              |..........................................                            |  61%
+label: unnamed-chunk-21
   |                                                                              |...........................................                           |  62%
-label: unnamed-chunk-19
-  |                                                                              |............................................                          |  63%
   ordinary text without R code
 
+  |                                                                              |............................................                          |  63%
+label: unnamed-chunk-22
   |                                                                              |.............................................                         |  64%
-label: unnamed-chunk-20
+  ordinary text without R code
+
   |                                                                              |..............................................                        |  65%
-   inline R code fragments
+label: unnamed-chunk-23
+  |                                                                              |..............................................                        |  66%
+  ordinary text without R code
 
   |                                                                              |...............................................                       |  67%
-label: unnamed-chunk-21 (with options) 
+label: unnamed-chunk-24
+  |                                                                              |................................................                      |  69%
+   inline R code fragments
+
+  |                                                                              |.................................................                     |  70%
+label: unnamed-chunk-25 (with options) 
 List of 1
  $ echo: logi FALSE
 
-  |                                                                              |................................................                      |  68%
+  |                                                                              |..................................................                    |  71%
   ordinary text without R code
 
-  |                                                                              |................................................                      |  69%
-label: unnamed-chunk-22 (with options) 
+  |                                                                              |..................................................                    |  72%
+label: unnamed-chunk-26 (with options) 
 List of 1
  $ echo: logi FALSE
 
 New names:
 * `` -> ...1
 * `` -> ...2
-  |                                                                              |.................................................                     |  70%
-  ordinary text without R code
-
-  |                                                                              |..................................................                    |  72%
-label: unnamed-chunk-23
   |                                                                              |...................................................                   |  73%
   ordinary text without R code
 
   |                                                                              |....................................................                  |  74%
-label: unnamed-chunk-24
+label: unnamed-chunk-27
   |                                                                              |.....................................................                 |  75%
   ordinary text without R code
 
-  |                                                                              |......................................................                |  77%
-label: unnamed-chunk-25
+  |                                                                              |.....................................................                 |  76%
+label: unnamed-chunk-28
   |                                                                              |......................................................                |  78%
   ordinary text without R code
 
   |                                                                              |.......................................................               |  79%
-label: unnamed-chunk-26 (with options) 
-List of 2
- $ cache: logi TRUE
- $ echo : logi FALSE
-
+label: unnamed-chunk-29
   |                                                                              |........................................................              |  80%
   ordinary text without R code
 
   |                                                                              |.........................................................             |  81%
-label: unnamed-chunk-27
-  |                                                                              |..........................................................            |  83%
+label: unnamed-chunk-30 (with options) 
+List of 2
+ $ cache: logi TRUE
+ $ echo : logi FALSE
+
+  |                                                                              |.........................................................             |  82%
   ordinary text without R code
 
+  |                                                                              |..........................................................            |  83%
+label: unnamed-chunk-31
   |                                                                              |...........................................................           |  84%
-label: unnamed-chunk-28 (with options) 
+  ordinary text without R code
+
+  |                                                                              |............................................................          |  85%
+label: unnamed-chunk-32 (with options) 
 List of 2
  $ fig.height: num 3
  $ out.height: chr "300px"
 
-  |                                                                              |............................................................          |  85%
+  |                                                                              |.............................................................         |  87%
   ordinary text without R code
 
-  |                                                                              |............................................................          |  86%
+  |                                                                              |.............................................................         |  88%
 label: residuals_vs_fitted (with options) 
-List of 5
- $ eval      : logi FALSE
+List of 1
+ $ eval: logi FALSE
+
+  |                                                                              |..............................................................        |  89%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  90%
+label: unnamed-chunk-33 (with options) 
+List of 6
+ $ ref.label : chr "residuals_vs_fitted"
+ $ echo      : logi FALSE
  $ fig.height: num 5
  $ out.height: chr "500px"
  $ fig.width : num 3
  $ out.width : chr "300px"
 
-  |                                                                              |.............................................................         |  88%
-  ordinary text without R code
-
-  |                                                                              |..............................................................        |  89%
-label: unnamed-chunk-29 (with options) 
-List of 2
- $ ref.label: chr "residuals_vs_fitted"
- $ echo     : logi FALSE
-
-  |                                                                              |...............................................................       |  90%
-  ordinary text without R code
-
   |                                                                              |................................................................      |  91%
-label: unnamed-chunk-30 (with options) 
+  ordinary text without R code
+
+  |                                                                              |................................................................      |  92%
+label: unnamed-chunk-34 (with options) 
 List of 1
  $ echo: logi FALSE
 
@@ -745,15 +792,15 @@ List of 1
   ordinary text without R code
 
   |                                                                              |..................................................................    |  94%
-label: unnamed-chunk-31 (with options) 
+label: unnamed-chunk-35 (with options) 
 List of 2
  $ ref.label: chr "residuals_vs_fitted"
  $ echo     : logi FALSE
 
-  |                                                                              |...................................................................   |  95%
+  |                                                                              |...................................................................   |  96%
   ordinary text without R code
 
-  |                                                                              |...................................................................   |  96%
+  |                                                                              |....................................................................  |  97%
 label: sd_ratio (with options) 
 List of 1
  $ eval: logi FALSE
@@ -762,7 +809,7 @@ List of 1
   ordinary text without R code
 
   |                                                                              |..................................................................... |  99%
-label: unnamed-chunk-32 (with options) 
+label: unnamed-chunk-36 (with options) 
 List of 2
  $ ref.label: chr "sd_ratio"
  $ echo     : logi FALSE
@@ -773,10 +820,10 @@ List of 2
 
 output file: lec19_slides.knit.md
 
-/usr/local/bin/pandoc +RTS -K512m -RTS lec19_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec19_slides.html --email-obfuscation none -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpkIC3Ej/rmarkdown-str8263c29ed33.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpkIC3Ej/xaringan826327d05bfa.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpkIC3Ej/xaringan8263223e4b86.js --variable title-slide=true --variable math=true 
+/usr/local/bin/pandoc +RTS -K512m -RTS lec19_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec19_slides.html --email-obfuscation none -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmp9W7VVl/rmarkdown-strdb2d293ec529.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmp9W7VVl/xaringandb2d53c71263.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//Rtmp9W7VVl/xaringandb2d1d6cd3d4.js --variable title-slide=true --variable math=true 
 
 Output created: lec19_slides.html
 > 
 > proc.time()
    user  system elapsed 
-198.587   4.268 224.758 
+218.147   5.498 275.195 
