@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 21: ANOVA Examples, Introduction to Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ralph Trane" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding-0.9/datatables.js"></script>
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core-1.10.19/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core-1.10.19/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="../css/uwmadison.css" type="text/css" />
+    <link rel="stylesheet" href="../css/extra-classes.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, top, .title-slide, title-slide
+
+# Lecture 21: ANOVA Examples, Introduction to Regression
+## STAT 324
+### Ralph Trane
+### University of Wisconsin–Madison<br><br>
+### Spring 2020
+
+---
+
+layout: true
+
+# ANOVA Examples
+
+---
+
+
+
+Toy example. Completely made up. Just to show calculations. 
+
+
+```r
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+
+toy_data &lt;- tibble(group = rep(LETTERS[1:3], each = 2),
+                   observations = rep(c(3,1,6), each = 2) + c(-0.75,0.75)*rep(c(0.95, 1.1, 1), each = 2))
+
+toy_data
+```
+
+```
+# A tibble: 6 x 2
+  group observations
+  &lt;chr&gt;        &lt;dbl&gt;
+1 A            2.29 
+2 A            3.71 
+3 B            0.175
+4 B            1.83 
+5 C            5.25 
+6 C            6.75 
+```
+
+---
+ 
+Plot:
+
+
+```r
+ggplot(toy_data, aes(x = group, y = observations)) + 
+  geom_point()
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-3-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+Want to test `\(H_0: \mu_A = \mu_B = \mu_C\)` against `\(H_A: \text{difference somewhere}\)` using `\(\alpha = 0.1\)`. First, need to check for equal variance in the three groups, and normality of data. (Note: latter is kind of pointless with this amount of data, but we will do so anyway.) 
+
+Remember, we check this using the residuals. Generally, residuals = observations - fitted. In particular for ANOVA, residuals = observations - group means. 
+
+
+```r
+residuals &lt;- toy_data %&gt;% 
+  group_by(group) %&gt;% 
+  mutate(fitted = mean(observations),
+         residuals = observations - fitted)
+```
+
+---
+
+Equal variance: are residuals equally spread around 0 no matter the value of the fitted value?
+
+
+```r
+ggplot(residuals,
+       aes(x = fitted, y = residuals)) + 
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  geom_point() 
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-5-1.png" height="300px" style="display: block; margin: auto;" /&gt;
+
+---
+
+Normality: QQ-plot. Here, doesn't look good due to very small samples. 
+
+
+```r
+ggplot(residuals,
+       aes(sample = residuals)) + 
+  geom_qq() + geom_qq_line()
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-6-1.png" height="300px" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+
+.pull-left[
+
+Observations:
+
+```r
+toy_data
+```
+
+```
+# A tibble: 6 x 2
+  group observations
+  &lt;chr&gt;        &lt;dbl&gt;
+1 A            2.29 
+2 A            3.71 
+3 B            0.175
+4 B            1.83 
+5 C            5.25 
+6 C            6.75 
+```
+
+
+Overall mean:
+
+
+```r
+toy_data %&gt;% 
+  summarize(overall_mean = mean(observations))
+```
+
+```
+# A tibble: 1 x 1
+  overall_mean
+         &lt;dbl&gt;
+1         3.33
+```
+]
+
+.pull-right[
+
+Group means:
+
+
+```r
+toy_data %&gt;% 
+  group_by(group) %&gt;% 
+  summarize(group_means = mean(observations))
+```
+
+```
+# A tibble: 3 x 2
+  group group_means
+* &lt;chr&gt;       &lt;dbl&gt;
+1 A               3
+2 B               1
+3 C               6
+```
+
+]
+
+---
+
+.pull-left[
+`$$\begin{aligned}
+  \text{SSTrt}   &amp;= \sum_{i=1}^3 \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot})^2 \\
+                 &amp;= (3 - 3.33)^2 + (3 - 3.33)^2 +\\ &amp;\qquad(1 - 3.33)^2 + (1 - 3.33)^2 +\\ &amp;\qquad(6 - 3.33)^2 + (6 - 3.33)^2 \\
+                 &amp;= 25.33 \\
+                 &amp; \\
+  \text{SSE}     &amp;= \sum_{i=1}^3 \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i \cdot})^2 \\
+                 &amp;= (2.2875 - 3)^2 + (3.7125 - 3)^2 +\\ &amp;\qquad(0.175 - 1)^2 + (1.825 - 1)^2 +\\ &amp;\qquad(5.25 - 6)^2 + (6.75 - 6)^2 \\
+                 &amp;= 3.5
+\end{aligned}$$`
+]
+
+.pull-right[
+`$$\begin{aligned}
+  \text{SSTotal} &amp;= \sum_{i=1}^3 \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i \cdot})^2 \\
+                 &amp;= (2.2875 - 3.33)^2 + (3.7125 - 3.33)^2 +\\ &amp;\qquad(0.175 - 3.33)^2 + (1.825 - 3.33)^2 +\\ &amp;\qquad(5.25 - 3.33)^2 + (6.75 - 3.33)^2 \\
+                 &amp;= 28.83 \\
+                 &amp;\\
+  df_\text{Trt}  &amp;= t-1 = 3-1 = 2 \\
+                 &amp;\\
+  df_\text{E}    &amp;= N-t = 6-3 = 3 \\
+                 &amp;\\
+  df_\text{Total}&amp;= N-1 = 6-1 = 5 
+\end{aligned}$$`
+]
+
+---
+
+.pull-left[
+`$$\begin{aligned}
+  MSTrt &amp;= \frac{SS_\text{Trt}}{df_\text{Trt}} = \frac{25.33}{2} \approx 12.66 \\
+  &amp;\\
+  MSE   &amp;= \frac{SS_\text{E}}{df_\text{E}} = \frac{3.5}{3} \approx 1.17
+\end{aligned}$$`
+]
+
+.pull-right[
+`$$\begin{aligned}
+  F_\text{obs}  &amp;= \frac{MSTrt}{MSE} = \frac{12.66}{1.17} \approx 10.82 \\
+  &amp;\\
+  \text{p-value} &amp;= P(F &gt; F_\text{obs}) = P(F &gt; 10.82),\\ &amp;\quad \text{where } F \sim F_{2,3}
+\end{aligned}$$`
+
+```
+F_2_3 &lt;- FisherF(2,3)
+1 - cdf(F_2_3, 10.82)
+```
+
+```
+[1] 0.04248355
+```
+]
+
+--
+
+<div id="htmlwidget-1723199d5b4c97567ab8" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1723199d5b4c97567ab8">{"x":{"filter":"none","data":[["Treatment","Error","Total"],[25.33,3.5,28.83],[2,3,5],[12.66,1.17,null],[10.82,null,null],[0.04,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Source<\/th>\n      <th>SS<\/th>\n      <th>df<\/th>\n      <th>MSE<\/th>\n      <th>F_obs<\/th>\n      <th>p-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+Since the p-value is less than `\(\alpha = 0.01\)`, we reject the null hypothesis.
+
+---
+
+Double check using built-in `aov` function:
+
+
+```r
+toy_anova &lt;- aov(data = toy_data, 
+                 observations ~ group)
+
+summary(toy_anova)
+```
+
+```
+            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+group        2 25.333  12.667   10.85 0.0423 *
+Residuals    3  3.502   1.167                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Looks good ( `\(\pm\)` rounding error).
+
+---
+
+Where is the difference? We do pairwise tests. Example: group A vs group B.
+
+Using Fisher's LSD, we do pairwise t-tests using `\(MSE\)` "instead of" `\(s_p^2\)`. First, need quantile from t-distribution:
+
+
+```r
+quantile(StudentsT(df = 2), 1-0.1/2)
+```
+
+```
+[1] 2.919986
+```
+
+
+`$$\begin{aligned}
+  \bar{y}_{A\cdot} - \bar{y}_{B\cdot} \pm t_{0.1/2, df_\text{E}} \sqrt{MSE(1/n_A + 1/n_B)} &amp;= 3 - 1 \pm 2.92 \sqrt{1.167(1/10 + 1/10)} \\
+            &amp;=2 \pm 0.998
+\end{aligned}$$`
+
+Using Bonferroni, we use `\(t_{(\alpha/2)/m, df_\text{E}}\)` instead of `\(t_{\alpha/2, df_\text{E}}\)`:
+
+
+```r
+quantile(StudentsT(df = 2), 1-(0.1/2)/3)
+```
+
+```
+[1] 5.339333
+```
+
+
+`$$\begin{aligned}
+  \bar{y}_{A\cdot} - \bar{y}_{B\cdot} \pm t_{(0.1/2)/3, df_\text{E}} \sqrt{MSE(1/n_A + 1/n_B)} &amp;= 3 - 1 \pm 5.34 \sqrt{1.167(1/10 + 1/10)} \\
+            &amp;=2 \pm 1.824
+\end{aligned}$$`
+
+---
+
+
+Using Tukey's HSD method, we use `\(\frac{Q_{\alpha, t, df_\text{E}}}{\sqrt{2}}\)` instead of `\(t_{\alpha/2, df_\text{E}}\)`:
+
+
+```r
+quantile(Tukey(3, 3, 1), 0.95)/sqrt(2) # or qtukey(0.95, 3, 3)/sqrt(2)
+```
+
+```
+[1] 4.178763
+```
+
+`$$\begin{aligned}
+  \bar{y}_{A\cdot} - \bar{y}_{B\cdot} \pm \frac{Q_{\alpha, t, df_\text{E}}}{\sqrt{2}} \sqrt{MSE(1/n_A + 1/n_B)} &amp;= 3 - 1 \pm 4.18 \sqrt{1.167(1/10 + 1/10)} \\
+            &amp;=2 \pm 1.428
+\end{aligned}$$`
+
+---
+
+A neat function for this is `PostHocTest` from the `DescTools` package. It can do any of the above mentioned methods:
+
+
+```r
+# If not installed, use install.packages("DescTools") to install
+library(DescTools)
+
+(LSD &lt;- PostHocTest(toy_anova, method = "lsd", conf.level = 0.9))
+```
+
+```
+
+  Posthoc multiple comparisons of means : Fisher LSD 
+    90% family-wise confidence level
+
+$group
+    diff     lwr.ci    upr.ci   pval    
+B-A   -2 -4.5424904 0.5424904 0.1612    
+C-A    3  0.4575096 5.5424904 0.0692 .  
+C-B    5  2.4575096 7.5424904 0.0190 *  
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+
+```r
+(HSD &lt;- PostHocTest(toy_anova, method = "hsd", conf.level = 0.9))
+```
+
+```
+
+  Posthoc multiple comparisons of means : Tukey HSD 
+    90% family-wise confidence level
+
+$group
+    diff     lwr.ci   upr.ci   pval    
+B-A   -2 -5.4127784 1.412778 0.2957    
+C-A    3 -0.4127784 6.412778 0.1342    
+C-B    5  1.5872216 8.412778 0.0382 *  
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+
+```r
+(BONF &lt;- PostHocTest(toy_anova, method = "bonferroni", conf.level = 0.9))
+```
+
+```
+
+  Posthoc multiple comparisons of means : Bonferroni 
+    90% family-wise confidence level
+
+$group
+    diff     lwr.ci   upr.ci   pval    
+B-A   -2 -6.0410924 2.041092 0.4837    
+C-A    3 -1.0410924 7.041092 0.2075    
+C-B    5  0.9589076 9.041092 0.0570 .  
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+.pull-left[
+
+```r
+for_comparisons_plot &lt;- bind_rows(
+  LSD$group %&gt;% 
+    as_tibble(rownames = "Comparison") %&gt;% 
+    mutate(type = "LSD"),
+  HSD$group %&gt;% 
+    as_tibble(rownames = "Comparison") %&gt;% 
+    mutate(type = "HSD"),
+  BONF$group %&gt;% 
+    as_tibble(rownames = "Comparison") %&gt;% 
+    mutate(type = "Bonferroni")
+) %&gt;% 
+  mutate(Comparison = forcats::fct_reorder(Comparison, diff, .desc = T)) 
+
+
+ggplot(for_comparisons_plot,
+       aes(x = diff, xmin = lwr.ci, xmax = upr.ci, y = Comparison, color = type)) + 
+  geom_vline(xintercept = 0, color = "red", linetype = "dashed") +
+  geom_errorbar(position = position_dodge(), width = 0.2) +
+  ggthemes::scale_color_colorblind("Method") + # need to install.packages("ggthemes") - changes the colors, and adds "Method" as legend title
+  theme(legend.position = c(1,1), # move legend to top right corner
+        legend.justification = c(1.05,1.05), # adjust position a bit
+        legend.background = element_rect(color = "black", size = 0.25)) # add black line
+```
+
+
+]
+
+.pull-right[
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-20-1.png" width="400px" height="500px" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+Real data: Plant growth data.
+
+.pull-left[
+
+```r
+data("PlantGrowth"); plant_growth &lt;- as_tibble(PlantGrowth); rm("PlantGrowth")
+
+DT::datatable(plant_growth, 
+              options = list(paging = FALSE, dom = "t", scrollY = "65vh"),
+              rownames = FALSE)
+```
+
+Yield from plants measured by dried weight. 
+
+Three groups: control (`ctrl`), treatment 1 (`trt1`), and treatment 2 (`trt2`).
+
+Question: is the yield different between the groups? And if so, which give the largest yield?
+]
+
+.pull-right[
+<div id="htmlwidget-8f9c82ed046b92e87a7e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8f9c82ed046b92e87a7e">{"x":{"filter":"none","data":[[4.17,5.58,5.18,6.11,4.5,4.61,5.17,4.53,5.33,5.14,4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69,6.31,5.12,5.54,5.5,5.37,5.29,4.92,6.15,5.8,5.26],["ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>weight<\/th>\n      <th>group<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"dom":"t","scrollY":"65vh","columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+]
+
+---
+
+First, we aim at answering **if** there's a difference. I.e. we want to test `\(H_0: \mu_\text{ctrl} = \mu_\text{trt1} = \mu_\text{trt2}\)` against the alternative `\(H_A: \text{at least one is different}\)`. We will use `\(\alpha = 0.05\)`.
+
+Summary statistics:
+
+.pull-left[
+
+```r
+plant_growth %&gt;% 
+  group_by(group) %&gt;% 
+  summarize(n = n(),
+            average = mean(weight),
+            s = sd(weight))
+```
+
+```
+# A tibble: 3 x 4
+  group     n average     s
+* &lt;fct&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
+1 ctrl     10    5.03 0.583
+2 trt1     10    4.66 0.794
+3 trt2     10    5.53 0.443
+```
+]
+
+.pull-right[
+
+```r
+ggplot(plant_growth, aes(x = group, y = weight)) + 
+  geom_boxplot(width = 0.5, coef = Inf) + # coef = Inf means "do not use outliers"
+  geom_jitter(width = 0.1, height = 0)
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-23-1.png" width="400px" height="300px" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+
+The question is: does it seem like the variation between the groups is small enough that it could be due to random chance? Or is it large enough that we reject the null?
+
+--
+
+Answer this question by looking at "variation between groups"/"variation within groups", i.e. the `\(F\)` statistic. 
+
+"variation within groups" = MSTrt = `\(\frac{SSTrt}{df_\text{Trt}} = \frac{1}{t - 1}\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot})^2\)`
+
+"variation between groups" = MSE = `\(\frac{SSE}{df_\text{E}} = \frac{1}{N-t}\sum_{i=1}^t \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i \cdot})^2\)`
+
+--
+
+<div id="htmlwidget-e2a2482b9e49f639fdf0" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e2a2482b9e49f639fdf0">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"],["ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2"],[4.17,5.58,5.18,6.11,4.5,4.61,5.17,4.53,5.33,5.14,4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69,6.31,5.12,5.54,5.5,5.37,5.29,4.92,6.15,5.8,5.26],[5.032,5.032,5.032,5.032,5.032,5.032,5.032,5.032,5.032,5.032,4.661,4.661,4.661,4.661,4.661,4.661,4.661,4.661,4.661,4.661,5.526,5.526,5.526,5.526,5.526,5.526,5.526,5.526,5.526,5.526],[5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07,5.07],[0,0,0,0,0,0,0,0,0,0,0.17,0.17,0.17,0.17,0.17,0.17,0.17,0.17,0.17,0.17,0.21,0.21,0.21,0.21,0.21,0.21,0.21,0.21,0.21,0.21],[0.74,0.3,0.02,1.16,0.28,0.18,0.02,0.25,0.09,0.01,0.02,0.24,0.06,1.15,1.46,0.69,1.87,0.05,0.12,0,0.61,0.16,0,0,0.02,0.06,0.37,0.39,0.08,0.07]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Treatment<\/th>\n      <th>Observation<\/th>\n      <th>Group Average<\/th>\n      <th>Overall Average<\/th>\n      <th>SSTrt contribution<\/th>\n      <th>SSE contribution<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"30vh","columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+ANOVA:
+
+
+```r
+plant_growth_ANOVA &lt;- aov(data = plant_growth,
+                          weight ~ group)
+```
+
+Before we look at the results, we check the assumptions. The `broom` package has some great tools for working with models. Here, we use the `augment` function to attach fitted and residual values to the original data. 
+
+
+```r
+library(broom)
+
+augment(plant_growth_ANOVA) %&gt;% 
+  mutate_if(is.numeric, round, digits = 3) %&gt;% 
+  DT::datatable(options = list(dom = "t", paging = F, scrollY = "25vh"),
+                rownames = FALSE)
+```
+
+<div id="htmlwidget-7242add46394a0a44b22" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7242add46394a0a44b22">{"x":{"filter":"none","data":[[4.17,5.58,5.18,6.11,4.5,4.61,5.17,4.53,5.33,5.14,4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69,6.31,5.12,5.54,5.5,5.37,5.29,4.92,6.15,5.8,5.26],["ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","ctrl","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt1","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2","trt2"],[5.032,5.032,5.032,5.032,5.032,5.032,5.032,5.032,5.032,5.032,4.661,4.661,4.661,4.661,4.661,4.661,4.661,4.661,4.661,4.661,5.526,5.526,5.526,5.526,5.526,5.526,5.526,5.526,5.526,5.526],[0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197,0.197],[-0.862,0.548,0.148,1.078,-0.532,-0.422,0.138,-0.502,0.298,0.108,0.149,-0.491,-0.251,-1.071,1.209,-0.831,1.369,0.229,-0.341,0.029,0.784,-0.406,0.014,-0.026,-0.156,-0.236,-0.606,0.624,0.274,-0.266],[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],[0.61,0.625,0.635,0.595,0.626,0.629,0.635,0.627,0.632,0.635,0.635,0.627,0.633,0.595,0.584,0.612,0.569,0.633,0.631,0.635,0.614,0.63,0.635,0.635,0.634,0.633,0.623,0.622,0.633,0.633],[0.079,0.032,0.002,0.123,0.03,0.019,0.002,0.027,0.009,0.001,0.002,0.026,0.007,0.121,0.155,0.073,0.198,0.006,0.012,0,0.065,0.017,0,0,0.003,0.006,0.039,0.041,0.008,0.007],[-1.458,0.927,0.25,1.823,-0.9,-0.714,0.233,-0.849,0.504,0.183,0.252,-0.83,-0.424,-1.811,2.044,-1.405,2.315,0.387,-0.577,0.049,1.326,-0.687,0.024,-0.044,-0.264,-0.399,-1.025,1.055,0.463,-0.45]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>weight<\/th>\n      <th>group<\/th>\n      <th>.fitted<\/th>\n      <th>.se.fit<\/th>\n      <th>.resid<\/th>\n      <th>.hat<\/th>\n      <th>.sigma<\/th>\n      <th>.cooksd<\/th>\n      <th>.std.resid<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"25vh","columnDefs":[{"className":"dt-right","targets":[0,2,3,4,5,6,7,8]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+Equal variance:
+
+.pull-left[
+
+```r
+ggplot(augment(plant_growth_ANOVA),
+       aes(x = .fitted, y = .resid)) + 
+  geom_point()
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-27-1.png" width="400px" height="300px" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+plant_growth %&gt;% 
+  group_by(group) %&gt;% 
+  summarize(s = sd(weight))
+```
+
+```
+# A tibble: 3 x 2
+  group     s
+* &lt;fct&gt; &lt;dbl&gt;
+1 ctrl  0.583
+2 trt1  0.794
+3 trt2  0.443
+```
+]
+
+Not super happy about the figure above. For now, we will accept it. 
+
+---
+
+Normality?
+
+
+```r
+ggplot(augment(plant_growth_ANOVA),
+       aes(sample = .resid)) + 
+  geom_qq() +
+  geom_qq_line()
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-29-1.png" height="300px" style="display: block; margin: auto;" /&gt;
+
+Looks pretty good!
+
+---
+
+Let's finally take a look at the ANOVA table:
+
+
+```r
+summary(plant_growth_ANOVA)
+```
+
+```
+            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+group        2  3.766  1.8832   4.846 0.0159 *
+Residuals   27 10.492  0.3886                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Since the p-value is less than `\(\alpha = 0.05\)`, we reject the null hypothesis.
+
+---
+
+Where is the difference? Using LSD:
+
+
+```r
+PostHocTest(plant_growth_ANOVA, method = "lsd")
+```
+
+```
+
+  Posthoc multiple comparisons of means : Fisher LSD 
+    95% family-wise confidence level
+
+$group
+            diff      lwr.ci    upr.ci   pval    
+trt1-ctrl -0.371 -0.94301261 0.2010126 0.1944    
+trt2-ctrl  0.494 -0.07801261 1.0660126 0.0877 .  
+trt2-trt1  0.865  0.29298739 1.4370126 0.0045 ** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+Using Tukey's:
+
+
+```r
+PostHocTest(plant_growth_ANOVA, method = "hsd")
+```
+
+```
+
+  Posthoc multiple comparisons of means : Tukey HSD 
+    95% family-wise confidence level
+
+$group
+            diff     lwr.ci    upr.ci   pval    
+trt1-ctrl -0.371 -1.0622161 0.3202161 0.3909    
+trt2-ctrl  0.494 -0.1972161 1.1852161 0.1980    
+trt2-trt1  0.865  0.1737839 1.5562161 0.0120 *  
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+Using Bonferroni:
+
+
+```r
+PostHocTest(plant_growth_ANOVA, method = "bonferroni")
+```
+
+```
+
+  Posthoc multiple comparisons of means : Bonferroni 
+    95% family-wise confidence level
+
+$group
+            diff     lwr.ci    upr.ci   pval    
+trt1-ctrl -0.371 -1.0825786 0.3405786 0.5832    
+trt2-ctrl  0.494 -0.2175786 1.2055786 0.2630    
+trt2-trt1  0.865  0.1534214 1.5765786 0.0134 *  
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+What if the data is not normal? 
+--
+
+The Kruskal Wallis test is the Wilcoxon Rank Sum test equivalent for the multiple groups scenario. We will not go into details, since it's rather complicated, but the intuition is the same as for the Wilcoxon Rank Sum test: use ranks instead of the actual values, and see if the ranks are generally different between the groups.
+
+
+```r
+kruskal.test(data = plant_growth, weight ~ group)
+```
+
+```
+
+	Kruskal-Wallis rank sum test
+
+data:  weight by group
+Kruskal-Wallis chi-squared = 7.9882, df = 2, p-value = 0.01842
+```
+
+Since the p-value is less than `\(\alpha = 0.05\)`, we would reject the null hypothesis of no difference. To find out where the difference is, one would do pairwise Wilcoxon Rank Sum tests, and use the Bonferroni correction on the resulting p-values. 
+
+
+---
+
+Pairwise Wilcoxon Rank Sum tests indicate a difference between treatments.
+
+
+```r
+ctrl_vs_trt1 &lt;- wilcox.test(data = filter(plant_growth, group != "trt2"),
+                            weight ~ group)
+ctrl_vs_trt2 &lt;- wilcox.test(data = filter(plant_growth, group != "trt1"),
+                            weight ~ group)
+trt1_vs_trt2 &lt;- wilcox.test(data = filter(plant_growth, group != "ctrl"),
+                            weight ~ group)
+
+tibble(comparison = c("ctrl_vs_trt1", "ctrl_vs_trt2", "trt1_vs_trt2"),
+       p_values = c(ctrl_vs_trt1$p.value, ctrl_vs_trt2$p.value, trt1_vs_trt2$p.value)) %&gt;% 
+  mutate(bonferroni_adjusted = p.adjust(p_values, method = "bonferroni"),
+         BH_adjust = p.adjust(p_values, method = "BH"))
+```
+
+```
+# A tibble: 3 x 4
+  comparison   p_values bonferroni_adjusted BH_adjust
+  &lt;chr&gt;           &lt;dbl&gt;               &lt;dbl&gt;     &lt;dbl&gt;
+1 ctrl_vs_trt1  0.199                0.596     0.199 
+2 ctrl_vs_trt2  0.0630               0.189     0.0945
+3 trt1_vs_trt2  0.00893              0.0268    0.0268
+```
+
+
+---
+layout: true
+
+# Introduction to Regression
+
+---
+
+So far, we have only talked about "differences in groups", but what if we are instead interested in the relationship between the mean, and a numeric value? 
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-36-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+Regression comes in many shapes and forms. The simplest is called (Simple) Linear Regression. 
+
+Idea: the *outcome variable* (y) is build from the *explanatory variable* (x) in a linear way plus some noise. 
+
+$$
+Y_i = \beta_0 + \beta_1 x_i + \epsilon_i,\quad \epsilon_i \sim N(0, \sigma^2).
+$$
+
+--
+
+In other words: there's a straight line that describes the data, but the actual observations are spread randomly around that line. The randomness is in the shape of a normal distribution with mean `\(0\)`. 
+
+I.e. the average outcome is exactly given by the line: 
+
+`$$E(Y_i) = \beta_0 + \beta_1 x_i + E(\epsilon_i) = \beta_0 + \beta_1 x_i.$$`
+
+---
+
+Fundamentally, we have this belief that there exist "true values" `\(\beta_0, \beta_1\)` that we could find if we could measure all the `\(x\)`'s and `\(y\)`'s. 
+
+As always, we can't, so the question is, how do we estimate them? I.e. how do we come up with best guesses based on the data we have? 
+
+We use `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)` to denote our "best guesses" for `\(\beta_0\)` and `\(\beta_1\)`. 
+
+--
+
+Given a set of best guess, we can use this model to find a suggestion as to what the outcome should be. We call this the *fitted value*. This is 
+
+$$
+\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i.
+$$
+
+--
+
+We want to find `\(\hat{\beta}_0, \hat{\beta}_1\)` such that `\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1x_i\)` is as close to `\(y_i\)` as possible. I.e. we want to minimize `\(y_i - \hat{y}_i\)` for all observations `\(i=1,2,...,n\)`. 
+
+--
+ 
+Problem: as we have seen before, differences can cancel out when we sum them up. So, instead we square the terms. 
+
+---
+
+In the end, we aim at minimizing 
+
+`$$\sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum_{i=1}^n (y_i - [\hat{\beta}_0 + \hat{\beta}_1x_i])^2$$`
+
+This is actually the SSE! The sum of the squared differences from the observations to the fitted values. 
+
+--
+
+How do we actually minimize this? For the math minded among you, differentiate with respect to the unknowns, set to zero, and solve. In the end, we get that the values of `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)` that minimize SSE are 
+
+`$$\begin{aligned}
+  \hat{\beta}_1 &amp;= \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} \\
+  \hat{\beta}_0 &amp;= \bar{y} - \hat{\beta}_1 \bar{x},
+\end{aligned}$$`
+
+where `\(\bar{x}\)` and `\(\bar{y}\)` are the averages of the `\(x\)` and `\(y\)` values, respectively.
+
+---
+
+This is obviously tedious to do by hand, but fortunately very easy to do in `R`:
+
+.pull-left[
+
+```r
+lin_mod &lt;- lm(data = regression_data, y ~ x)
+
+summary(lin_mod)
+```
+
+```
+
+Call:
+lm(formula = y ~ x, data = regression_data)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-3.430e-04 -9.220e-06  1.842e-05  7.128e-05  1.334e-04 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 3.077e-03  1.797e-04  17.121 1.38e-07 ***
+x           2.357e-04  3.251e-05   7.249 8.81e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.0001386 on 8 degrees of freedom
+Multiple R-squared:  0.8679,	Adjusted R-squared:  0.8514 
+F-statistic: 52.55 on 1 and 8 DF,  p-value: 8.811e-05
+```
+]
+
+.pull-right[
+
+```r
+ggplot(augment(lin_mod),
+       aes(x = x, y = y)) +
+  geom_point() + 
+  geom_line(aes(y = .fitted))
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-38-1.png" height="300px" style="display: block; margin: auto;" /&gt;
+]
+
+---
+ 
+Interpretations: 
+
+* `\(\beta_0\)` is the value of `\(y_i\)` suggested by the model if `\(x_i = 0\)`
+    * rarely care much about this value
+
+* `\(\beta_1\)` is the increase of `\(y_i\)` if `\(x_i\)` is increased by `\(1\)` unit.
+    * this is where it's at: if `\(x\)` and `\(y\)` are not associated, `\(\beta_1 = 0\)`. 
+    * i.e. the interesting *test* is whether `\(H_0: \beta_1 = 0\)` or `\(H_A: \beta_1 \neq 0\)`. 
+    * positive `\(\beta_1\)`: increased `\(x\)` increases `\(y\)`
+    * negative `\(\beta_1\)`: increased `\(x\)` decreases `\(y\)`
+
+--
+
+For our example data:
+
+`\(\hat{\beta}_0 = 0.0030766\)`, `\(\hat{\beta}_1 = 2.3570172\times 10^{-4}\)`.
+
+We would reject `\(H_0: \beta_1 = 0\)` in favor of `\(H_A: \beta_1 \neq 0\)` since the p-value is 0.0000881. 
+
+--
+
+Since `\(\hat{\beta}_1 &gt; 0\)`, this seems to indicate that increased `\(x\)` increases `\(y\)`. 
+
+---
+
+So, does this mean that if we could take a value of `\(x\)` and increase it by `\(1\)` unit, then `\(y\)` would increase by `\(2.3570172\times 10^{-4}\)`? 
+
+--
+
+No. This sort of conclusion is trying to say that `\(x\)` *causes* `\(y\)`. I.e. we start to move into assessing causality, which is notoriously hard, and we have to be super careful.
+
+--
+
+To illustrate this, let's reveal the labels of our regression data:
+
+
+
+---
+
+
+```r
+divorce_margarine_lin_mod &lt;- lm(data = divorce_margarine,
+                                divorce_rate_maine ~ margarine_consumption_per_capita)
+
+ggplot(augment(divorce_margarine_lin_mod),
+       aes(x = margarine_consumption_per_capita, y = divorce_rate_maine)) + 
+  geom_point() + 
+  geom_line(aes(y = .fitted))
+```
+
+&lt;img src="lec21_slides_files/figure-html/unnamed-chunk-40-1.png" height="300px" style="display: block; margin: auto;" /&gt;
+
+If we take the leap to causality: decreasing margarine consumption decreases the divorce rate in Maine...???
+
+---
+
+We see that the two variables (margarine consumption per capita and divorce rate in Maine) are *correlated*, but that does **NOT** imply any sort of causal relationship. 
+
+--
+
+This doesn't mean we cannot get to causality, it is simply much more complicated.
+
+More examples of spurious correlation can be found [here](https://www.tylervigen.com/spurious-correlations).
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:10",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

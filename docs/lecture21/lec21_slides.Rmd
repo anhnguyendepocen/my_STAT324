@@ -1,0 +1,708 @@
+---
+title: "Lecture 21: ANOVA Examples, Introduction to Regression"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# ANOVA Examples
+
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, comment = "",
+                      dpi = 300, out.height = "300px", fig.height = 3,
+                      fig.align = "center")
+```
+
+Toy example. Completely made up. Just to show calculations. 
+
+```{r}
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+
+toy_data <- tibble(group = rep(LETTERS[1:3], each = 2),
+                   observations = rep(c(3,1,6), each = 2) + c(-0.75,0.75)*rep(c(0.95, 1.1, 1), each = 2))
+
+toy_data
+```
+
+---
+ 
+Plot:
+
+```{r out.height = "400px"}
+ggplot(toy_data, aes(x = group, y = observations)) + 
+  geom_point()
+```
+
+---
+
+Want to test $H_0: \mu_A = \mu_B = \mu_C$ against $H_A: \text{difference somewhere}$ using $\alpha = 0.1$. First, need to check for equal variance in the three groups, and normality of data. (Note: latter is kind of pointless with this amount of data, but we will do so anyway.) 
+
+Remember, we check this using the residuals. Generally, residuals = observations - fitted. In particular for ANOVA, residuals = observations - group means. 
+
+```{r out.height = "300px"}
+residuals <- toy_data %>% 
+  group_by(group) %>% 
+  mutate(fitted = mean(observations),
+         residuals = observations - fitted)
+```
+
+---
+
+Equal variance: are residuals equally spread around 0 no matter the value of the fitted value?
+
+```{r out.height = "300px"}
+ggplot(residuals,
+       aes(x = fitted, y = residuals)) + 
+  geom_hline(yintercept = 0,
+             linetype = "dashed") +
+  geom_point() 
+```
+
+---
+
+Normality: QQ-plot. Here, doesn't look good due to very small samples. 
+
+```{r}
+ggplot(residuals,
+       aes(sample = residuals)) + 
+  geom_qq() + geom_qq_line()
+```
+
+---
+
+```{r echo = FALSE}
+by_hand_calcs_for_toy_data <- toy_data %>% 
+  group_by(group) %>% 
+  mutate(group_mean = mean(observations)) %>% 
+  ungroup() %>% 
+  mutate(overall_mean = round(mean(observations), digits = 2))
+
+library(glue)
+
+SSs_by_hand <- by_hand_calcs_for_toy_data %>% 
+  mutate(for_SSTrt = glue("({group_mean} - {overall_mean})^2"),
+         SSTrt = round((group_mean - overall_mean)^2, digits = 3),
+         for_SSE = glue("({observations} - {group_mean})^2"),
+         SSE = round((observations - group_mean)^2, digits = 3),
+         for_SSTotal = glue("({observations} - {overall_mean})^2"),
+         SSTotal = round((observations - overall_mean)^2, digits = 3))
+
+SSs <- SSs_by_hand %>% 
+  group_by(group) %>% 
+  summarize(
+    across(c(for_SSTrt, for_SSE, for_SSTotal),
+           paste, collapse = " + "),
+    across(c(SSTrt, SSE, SSTotal), sum)
+  ) %>% 
+  ungroup() %>% 
+  summarize(
+    across(c(for_SSTrt, for_SSE, for_SSTotal),
+           paste, collapse = " +\\\\ &\\qquad"),
+    across(c(SSTrt, SSE, SSTotal),
+           sum)
+  ) %>% 
+  mutate(across(is.numeric, round, digits = 2))
+```
+
+.pull-left[
+
+Observations:
+```{r}
+toy_data
+```
+
+
+Overall mean:
+
+```{r}
+toy_data %>% 
+  summarize(overall_mean = mean(observations))
+```
+]
+
+.pull-right[
+
+Group means:
+
+```{r}
+toy_data %>% 
+  group_by(group) %>% 
+  summarize(group_means = mean(observations))
+```
+
+]
+
+---
+
+.pull-left[
+$$\begin{aligned}
+  \text{SSTrt}   &= \sum_{i=1}^3 \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot})^2 \\
+                 &= `r SSs[['for_SSTrt']]` \\
+                 &= `r SSs[['SSTrt']]` \\
+                 & \\
+  \text{SSE}     &= \sum_{i=1}^3 \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i \cdot})^2 \\
+                 &= `r SSs[['for_SSE']]` \\
+                 &= `r SSs[['SSE']]`
+\end{aligned}$$
+]
+
+.pull-right[
+$$\begin{aligned}
+  \text{SSTotal} &= \sum_{i=1}^3 \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i \cdot})^2 \\
+                 &= `r SSs[['for_SSTotal']]` \\
+                 &= `r SSs[['SSTotal']]` \\
+                 &\\
+  df_\text{Trt}  &= t-1 = 3-1 = 2 \\
+                 &\\
+  df_\text{E}    &= N-t = 6-3 = 3 \\
+                 &\\
+  df_\text{Total}&= N-1 = 6-1 = 5 
+\end{aligned}$$
+]
+
+---
+
+.pull-left[
+$$\begin{aligned}
+  MSTrt &= \frac{SS_\text{Trt}}{df_\text{Trt}} = \frac{`r SSs[['SSTrt']]`}{2} \approx `r round(SSs[['SSTrt']]/2, digits = 2)` \\
+  &\\
+  MSE   &= \frac{SS_\text{E}}{df_\text{E}} = \frac{`r SSs[['SSE']]`}{3} \approx `r round(SSs[['SSE']]/3, digits = 2)`
+\end{aligned}$$
+]
+
+.pull-right[
+$$\begin{aligned}
+  F_\text{obs}  &= \frac{MSTrt}{MSE} = \frac{`r round(SSs[['SSTrt']]/2, digits = 2)`}{`r round(SSs[['SSE']]/3, digits = 2)`} \approx `r round(round(SSs[['SSTrt']]/2, digits = 2)/round(SSs[['SSE']]/3, digits = 2), digits = 2)` \\
+  &\\
+  \text{p-value} &= P(F > F_\text{obs}) = P(F > `r round(round(SSs[['SSTrt']]/2, digits = 2)/round(SSs[['SSE']]/3, digits = 2), digits = 2)`),\\ &\quad \text{where } F \sim F_{2,3}
+\end{aligned}$$
+
+```
+F_2_3 <- FisherF(2,3)
+1 - cdf(F_2_3, `r round(round(SSs[['SSTrt']]/2, digits = 2)/round(SSs[['SSE']]/3, digits = 2), digits = 2)`)
+```
+```{r echo = FALSE}
+F_2_3 <- FisherF(2,3)
+1 - cdf(F_2_3, round(round(SSs[['SSTrt']]/2, digits = 2)/round(SSs[['SSE']]/3, digits = 2), digits = 2))
+```
+]
+
+--
+
+```{r echo = FALSE}
+by_hand_calcs_for_toy_data %>% 
+  summarize(SSTrt = sum((group_mean - overall_mean)^2),
+            dfTrt = n_distinct(group) - 1,
+            SSE = sum((observations - group_mean)^2),
+            dfE = n() - n_distinct(group),
+            SSTotal = sum((observations - overall_mean)^2),
+            dfTotal = n() - 1) %>% 
+  pivot_longer(cols = starts_with("SS"), names_to = "Source", values_to = "SS") %>% 
+  pivot_longer(cols = starts_with("df"), names_to = "DF", values_to = "df") %>% 
+  filter(str_sub(Source, start = -3) == str_sub(DF, start = -3) | 
+           str_sub(Source, start = -1) == str_sub(DF, start = -1)) %>% 
+  select(-DF) %>% 
+  mutate(Source = c("Treatment", "Error", "Total"),
+         SS = round(SS, digits = 2),
+         MSE = if_else(Source != "Total", round(SS / df, digits = 2), NA_real_),
+         F_obs = if_else(Source == "Treatment", MSE[1]/MSE[2], NA_real_),
+         `p-value` = if_else(Source == "Treatment", 1 - cdf(FisherF(df1 = df[1], df2 = df[2]), F_obs[1]), NA_real_)) %>% 
+  mutate(across(is.numeric, round, digits = 2)) %>% 
+  DT::datatable(rownames = FALSE, options = list(dom = "t", paging = FALSE))
+```
+
+Since the p-value is less than $\alpha = 0.01$, we reject the null hypothesis.
+
+---
+
+Double check using built-in `aov` function:
+
+```{r}
+toy_anova <- aov(data = toy_data, 
+                 observations ~ group)
+
+summary(toy_anova)
+```
+
+Looks good ( $\pm$ rounding error).
+
+---
+
+Where is the difference? We do pairwise tests. Example: group A vs group B.
+
+Using Fisher's LSD, we do pairwise t-tests using $MSE$ "instead of" $s_p^2$. First, need quantile from t-distribution:
+
+```{r}
+quantile(StudentsT(df = 2), 1-0.1/2)
+```
+
+
+$$\begin{aligned}
+  \bar{y}_{A\cdot} - \bar{y}_{B\cdot} \pm t_{0.1/2, df_\text{E}} \sqrt{MSE(1/n_A + 1/n_B)} &= 3 - 1 \pm 2.92 \sqrt{1.167(1/10 + 1/10)} \\
+            &=2 \pm `r round(2.92*sqrt(1.167*2/20), digits = 3)`
+\end{aligned}$$
+
+Using Bonferroni, we use $t_{(\alpha/2)/m, df_\text{E}}$ instead of $t_{\alpha/2, df_\text{E}}$:
+
+```{r}
+quantile(StudentsT(df = 2), 1-(0.1/2)/3)
+```
+
+
+$$\begin{aligned}
+  \bar{y}_{A\cdot} - \bar{y}_{B\cdot} \pm t_{(0.1/2)/3, df_\text{E}} \sqrt{MSE(1/n_A + 1/n_B)} &= 3 - 1 \pm 5.34 \sqrt{1.167(1/10 + 1/10)} \\
+            &=2 \pm `r round(5.34*sqrt(1.167*2/20), digits = 3)`
+\end{aligned}$$
+
+---
+
+
+Using Tukey's HSD method, we use $\frac{Q_{\alpha, t, df_\text{E}}}{\sqrt{2}}$ instead of $t_{\alpha/2, df_\text{E}}$:
+
+```{r}
+quantile(Tukey(3, 3, 1), 0.95)/sqrt(2) # or qtukey(0.95, 3, 3)/sqrt(2)
+```
+
+$$\begin{aligned}
+  \bar{y}_{A\cdot} - \bar{y}_{B\cdot} \pm \frac{Q_{\alpha, t, df_\text{E}}}{\sqrt{2}} \sqrt{MSE(1/n_A + 1/n_B)} &= 3 - 1 \pm 4.18 \sqrt{1.167(1/10 + 1/10)} \\
+            &=2 \pm `r round(4.18*sqrt(1.167*2/20), digits = 3)`
+\end{aligned}$$
+
+---
+
+A neat function for this is `PostHocTest` from the `DescTools` package. It can do any of the above mentioned methods:
+
+```{r}
+# If not installed, use install.packages("DescTools") to install
+library(DescTools)
+
+(LSD <- PostHocTest(toy_anova, method = "lsd", conf.level = 0.9))
+```
+
+---
+
+```{r}
+(HSD <- PostHocTest(toy_anova, method = "hsd", conf.level = 0.9))
+```
+
+---
+
+```{r}
+(BONF <- PostHocTest(toy_anova, method = "bonferroni", conf.level = 0.9))
+```
+
+---
+
+.pull-left[
+```{r toy_data_comparisons, eval = FALSE}
+for_comparisons_plot <- bind_rows(
+  LSD$group %>% 
+    as_tibble(rownames = "Comparison") %>% 
+    mutate(type = "LSD"),
+  HSD$group %>% 
+    as_tibble(rownames = "Comparison") %>% 
+    mutate(type = "HSD"),
+  BONF$group %>% 
+    as_tibble(rownames = "Comparison") %>% 
+    mutate(type = "Bonferroni")
+) %>% 
+  mutate(Comparison = forcats::fct_reorder(Comparison, diff, .desc = T)) 
+
+
+ggplot(for_comparisons_plot,
+       aes(x = diff, xmin = lwr.ci, xmax = upr.ci, y = Comparison, color = type)) + 
+  geom_vline(xintercept = 0, color = "red", linetype = "dashed") +
+  geom_errorbar(position = position_dodge(), width = 0.2) +
+  ggthemes::scale_color_colorblind("Method") + # need to install.packages("ggthemes") - changes the colors, and adds "Method" as legend title
+  theme(legend.position = c(1,1), # move legend to top right corner
+        legend.justification = c(1.05,1.05), # adjust position a bit
+        legend.background = element_rect(color = "black", size = 0.25)) # add black line
+```
+
+
+]
+
+.pull-right[
+```{r echo = FALSE, ref.label="toy_data_comparisons", out.width = "400px", fig.width = 4, out.height = "500px", fig.height = 5}
+```
+]
+
+---
+
+Real data: Plant growth data.
+
+.pull-left[
+```{r plant_growth, eval = FALSE}
+data("PlantGrowth"); plant_growth <- as_tibble(PlantGrowth); rm("PlantGrowth")
+
+DT::datatable(plant_growth, 
+              options = list(paging = FALSE, dom = "t", scrollY = "65vh"),
+              rownames = FALSE)
+```
+
+Yield from plants measured by dried weight. 
+
+Three groups: control (`ctrl`), treatment 1 (`trt1`), and treatment 2 (`trt2`).
+
+Question: is the yield different between the groups? And if so, which give the largest yield?
+]
+
+.pull-right[
+```{r ref.label="plant_growth", echo = FALSE}
+```
+]
+
+---
+
+First, we aim at answering **if** there's a difference. I.e. we want to test $H_0: \mu_\text{ctrl} = \mu_\text{trt1} = \mu_\text{trt2}$ against the alternative $H_A: \text{at least one is different}$. We will use $\alpha = 0.05$.
+
+Summary statistics:
+
+.pull-left[
+```{r}
+plant_growth %>% 
+  group_by(group) %>% 
+  summarize(n = n(),
+            average = mean(weight),
+            s = sd(weight))
+```
+]
+
+.pull-right[
+```{r out.width = "400px", out.height = "300px", fig.width = 4, fig.height = 3}
+ggplot(plant_growth, aes(x = group, y = weight)) + 
+  geom_boxplot(width = 0.5, coef = Inf) + # coef = Inf means "do not use outliers"
+  geom_jitter(width = 0.1, height = 0)
+```
+]
+
+
+---
+
+The question is: does it seem like the variation between the groups is small enough that it could be due to random chance? Or is it large enough that we reject the null?
+
+--
+
+Answer this question by looking at "variation between groups"/"variation within groups", i.e. the $F$ statistic. 
+
+"variation within groups" = MSTrt = $\frac{SSTrt}{df_\text{Trt}} = \frac{1}{t - 1}\sum_{i=1}^t \sum_{j=1}^{n_i} (\bar{y}_{i\cdot} - \bar{y}_{\cdot \cdot})^2$
+
+"variation between groups" = MSE = $\frac{SSE}{df_\text{E}} = \frac{1}{N-t}\sum_{i=1}^t \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i \cdot})^2$
+
+--
+
+```{r echo = FALSE}
+by_hand_calcs <- plant_growth %>% 
+  group_by(group) %>% 
+  mutate(`Group Average` = mean(weight)) %>% 
+  ungroup() %>% 
+  mutate(`Overall Average` = round(mean(weight), digits = 2),
+         `SSTrt contribution` = round((`Group Average` - `Overall Average`)^2, digits = 2),
+         `SSE contribution` = round((weight - `Group Average`)^2, digits = 2)) %>% 
+  select(Treatment = group, Observation = weight, everything())
+
+DT::datatable(by_hand_calcs, options = list(dom = "t", paging = FALSE, scrollY = "30vh"))
+```
+
+---
+
+ANOVA:
+
+```{r}
+plant_growth_ANOVA <- aov(data = plant_growth,
+                          weight ~ group)
+```
+
+Before we look at the results, we check the assumptions. The `broom` package has some great tools for working with models. Here, we use the `augment` function to attach fitted and residual values to the original data. 
+
+```{r}
+library(broom)
+
+augment(plant_growth_ANOVA) %>% 
+  mutate_if(is.numeric, round, digits = 3) %>% 
+  DT::datatable(options = list(dom = "t", paging = F, scrollY = "25vh"),
+                rownames = FALSE)
+```
+
+---
+
+Equal variance:
+
+.pull-left[
+```{r out.height = "300px", out.width = "400px", fig.height = 3, fig.width = 4}
+ggplot(augment(plant_growth_ANOVA),
+       aes(x = .fitted, y = .resid)) + 
+  geom_point()
+```
+]
+
+.pull-right[
+```{r}
+plant_growth %>% 
+  group_by(group) %>% 
+  summarize(s = sd(weight))
+```
+]
+
+Not super happy about the figure above. For now, we will accept it. 
+
+---
+
+Normality?
+
+```{r out.height = '300px'}
+ggplot(augment(plant_growth_ANOVA),
+       aes(sample = .resid)) + 
+  geom_qq() +
+  geom_qq_line()
+```
+
+Looks pretty good!
+
+---
+
+Let's finally take a look at the ANOVA table:
+
+```{r}
+summary(plant_growth_ANOVA)
+```
+
+Since the p-value is less than $\alpha = 0.05$, we reject the null hypothesis.
+
+---
+
+Where is the difference? Using LSD:
+
+```{r}
+PostHocTest(plant_growth_ANOVA, method = "lsd")
+```
+
+---
+
+Using Tukey's:
+
+```{r}
+PostHocTest(plant_growth_ANOVA, method = "hsd")
+```
+
+---
+
+Using Bonferroni:
+
+```{r}
+PostHocTest(plant_growth_ANOVA, method = "bonferroni")
+```
+
+---
+
+What if the data is not normal? 
+--
+
+The Kruskal Wallis test is the Wilcoxon Rank Sum test equivalent for the multiple groups scenario. We will not go into details, since it's rather complicated, but the intuition is the same as for the Wilcoxon Rank Sum test: use ranks instead of the actual values, and see if the ranks are generally different between the groups.
+
+```{r}
+kruskal.test(data = plant_growth, weight ~ group)
+```
+
+Since the p-value is less than $\alpha = 0.05$, we would reject the null hypothesis of no difference. To find out where the difference is, one would do pairwise Wilcoxon Rank Sum tests, and use the Bonferroni correction on the resulting p-values. 
+
+
+---
+
+Pairwise Wilcoxon Rank Sum tests indicate a difference between treatments.
+
+```{r}
+ctrl_vs_trt1 <- wilcox.test(data = filter(plant_growth, group != "trt2"),
+                            weight ~ group)
+ctrl_vs_trt2 <- wilcox.test(data = filter(plant_growth, group != "trt1"),
+                            weight ~ group)
+trt1_vs_trt2 <- wilcox.test(data = filter(plant_growth, group != "ctrl"),
+                            weight ~ group)
+
+tibble(comparison = c("ctrl_vs_trt1", "ctrl_vs_trt2", "trt1_vs_trt2"),
+       p_values = c(ctrl_vs_trt1$p.value, ctrl_vs_trt2$p.value, trt1_vs_trt2$p.value)) %>% 
+  mutate(bonferroni_adjusted = p.adjust(p_values, method = "bonferroni"),
+         BH_adjust = p.adjust(p_values, method = "BH"))
+```
+
+
+---
+layout: true
+
+# Introduction to Regression
+
+---
+
+So far, we have only talked about "differences in groups", but what if we are instead interested in the relationship between the mean, and a numeric value? 
+
+```{r echo = F, out.height = "400px"}
+regression_data <- dslabs::divorce_margarine %>% 
+  select(x = margarine_consumption_per_capita, y = divorce_rate_maine)
+
+ggplot(regression_data,
+       aes(x = x, y = y)) + 
+  geom_point()
+```
+
+---
+
+Regression comes in many shapes and forms. The simplest is called (Simple) Linear Regression. 
+
+Idea: the *outcome variable* (y) is build from the *explanatory variable* (x) in a linear way plus some noise. 
+
+$$
+Y_i = \beta_0 + \beta_1 x_i + \epsilon_i,\quad \epsilon_i \sim N(0, \sigma^2).
+$$
+
+--
+
+In other words: there's a straight line that describes the data, but the actual observations are spread randomly around that line. The randomness is in the shape of a normal distribution with mean $0$. 
+
+I.e. the average outcome is exactly given by the line: 
+
+$$E(Y_i) = \beta_0 + \beta_1 x_i + E(\epsilon_i) = \beta_0 + \beta_1 x_i.$$
+
+---
+
+Fundamentally, we have this belief that there exist "true values" $\beta_0, \beta_1$ that we could find if we could measure all the $x$'s and $y$'s. 
+
+As always, we can't, so the question is, how do we estimate them? I.e. how do we come up with best guesses based on the data we have? 
+
+We use $\hat{\beta}_0$ and $\hat{\beta}_1$ to denote our "best guesses" for $\beta_0$ and $\beta_1$. 
+
+--
+
+Given a set of best guess, we can use this model to find a suggestion as to what the outcome should be. We call this the *fitted value*. This is 
+
+$$
+\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i.
+$$
+
+--
+
+We want to find $\hat{\beta}_0, \hat{\beta}_1$ such that $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1x_i$ is as close to $y_i$ as possible. I.e. we want to minimize $y_i - \hat{y}_i$ for all observations $i=1,2,...,n$. 
+
+--
+ 
+Problem: as we have seen before, differences can cancel out when we sum them up. So, instead we square the terms. 
+
+---
+
+In the end, we aim at minimizing 
+
+$$\sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum_{i=1}^n (y_i - [\hat{\beta}_0 + \hat{\beta}_1x_i])^2$$
+
+This is actually the SSE! The sum of the squared differences from the observations to the fitted values. 
+
+--
+
+How do we actually minimize this? For the math minded among you, differentiate with respect to the unknowns, set to zero, and solve. In the end, we get that the values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize SSE are 
+
+$$\begin{aligned}
+  \hat{\beta}_1 &= \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} \\
+  \hat{\beta}_0 &= \bar{y} - \hat{\beta}_1 \bar{x},
+\end{aligned}$$
+
+where $\bar{x}$ and $\bar{y}$ are the averages of the $x$ and $y$ values, respectively.
+
+---
+
+This is obviously tedious to do by hand, but fortunately very easy to do in `R`:
+
+.pull-left[
+```{r}
+lin_mod <- lm(data = regression_data, y ~ x)
+
+summary(lin_mod)
+```
+]
+
+.pull-right[
+```{r}
+ggplot(augment(lin_mod),
+       aes(x = x, y = y)) +
+  geom_point() + 
+  geom_line(aes(y = .fitted))
+```
+]
+
+---
+ 
+Interpretations: 
+
+* $\beta_0$ is the value of $y_i$ suggested by the model if $x_i = 0$
+    * rarely care much about this value
+
+* $\beta_1$ is the increase of $y_i$ if $x_i$ is increased by $1$ unit.
+    * this is where it's at: if $x$ and $y$ are not associated, $\beta_1 = 0$. 
+    * i.e. the interesting *test* is whether $H_0: \beta_1 = 0$ or $H_A: \beta_1 \neq 0$. 
+    * positive $\beta_1$: increased $x$ increases $y$
+    * negative $\beta_1$: increased $x$ decreases $y$
+
+--
+
+For our example data:
+
+$\hat{\beta}_0 = `r coef(lin_mod)[[1]]`$, $\hat{\beta}_1 = `r coef(lin_mod)[[2]]`$.
+
+We would reject $H_0: \beta_1 = 0$ in favor of $H_A: \beta_1 \neq 0$ since the p-value is `r format(round(tidy(lin_mod)[['p.value']][2], digits = 7), scientific = F)`. 
+
+--
+
+Since $\hat{\beta}_1 > 0$, this seems to indicate that increased $x$ increases $y$. 
+
+---
+
+So, does this mean that if we could take a value of $x$ and increase it by $1$ unit, then $y$ would increase by $`r coef(lin_mod)[[2]]`$? 
+
+--
+
+No. This sort of conclusion is trying to say that $x$ *causes* $y$. I.e. we start to move into assessing causality, which is notoriously hard, and we have to be super careful.
+
+--
+
+To illustrate this, let's reveal the labels of our regression data:
+
+```{r echo = FALSE}
+divorce_margarine <- dslabs::divorce_margarine
+```
+
+---
+
+```{r}
+divorce_margarine_lin_mod <- lm(data = divorce_margarine,
+                                divorce_rate_maine ~ margarine_consumption_per_capita)
+
+ggplot(augment(divorce_margarine_lin_mod),
+       aes(x = margarine_consumption_per_capita, y = divorce_rate_maine)) + 
+  geom_point() + 
+  geom_line(aes(y = .fitted))
+```
+
+If we take the leap to causality: decreasing margarine consumption decreases the divorce rate in Maine...???
+
+---
+
+We see that the two variables (margarine consumption per capita and divorce rate in Maine) are *correlated*, but that does **NOT** imply any sort of causal relationship. 
+
+--
+
+This doesn't mean we cannot get to causality, it is simply much more complicated.
+
+More examples of spurious correlation can be found [here](https://www.tylervigen.com/spurious-correlations).
