@@ -27,6 +27,7 @@ layout: true
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, comment = "",
                       dpi = 300, out.height = "300px", fig.height = 3,
                       fig.align = "center")
+options(pillar.sigfig = 5)
 ```
 
 Toy example. Completely made up. Just to show calculations. 
@@ -206,6 +207,7 @@ F_2_3 <- FisherF(2,3)
 --
 
 ```{r echo = FALSE}
+options(pillar.sigfig = 3)
 by_hand_calcs_for_toy_data %>% 
   summarize(SSTrt = sum((group_mean - overall_mean)^2),
             dfTrt = n_distinct(group) - 1,
@@ -227,7 +229,7 @@ by_hand_calcs_for_toy_data %>%
   DT::datatable(rownames = FALSE, options = list(dom = "t", paging = FALSE))
 ```
 
-Since the p-value is less than $\alpha = 0.01$, we reject the null hypothesis.
+Since the p-value is less than $\alpha = 0.1$, we reject the null hypothesis.
 
 ---
 
