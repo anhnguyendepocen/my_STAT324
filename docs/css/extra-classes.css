@@ -12,3 +12,36 @@
 
 .red { color: red;}
 .blue { color: blue;}
+
+/* Default widths for .pull-left-xx and .pull-right-xx */
+:root {
+  --left-width: 64%;
+  --right-width: 32%;
+}
+
+.pull-left-xx {
+  float: left;
+  width: var(--left-width);
+}
+.pull-right-xx {
+  float: right;
+  width: var(--right-width);
+}
+
+.pull-left-twothirds {
+  float: left;
+  width: 64%;
+}
+.pull-right-third {
+  float: right;
+  width: 32%;
+}
+
+.pull-right-twothirds {
+  float: right;
+  width: 64%;
+}
+.pull-left-third {
+  float: left;
+  width: 32%;
+}

@@ -1,0 +1,373 @@
+
+R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> file <- commandArgs(trailingOnly = TRUE)[[1]]
+> 
+> print(file)
+[1] "lec22_slides.Rmd"
+> 
+> my_moon_reader <- function(...) xaringan::moon_reader(..., css = c('../css/uwmadison.css', 'default-fonts', '../css/extra-classes.css'),
++                                                       lib_dir = 'libs',
++                                                       nature = list(
++                                                         titleSlideClass = c('center', 'top', '.title-slide'),
++                                                         highlightStyle = 'github',
++                                                         highlightLines = TRUE,
++                                                         countIncrementalSlides = FALSE,
++                                                         ratio = '16:10',
++                                                         navigation = list(scroll = FALSE)
++                                                       ),
++                                                       self_contained = TRUE)
+> 
+> rmarkdown::render(file, "my_moon_reader")
+
+
+processing file: lec22_slides.Rmd
+  |                                                                              |                                                                      |   0%  |                                                                              |.                                                                     |   2%
+  ordinary text without R code
+
+  |                                                                              |...                                                                   |   4%
+label: unnamed-chunk-1 (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |....                                                                  |   6%
+  ordinary text without R code
+
+  |                                                                              |......                                                                |   9%
+label: unnamed-chunk-2 (with options) 
+List of 1
+ $ cache: logi TRUE
+
+  |                                                                              |.......                                                               |  11%
+  ordinary text without R code
+
+  |                                                                              |.........                                                             |  13%
+label: unnamed-chunk-3 (with options) 
+List of 1
+ $ cache: logi TRUE
+
+  |                                                                              |..........                                                            |  15%
+  ordinary text without R code
+
+  |                                                                              |............                                                          |  17%
+label: unnamed-chunk-4 (with options) 
+List of 4
+ $ out.height: chr "250px"
+ $ fig.height: num 2.5
+ $ fig.width : num 4
+ $ out.width : chr "400px"
+
+  |                                                                              |.............                                                         |  19%
+  ordinary text without R code
+
+  |                                                                              |...............                                                       |  21%
+label: unnamed-chunk-5 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |................                                                      |  23%
+  ordinary text without R code
+
+  |                                                                              |..................                                                    |  26%
+label: unnamed-chunk-6
+  |                                                                              |...................                                                   |  28%
+  ordinary text without R code
+
+  |                                                                              |.....................                                                 |  30%
+label: unnamed-chunk-7
+  |                                                                              |......................                                                |  32%
+  ordinary text without R code
+
+  |                                                                              |........................                                              |  34%
+label: unnamed-chunk-8
+  |                                                                              |.........................                                             |  36%
+  ordinary text without R code
+
+  |                                                                              |...........................                                           |  38%
+label: unnamed-chunk-9
+  |                                                                              |............................                                          |  40%
+  ordinary text without R code
+
+  |                                                                              |..............................                                        |  43%
+label: unnamed-chunk-10
+  |                                                                              |...............................                                       |  45%
+  ordinary text without R code
+
+  |                                                                              |.................................                                     |  47%
+label: unnamed-chunk-11
+  |                                                                              |..................................                                    |  49%
+  ordinary text without R code
+
+  |                                                                              |....................................                                  |  51%
+label: unnamed-chunk-12
+  |                                                                              |.....................................                                 |  53%
+  ordinary text without R code
+
+  |                                                                              |.......................................                               |  55%
+label: unnamed-chunk-13
+  |                                                                              |........................................                              |  57%
+   inline R code fragments
+
+  |                                                                              |..........................................                            |  60%
+label: unnamed-chunk-14
+  |                                                                              |...........................................                           |  62%
+  ordinary text without R code
+
+  |                                                                              |.............................................                         |  64%
+label: unnamed-chunk-15
+  |                                                                              |..............................................                        |  66%
+  ordinary text without R code
+
+  |                                                                              |................................................                      |  68%
+label: unnamed-chunk-16
+  |                                                                              |.................................................                     |  70%
+  ordinary text without R code
+
+  |                                                                              |...................................................                   |  72%
+label: unnamed-chunk-17 (with options) 
+List of 5
+ $ echo      : logi FALSE
+ $ fig.height: num 5
+ $ fig.width : num 7
+ $ out.height: chr "500px"
+ $ out.width : chr "700px"
+
+  |                                                                              |....................................................                  |  74%
+  ordinary text without R code
+
+  |                                                                              |......................................................                |  77%
+label: unnamed-chunk-18
+`geom_smooth()` using formula 'y ~ x'
+  |                                                                              |.......................................................               |  79%
+  ordinary text without R code
+
+  |                                                                              |.........................................................             |  81%
+label: unnamed-chunk-19
+`geom_smooth()` using formula 'y ~ x'
+  |                                                                              |..........................................................            |  83%
+  ordinary text without R code
+
+  |                                                                              |............................................................          |  85%
+label: two_models (with options) 
+List of 1
+ $ eval: symbol F
+
+  |                                                                              |.............................................................         |  87%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  89%
+label: unnamed-chunk-20 (with options) 
+List of 6
+ $ ref.label : chr "two_models"
+ $ echo      : logi FALSE
+ $ fig.height: num 5
+ $ out.height: chr "500px"
+ $ out.width : chr "350px"
+ $ fig.width : num 3.5
+
+  |                                                                              |................................................................      |  91%
+  ordinary text without R code
+
+  |                                                                              |..................................................................    |  94%
+label: unnamed-chunk-21
+  |                                                                              |...................................................................   |  96%
+  ordinary text without R code
+
+  |                                                                              |..................................................................... |  98%
+label: unnamed-chunk-22
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+output file: lec22_slides.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS lec22_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec22_slides.html --email-obfuscation none --self-contained -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpeB77m8/rmarkdown-str109c714ec4760.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpeB77m8/xaringan109c79de3f3d.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpeB77m8/xaringan109c71c2de80f.js --variable title-slide=true --variable math=true 
+
+Output created: lec22_slides.html
+> pagedown::chrome_print(stringr::str_replace(file, ".Rmd", ".html"), timeout = 1200)
+> rmarkdown::render(file)
+
+
+processing file: lec22_slides.Rmd
+  |                                                                              |                                                                      |   0%  |                                                                              |.                                                                     |   2%
+  ordinary text without R code
+
+  |                                                                              |...                                                                   |   4%
+label: unnamed-chunk-1 (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |....                                                                  |   6%
+  ordinary text without R code
+
+  |                                                                              |......                                                                |   9%
+label: unnamed-chunk-2 (with options) 
+List of 1
+ $ cache: logi TRUE
+
+  |                                                                              |.......                                                               |  11%
+  ordinary text without R code
+
+  |                                                                              |.........                                                             |  13%
+label: unnamed-chunk-3 (with options) 
+List of 1
+ $ cache: logi TRUE
+
+  |                                                                              |..........                                                            |  15%
+  ordinary text without R code
+
+  |                                                                              |............                                                          |  17%
+label: unnamed-chunk-4 (with options) 
+List of 4
+ $ out.height: chr "250px"
+ $ fig.height: num 2.5
+ $ fig.width : num 4
+ $ out.width : chr "400px"
+
+  |                                                                              |.............                                                         |  19%
+  ordinary text without R code
+
+  |                                                                              |...............                                                       |  21%
+label: unnamed-chunk-5 (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |................                                                      |  23%
+  ordinary text without R code
+
+  |                                                                              |..................                                                    |  26%
+label: unnamed-chunk-6
+  |                                                                              |...................                                                   |  28%
+  ordinary text without R code
+
+  |                                                                              |.....................                                                 |  30%
+label: unnamed-chunk-7
+  |                                                                              |......................                                                |  32%
+  ordinary text without R code
+
+  |                                                                              |........................                                              |  34%
+label: unnamed-chunk-8
+  |                                                                              |.........................                                             |  36%
+  ordinary text without R code
+
+  |                                                                              |...........................                                           |  38%
+label: unnamed-chunk-9
+  |                                                                              |............................                                          |  40%
+  ordinary text without R code
+
+  |                                                                              |..............................                                        |  43%
+label: unnamed-chunk-10
+  |                                                                              |...............................                                       |  45%
+  ordinary text without R code
+
+  |                                                                              |.................................                                     |  47%
+label: unnamed-chunk-11
+  |                                                                              |..................................                                    |  49%
+  ordinary text without R code
+
+  |                                                                              |....................................                                  |  51%
+label: unnamed-chunk-12
+  |                                                                              |.....................................                                 |  53%
+  ordinary text without R code
+
+  |                                                                              |.......................................                               |  55%
+label: unnamed-chunk-13
+  |                                                                              |........................................                              |  57%
+   inline R code fragments
+
+  |                                                                              |..........................................                            |  60%
+label: unnamed-chunk-14
+  |                                                                              |...........................................                           |  62%
+  ordinary text without R code
+
+  |                                                                              |.............................................                         |  64%
+label: unnamed-chunk-15
+  |                                                                              |..............................................                        |  66%
+  ordinary text without R code
+
+  |                                                                              |................................................                      |  68%
+label: unnamed-chunk-16
+  |                                                                              |.................................................                     |  70%
+  ordinary text without R code
+
+  |                                                                              |...................................................                   |  72%
+label: unnamed-chunk-17 (with options) 
+List of 5
+ $ echo      : logi FALSE
+ $ fig.height: num 5
+ $ fig.width : num 7
+ $ out.height: chr "500px"
+ $ out.width : chr "700px"
+
+  |                                                                              |....................................................                  |  74%
+  ordinary text without R code
+
+  |                                                                              |......................................................                |  77%
+label: unnamed-chunk-18
+`geom_smooth()` using formula 'y ~ x'
+  |                                                                              |.......................................................               |  79%
+  ordinary text without R code
+
+  |                                                                              |.........................................................             |  81%
+label: unnamed-chunk-19
+`geom_smooth()` using formula 'y ~ x'
+  |                                                                              |..........................................................            |  83%
+  ordinary text without R code
+
+  |                                                                              |............................................................          |  85%
+label: two_models (with options) 
+List of 1
+ $ eval: symbol F
+
+  |                                                                              |.............................................................         |  87%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  89%
+label: unnamed-chunk-20 (with options) 
+List of 6
+ $ ref.label : chr "two_models"
+ $ echo      : logi FALSE
+ $ fig.height: num 5
+ $ out.height: chr "500px"
+ $ out.width : chr "350px"
+ $ fig.width : num 3.5
+
+  |                                                                              |................................................................      |  91%
+  ordinary text without R code
+
+  |                                                                              |..................................................................    |  94%
+label: unnamed-chunk-21
+  |                                                                              |...................................................................   |  96%
+  ordinary text without R code
+
+  |                                                                              |..................................................................... |  98%
+label: unnamed-chunk-22
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+output file: lec22_slides.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS lec22_slides.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash+smart --output lec22_slides.html --email-obfuscation none -V 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML' -V 'title-slide-class=center, top, .title-slide, title-slide' --standalone --section-divs --template /Users/ralphtrane/RPackages/xaringan/rmarkdown/templates/xaringan/resources/default.html --no-highlight --css ../css/uwmadison.css --css ../css/extra-classes.css --include-in-header /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpeB77m8/rmarkdown-str109c76f7d9747.html --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/ralphtrane/RPackages/rmarkdown/rmd/lua/latex-div.lua --include-before-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpeB77m8/xaringan109c711ac3bf7.md --include-after-body /var/folders/sn/4_y_2dq90n77qyqmjtm3pfzw0000gn/T//RtmpeB77m8/xaringan109c7679b7ef5.js --variable title-slide=true --variable math=true 
+
+Output created: lec22_slides.html
+> 
+> proc.time()
+   user  system elapsed 
+217.305   4.673 245.650 
