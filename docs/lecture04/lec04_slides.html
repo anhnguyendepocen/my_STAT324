@@ -170,7 +170,36 @@ font-size: 1.75rem;
 .small { font-size: 70% }
 .vsmall { font-size: 50% }
 .red { color: red;}
-.blue { color: blue;}</style>
+.blue { color: blue;}
+
+:root {
+--left-width: 64%;
+--right-width: 32%;
+}
+.pull-left-xx {
+float: left;
+width: var(--left-width);
+}
+.pull-right-xx {
+float: right;
+width: var(--right-width);
+}
+.pull-left-twothirds {
+float: left;
+width: 64%;
+}
+.pull-right-third {
+float: right;
+width: 32%;
+}
+.pull-right-twothirds {
+float: right;
+width: 64%;
+}
+.pull-left-third {
+float: left;
+width: 32%;
+}</style>
   </head>
   <body>
     <textarea id="source">

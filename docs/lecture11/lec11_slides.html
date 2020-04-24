@@ -62,6 +62,10 @@ a, a > code {
 color: rgb(249, 38, 114);
 text-decoration: none;
 }
+pre {
+max-width: 100%;
+overflow-x: scroll;
+}
 .footnote {
 position: absolute;
 bottom: 3em;
@@ -175,7 +179,36 @@ font-size: 1.75rem;
 .small { font-size: 70% }
 .vsmall { font-size: 50% }
 .red { color: red;}
-.blue { color: blue;}</style>
+.blue { color: blue;}
+
+:root {
+--left-width: 64%;
+--right-width: 32%;
+}
+.pull-left-xx {
+float: left;
+width: var(--left-width);
+}
+.pull-right-xx {
+float: right;
+width: var(--right-width);
+}
+.pull-left-twothirds {
+float: left;
+width: 64%;
+}
+.pull-right-third {
+float: right;
+width: 32%;
+}
+.pull-right-twothirds {
+float: right;
+width: 64%;
+}
+.pull-left-third {
+float: left;
+width: 32%;
+}</style>
   </head>
   <body>
     <textarea id="source">
@@ -623,7 +656,7 @@ Three different scales, but 1-to-1 path between them!
 "highlightStyle": "github",
 "highlightLines": true,
 "countIncrementalSlides": false,
-"ratio": "16:10",
+"ration": "16:9",
 "navigation": {
 "scroll": false
 }

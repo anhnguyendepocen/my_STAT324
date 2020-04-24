@@ -70,8 +70,8 @@ DT::datatable(work_data,
 ]
 
 .pull-right[
-<div id="htmlwidget-ef274b7700afe0a44401" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ef274b7700afe0a44401">{"x":{"filter":"none","data":[[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8],["Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard"],[78,81,91,87,79,86,65,59,67,66,72,70,71,73,96,92]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>participant<\/th>\n      <th>work_condition<\/th>\n      <th>time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"40vh","columnDefs":[{"className":"dt-right","targets":[0,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9c5c023cb81c2dd52fcf" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9c5c023cb81c2dd52fcf">{"x":{"filter":"none","data":[[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8],["Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard","Diverse","Standard"],[78,81,91,87,79,86,65,59,67,66,72,70,71,73,96,92]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>participant<\/th>\n      <th>work_condition<\/th>\n      <th>time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"40vh","columnDefs":[{"className":"dt-right","targets":[0,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ]
 
 ---
@@ -151,8 +151,8 @@ So how do we deal with this scenario? Many ways to do so, but by far the simples
 
 The "trick" is to realize that we are really interested in the *difference* from one day to the next. So, why not look at differences? 
 
-<div id="htmlwidget-1bd8501f91d963605392" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1bd8501f91d963605392">{"x":{"filter":"none","data":[[1,2,3,4,5,6,7,8],[78,91,79,65,67,72,71,96],[81,87,86,59,66,70,73,92],[-3,4,-7,6,1,2,-2,4]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>participant<\/th>\n      <th>Diverse<\/th>\n      <th>Standard<\/th>\n      <th>Difference<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"40vh","columnDefs":[{"className":"dt-right","targets":[0,1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-885e0b805af15eb7a161" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-885e0b805af15eb7a161">{"x":{"filter":"none","data":[[1,2,3,4,5,6,7,8],[78,91,79,65,67,72,71,96],[81,87,86,59,66,70,73,92],[-3,4,-7,6,1,2,-2,4]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>participant<\/th>\n      <th>Diverse<\/th>\n      <th>Standard<\/th>\n      <th>Difference<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"40vh","columnDefs":[{"className":"dt-right","targets":[0,1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 Now we have one observations per individual. Let's call the corresponding random variable `\(D_i\)`, and let's say that the true expected difference (i.e. true expected value of `\(D_i\)`) is `\(\mu_D\)`. 
 
@@ -357,8 +357,8 @@ Sometimes, you might get data in a slightly different format:
 work_data1 %&gt;% DT::datatable(options = list(dom = "t", paging = FALSE, scrollY = "20vt"))
 ```
 
-<div id="htmlwidget-8a78adfdca199c8c46c5" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8a78adfdca199c8c46c5">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8"],[1,2,3,4,5,6,7,8],[78,91,79,65,67,72,71,96],[81,87,86,59,66,70,73,92]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>participant<\/th>\n      <th>Diverse<\/th>\n      <th>Standard<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"20vt","columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-24d3c52cd5c4fc60c351" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24d3c52cd5c4fc60c351">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8"],[1,2,3,4,5,6,7,8],[78,91,79,65,67,72,71,96],[81,87,86,59,66,70,73,92]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>participant<\/th>\n      <th>Diverse<\/th>\n      <th>Standard<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","paging":false,"scrollY":"20vt","columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 ---
 
