@@ -1,0 +1,427 @@
+---
+title: "Lecture 23: Linear Regression Example & Multiple Linear Regression"
+subtitle: "STAT 324"
+author: "Ralph Trane"
+institute: "University of Wisconsin--Madison<br><br>"
+date: "Spring 2020"
+output:
+  xaringan::moon_reader:
+    css: [../css/uwmadison.css, default-fonts, ../css/extra-classes.css]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [center, top, .title-slide]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:10'
+      navigation:
+        scroll: false
+---
+layout: true
+
+# Linear Regression
+
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, comment = "",
+                      dpi = 300, out.height = "300px", fig.height = 3,
+                      fig.align = "center")
+library(tidyverse); library(distributions3); theme_set(theme_bw())
+
+body_fat <- UsingR::fat %>% as_tibble()
+```
+ 
+Question: can we accurately estimate body fat percentage based on wrist circumference?
+
+This would be excellent: body fat percentage is a good proxy for certain health statuses, but also difficult to measure. If we can estimate body fat percentage based on an easy to find measure such as wrist circumference, that would be great!
+
+--
+
+We will try to see if we can use a linear regression model to do so. I.e. we want to explain the relationship between body fat percentage and wrist circumference as
+
+$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i,\quad \epsilon_i \sim_{iid} N(0,\sigma^2).$$
+
+Assumptions:
+
+1. Relationship is linear
+2. Observations independent
+3. Variation around straight line is constant
+4. Variation around straight line follows a normal distribution with mean 0
+
+---
+
+Assumption 1: linearity
+
+```{r}
+ggplot(body_fat,
+       aes(x = wrist, y = body.fat)) + 
+  geom_point() +
+  geom_point()
+```
+
+---
+
+Assumptions 2 and 3: independence and constant variance. 
+
+```{r}
+lin_mod <- lm(data = body_fat, body.fat ~ wrist)
+
+library(broom)
+ggplot(augment(lin_mod),
+       aes(x = .fitted, y = .resid)) +
+  geom_hline(yintercept = 0, linetype = "dashed",
+             color = "red") + 
+  geom_point()
+```
+
+---
+
+Assumption 4: normality
+
+```{r}
+ggplot(augment(lin_mod),
+       aes(sample = .resid)) + 
+  geom_qq() + geom_qq_line()
+```
+
+---
+
+.pull-left-xx[
+```{r}
+summary(lin_mod)
+```
+]
+
+.pull-right-xx[
+
+* Positive coefficient: suggests body fat percentage increases as wrist circumference increases
+
+* Testing $H_0: \beta_1 = 0$ against $H_A: \beta_1 \neq 0$ gives a very small p-value which would lead us to reject at any reasonable level of $\alpha$
+
+* Assuming the linear model is correct, about 12% of the variation of body fat percentage measurements can be accounted for by the wrist circumference measurements.
+
+]
+
+---
+
+Maybe a separate study had previously indicated that an increase in wrist circumference of 1cm leads to an increase of 3 percentage point in the expected body fat percentage.
+
+Let's check if this is compatible with our data. I.e. we want to test $H_0: \beta_1 = 3$ vs $H_A: \beta_1 \neq 3$. We will use $\alpha = 0.1$. To do so, we first find our observed test statistic:
+
+$$T_\text{obs} = \frac{\hat{\beta}_1 - 3}{\widehat{\text{SD}}(\hat{\beta}_1)} = \frac{`r round(coef(lin_mod)[[2]], digits = 3)` - 3}{`r round(coefficients(summary(lin_mod))['wrist', 'Std. Error'], digits = 3)`}$$
+
+```
+(tobs <- (`r round(coef(lin_mod)[[2]], digits = 3)` - 3)/`r round(coef(summary(lin_mod))['wrist', 'Std. Error'], digits = 3)`)
+```
+```{r echo = F}
+(tobs <- (round(coef(lin_mod)[[2]], digits = 3) - 3)/round(coef(summary(lin_mod))['wrist', 'Std. Error'], digits = 3))
+```
+
+**IF** the null hypothesis is true, then $T \sim t_{n-2}$. (Note: $n-2$ is also dfE, or the residual degrees of freedom.) So, p-value:
+
+```{r}
+2*cdf(StudentsT(df = nrow(body_fat) - 2), tobs)
+```
+
+We would NOT reject the null hypothesis since the p-value is greater than $\alpha = 0.1$.
+
+---
+layout: true
+
+# Introduction to Multiple Linear Regression
+
+---
+
+But why only use wrist circumference? Why not try to include more data/variables? 
+
+```{r echo = FALSE}
+DT::datatable(body_fat, options = list(paging = FALSE, scrollY = "30vh", dom = "t", ordering = FALSE),
+              fillContainer = TRUE,
+              rownames = FALSE)
+```
+
+
+--
+
+The linear regression framework is easily extended to allow us to include more variables. 
+
+$$y_i = \beta_0 + \beta_1 x_{1,i} + \beta_2 x_{2,i} + \epsilon_i,\quad \epsilon_i \sim_{iid} N(0,\sigma^2).$$
+
+Assumptions:
+
+1. Relationship really follows the equation provided above
+2. Observations independent
+3. Variation around straight line is constant
+4. Variation around straight line follows a normal distribution with mean 0
+
+---
+
+Assumption 1: gets harder and harder, the more variables you include.
+
+```{r echo = FALSE}
+body_fat %>% 
+  select(body.fat, wrist, chest) %>% 
+  pivot_longer(cols = -body.fat, names_to = "variable") %>% 
+  ggplot(aes(x = value, y = body.fat)) +
+    geom_point() + facet_grid(~variable, scales = "free_x")
+```
+
+---
+
+Assumption 2 and 3:
+
+
+```{r}
+lin_mod2 <- lm(data = body_fat,
+               body.fat ~ wrist + chest)
+```
+
+.pull-left[
+```{r out.height = "300px", out.width = "400px", fig.height = 3, fig.width = 4}
+ggplot(augment(lin_mod2),
+       aes(x = chest, y = .resid)) + 
+  geom_point() + geom_hline(yintercept = 0, linetype = "dashed")
+```
+]
+
+.pull-right[
+```{r out.height = "300px", out.width = "400px", fig.height = 3, fig.width = 4}
+ggplot(augment(lin_mod2),
+       aes(x = wrist, y = .resid)) + 
+  geom_point() + geom_hline(yintercept = 0, linetype = "dashed")
+```
+]
+
+
+---
+
+Assumption 2 and 3:
+
+```{r}
+ggplot(augment(lin_mod2),
+       aes(x = wrist, y = .resid)) + 
+  geom_point() + geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+---
+
+Assumption 4: normality
+
+```{r}
+ggplot(augment(lin_mod2),
+       aes(sample = .resid)) +
+  geom_qq() + geom_qq_line()
+```
+
+
+---
+
+.pull-left-xx[
+```{r}
+summary(lin_mod2)
+```
+]
+
+.pull-right-xx[
+
+* chest: positive coefficient indicates body fat percentage increases with increased values of chest circumference *holding everything wirst constant*
+
+* wrist: negative (!!) coefficient indicates body fat percentage decreases with increased values of wrist circumference *holding everything chest constant*
+
+* both seems significant.
+
+]
+
+---
+
+```{r}
+body_fat %>% 
+  select(body.fat, wrist, chest) %>% 
+  mutate(chest = if_else(chest > median(chest), "large", "small")) %>% 
+  ggplot(aes(x = wrist, y = body.fat)) +
+    geom_point() + facet_grid(~chest, scales = "free_x", labeller = label_both)
+```
+
+---
+
+So, multiple linear regression allows us to utilize data from more than one variable. This is not without downsides: 
+
+* you have to worry about overfitting
+* collinearity 
+* ...
+
+--
+
+Another reason why multiple linear regression is so important is the idea of adjusting for other covariates. An example: 
+
+```{r echo = F}
+death_penalty <- tibble(victim = factor(rep(c("white", "black"), each = 2),
+                                        levels = c("white", "black")),
+                        defendant = factor(rep(c("white", "black"), times = 2),
+                                           levels = c("white", "black")),
+                        death_penalty = c(53, 11, 0, 4),
+                        no_death_penalty = c(414, 37, 16, 139)) %>%
+  gather(key = "verdict", value = "n", death_penalty, no_death_penalty)
+
+props_by_defendent <- death_penalty %>% 
+  group_by(defendant, verdict) %>% 
+  summarise(n = sum(n)) %>% 
+  group_by(defendant) %>% 
+  mutate(prop = n/sum(n))
+
+props_by_defendent_and_victim <- death_penalty %>% 
+  group_by(defendant, victim) %>% 
+  mutate(prop = n/sum(n))
+
+logistic <- glm(data = death_penalty %>%
+      mutate(verdict = as.numeric(verdict == "death_penalty")),
+    verdict ~ defendant, weights = n,
+    family = "binomial")
+
+logistic_victim <- glm(data = death_penalty %>%
+                  mutate(verdict = as.numeric(verdict == "death_penalty")),
+                verdict ~ defendant + victim, weights = n,
+                family = "binomial")
+```
+
+.pull-left[
+In 1991, Radelet and Pierce wrote a paper titled "Choosing Those Who Will Die: Race and the Death Penalty in Florida". 
+
+Hypothesis: race influences how likely you are to receive the death penalty. 
+
+They obtained data on homicides and death sentences from Florida in the period 1976 through 1987.
+]
+
+--
+
+.pull-right[
+```{r echo = F}
+props_by_defendent %>% 
+  select(-prop) %>% 
+  pivot_wider(names_from = verdict, values_from = n) %>% 
+  knitr::kable(format = "html")
+```
+
+Data from An Introduction to Categorical Data Analysis by Agresti (2007), originally from [this paper](http://www.ncjrs.gov/App/publications/abstract.aspx?ID=134288).
+
+]
+---
+
+Results you are more likely to receive the death penalty if you are white. 
+
+In fact, $`r round(filter(props_by_defendent, defendant == "white", verdict == "death_penalty")[["prop"]], digits = 4)*100`\%$ of white defendants got the death penalty, while only $`r round(filter(props_by_defendent, defendant == "black", verdict == "death_penalty")[["prop"]], digits = 4)*100`\%$ of black defendants received the same verdict.
+
+This is of course not enough to convince you, so let's consider a test for difference in proportions and corresponding CI:
+
+--
+
+```{r}
+prop.test(x = c(53, 15), n = c(53+430, 15+176), correct = FALSE)
+```
+
+
+---
+
+In a picture: 
+
+.center[
+```{r fig.width = 4, fig.height = 3.6, out.width = 400, out.height = 360, echo = FALSE}
+props_by_defendent %>% 
+  filter(verdict == "death_penalty") %>%
+  ggplot(aes(x = defendant,
+             y = prop,
+             color = "overall")) +
+    geom_point() +
+    geom_line(aes(group = 1)) +
+    scale_y_continuous("Proportion getting the death penalty", limits = c(0, 0.25)) +
+    scale_color_manual("", values = "black", labels = "",
+                       guide = guide_legend(override.aes = list(color = "white"))) +
+    theme_bw() +
+    theme(legend.position = "top")
+```
+]
+
+However, this is not the full story. There is one really strong confounding variable, which changes everything...
+
+--
+
+Race of the victim.
+
+---
+
+Once we adjust for race of the victim, things change dramatically:
+
+.center[
+```{r fig.width = 4, fig.height = 3.6, out.width = 400, out.height = 360, echo = FALSE}
+props_by_defendent %>% 
+  filter(verdict == "death_penalty") %>%
+  ggplot(aes(x = defendant,
+             y = prop,
+             color = "overall")) +
+    geom_point() +
+    geom_line(aes(group = 1)) +
+    geom_point(data = props_by_defendent_and_victim %>% 
+                filter(verdict == "death_penalty"),
+               aes(color = victim)) + 
+    geom_line(data = props_by_defendent_and_victim %>% 
+                filter(verdict == "death_penalty"),
+              aes(color = victim,
+                  group = victim)) +
+    scale_y_continuous("Proportion getting the death penalty", limits = c(0, 0.25)) +
+    scale_color_manual("Victim", values = c("red", "black", "blue")) +
+    theme(legend.position = "top")
+```
+]
+
+---
+
+Full data (counts)
+
+```{r echo = F}
+death_penalty %>% 
+  spread(verdict, n) %>% 
+  select(defendant, everything()) %>% 
+  janitor::as_tabyl() %>% 
+  janitor::adorn_totals(where = c("row", "col")) %>% 
+  janitor::adorn_percentages() %>% 
+  janitor::adorn_pct_formatting() %>% 
+  janitor::adorn_ns(position = "front") %>% 
+  knitr::kable(format = "html")
+```
+
+---
+
+Issue: race of victim is a strong confounder. I.e. the race of victim influences both race of defendant **and** chance of receiving the death penalty. 
+
+This is a very simple example, where a regression might not be necessary, but the idea remains: there are situations where you need to correct for other variables. Regression provides a way to do just that. 
+
+Result of logistic regression *without* correction:
+
+```{r echo = F}
+broom::tidy(logistic, conf.int = TRUE) %>% 
+  mutate_if(is.numeric, round, digits = 3) %>% 
+  knitr::kable(format = "html")
+```
+
+Outcome: chance of receiving death penalty.
+
+Interpretation of coefficients: if negative, chance decreases. If positive, chance increases.
+
+Though not "statistically significant", it suggests black defendants less likely to receive death penalty, or at least not more likely.
+
+---
+
+Result of logistic regression *with* correction:
+
+```{r echo = F}
+broom::tidy(logistic_victim, conf.int = TRUE) %>% 
+  mutate_if(is.numeric, round, digits = 3) %>% 
+  knitr::kable(format = "html")
+```
+
+Suggests (and achieves "statistical significance") that defendants who are black are *more* likely to achieve the death penalty, and if the victim was black, the defendant is *less* likely to achieve the death penalty. 
+
+...
+
+
