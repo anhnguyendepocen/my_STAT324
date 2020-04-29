@@ -86,7 +86,7 @@ To do this, we need to know the distribution of $\hat{\beta}_1$. If we know the 
 
 What happens if we go out and get many, many samples from a population where the linear relationship is indeed true? 
 
-```{r cache = TRUE}
+```{r}
 library(tidyverse); library(distributions3); theme_set(theme_bw())
 
 beta0 <- 4
@@ -111,7 +111,7 @@ beta1_sd <- 1/sqrt((35-1)*var(big_population$x))
 
 First, let's take a look at the population data. Keep in mind, we know **for a fact** that the linear model is correct here.
 
-```{r cache = TRUE}
+```{r}
 ggplot(big_population,
        aes(x = x, y = y)) + 
   geom_point(alpha = 0.25) + 
